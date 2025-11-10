@@ -1,0 +1,46 @@
+.wrapper {
+  position: relative;
+}
+
+.wrapper.primary {
+  color: var(--icon-colored-brand) !important;
+}
+
+.wrapper svg {
+  position: absolute;
+  z-index: 2;
+}
+
+.wrapper.green {
+  color: var(--stroke-colored-success) !important;
+}
+
+.wrapper.white {
+  color: var(--icon-neutral-primary-on-color) !important;
+}
+
+.wrapper.black {
+  color: var(--icon-neutral-primary) !important;
+}
+
+.bg {
+  top: 2px;
+  left: 2px;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  border-radius: 100px;
+  position: absolute;
+  z-index: 1;
+
+  &.green {
+    background: var(--background-success-primary-subdued);
+  }
+}
+
+.bgStroke {
+  stroke: var(--stroke-neutral-alfa-tertiary) !important;
+}
+
+.bgStrokeTransparent {
+  stroke: transparent;
+}

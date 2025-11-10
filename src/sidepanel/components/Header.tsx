@@ -1,52 +1,45 @@
-import React from 'react';
+import HistoryIcon from 'src/images/history-icon-extension.svg?react';
+import PlusIcon from 'src/images/plus.svg?react';
+import styles from './Header.module.css';
 
 interface HeaderProps {
-  onToggleContext: () => void;
-  onToggleTranslation: () => void;
-  onSettings: () => void;
-  contextEnabled: boolean;
-  translationMode: boolean;
+  onNewThread: () => void;
+  onHistory: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  onToggleContext,
-  onToggleTranslation,
-  onSettings,
-  contextEnabled,
-  translationMode
-}) => {
+export default function Header({
+  onNewThread,
+  onHistory,
+}: HeaderProps) {
+  // ----------------- Render -----------------
   return (
-    <header className="app-header">
-      <h1 className="app-header-title">
-        <span>⚙️</span>
-        <span>Sigma Private</span>
-      </h1>
-      <div className="app-header-actions">
-        <button
-          className={`icon-button ${contextEnabled ? 'active' : ''}`}
-          title="Toggle page context"
-          onClick={onToggleContext}
-        >
-          <span>📄</span>
-        </button>
-        <button
-          className={`icon-button ${translationMode ? 'active' : ''}`}
-          title="Translation mode"
-          onClick={onToggleTranslation}
-        >
-          <span>🌐</span>
-        </button>
-        <button
-          className="icon-button"
-          title="Settings"
-          onClick={onSettings}
-        >
-          <span>⚙️</span>
-        </button>
-      </div>
-    </header>
+    <div className={styles.headerStyles}>
+      <header className={styles.headerInner}>
+        <h1 className={styles.title}>
+          <span className={styles.titleText}>Sigma Private</span>
+        </h1>
+        
+        <div className={styles.actions}>
+          <button
+            className={styles.iconButton}
+            title="New Thread"
+            onClick={onNewThread}
+            aria-label="New Thread"
+          >
+            <PlusIcon width={18} height={18} />
+          </button>
+          
+          <button
+            className={styles.iconButton}
+            title="History"
+            onClick={onHistory}
+            aria-label="History"
+          >
+            <HistoryIcon width={18} height={18} />
+          </button>
+        </div>
+      </header>
+    </div>
   );
-};
-
-export default Header;
+}
 

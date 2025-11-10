@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageType, ChatMessage, ChatRequest } from '../types';
 import Header from './components/Header';
 import ChatContainer from './components/ChatContainer';
-import MessageInput from './components/MessageInput';
+import MessageInputWrapper from './components/MessageInputWrapper';
 
 const App: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [contextEnabled, setContextEnabled] = useState(false);
-  const [translationMode, setTranslationMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // Load chat history on mount
@@ -27,14 +25,7 @@ const App: React.FC = () => {
     if (data.chatHistory && Array.isArray(data.chatHistory)) {
       setMessages(data.chatHistory);
     } else {
-      // Add welcome message
-      const welcomeMessage: ChatMessage = {
-        id: Date.now().toString(),
-        role: 'assistant',
-        content: 'Hello! I\'m Sigma Private, your AI assistant. How can I help you today?',
-        timestamp: Date.now()
-      };
-      setMessages([welcomeMessage]);
+      setMessages([]);
     }
   };
 
@@ -62,7 +53,7 @@ const App: React.FC = () => {
       // Send to background script
       const request: ChatRequest = {
         message: content,
-        includeContext: contextEnabled,
+        includeContext: false,
         history: messages.slice(-10) // Last 10 messages for context
       };
 
@@ -94,39 +85,26 @@ const App: React.FC = () => {
     }
   };
 
-  const handleToggleContext = () => {
-    setContextEnabled(prev => !prev);
+  const handleNewThread = () => {
+    // Clear current chat and start new thread
+    setMessages([]);
   };
 
-  const handleToggleTranslation = () => {
-    setTranslationMode(prev => !prev);
-  };
-
-  const handleSettings = () => {
-    // TODO: Open settings page
-    console.log('Settings clicked');
+  const handleHistory = () => {
+    // TODO: Open history page/sidebar
+    console.log('History clicked');
   };
 
   return (
     <div className="app-container">
       <Header
-        onToggleContext={handleToggleContext}
-        onToggleTranslation={handleToggleTranslation}
-        onSettings={handleSettings}
-        contextEnabled={contextEnabled}
-        translationMode={translationMode}
+        onNewThread={handleNewThread}
+        onHistory={handleHistory}
       />
       
       <ChatContainer messages={messages} isLoading={isLoading} />
       
-      {contextEnabled && (
-        <div className="context-indicator-banner">
-          <span>📄</span>
-          <span>Page context enabled</span>
-        </div>
-      )}
-      
-      <MessageInput 
+      <MessageInputWrapper 
         onSendMessage={handleSendMessage}
         disabled={isLoading}
       />

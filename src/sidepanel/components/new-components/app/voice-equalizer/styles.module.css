@@ -1,0 +1,43 @@
+.containerEqualizer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  height: var(--textarea-height);
+  overflow: hidden;
+}
+
+.bar {
+  min-width: 2px;
+  width: 2px;
+  min-height: 2px;
+  background: var(--icon-neutral-primary) !important;
+  border-radius: 10px;
+}
+
+.gradientLeft {
+  position: absolute;
+  left: 0;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    var(--transparent-background-1-quartenary) 0%,
+    var(--transparent-background-2-quartenary) 100%
+  );
+}
+
+.gradientRight {
+  position: absolute;
+  right: 0;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    var(--transparent-background-1-quartenary) 0%,
+    var(--transparent-background-2-quartenary) 100%
+  );
+  transform: rotate(-180deg);
+}

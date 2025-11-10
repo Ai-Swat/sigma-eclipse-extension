@@ -1,0 +1,50 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-primary);
+  color: var(--text-neutral-primary);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 15px;
+  text-align: left;
+  outline: none !important;
+  width: 100%;
+  min-width: 376px;
+  height: 38px;
+  padding: 10px 10px 10px 36px;
+  border-radius: 13px;
+  background-color: var(--background-neutral-secondary);
+  border: 1.2px solid transparent;
+  transition: all 0.2s;
+
+  @media (--vp-mobile) {
+    min-width: unset;
+  }
+}
+
+.input::placeholder {
+  color: var(--text-neutral-tertiary) !important;
+}
+
+.input:hover {
+  border-color: var(--stroke-colored-brand);
+}
+
+.input:focus {
+  background-color: transparent;
+  border-color: var(--stroke-colored-brand);
+}
+
+.searchIcon {
+  fill: var(--icon-neutral-tertiary);
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}

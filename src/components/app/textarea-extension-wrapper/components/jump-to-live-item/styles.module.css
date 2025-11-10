@@ -1,0 +1,95 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 44px;
+  border-radius: 16px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  user-select: none;
+  background:
+    linear-gradient(
+        var(--background-neutral-global-tertiary),
+        var(--background-neutral-global-tertiary)
+      )
+      padding-box,
+    linear-gradient(91.03deg, #8297ff -2.1%, #f36ab5 116.96%) border-box;
+  transition: transform 0.2s;
+}
+
+.wrapper:hover {
+  transform: scale(0.995);
+  animation: gradientBorder 2.5s linear infinite;
+}
+
+@keyframes gradientBorder {
+  0% {
+    background:
+      linear-gradient(
+          var(--background-neutral-global-tertiary),
+          var(--background-neutral-global-tertiary)
+        )
+        padding-box,
+      linear-gradient(91.03deg, #8297ff -2.1%, #f36ab5 116.96%) border-box;
+  }
+  20% {
+    background:
+      linear-gradient(
+          var(--background-neutral-global-tertiary),
+          var(--background-neutral-global-tertiary)
+        )
+        padding-box,
+      linear-gradient(105.3deg, #8297ff 20.03%, #f36ab5 81.81%) border-box;
+  }
+  40% {
+    background:
+      linear-gradient(
+          var(--background-neutral-global-tertiary),
+          var(--background-neutral-global-tertiary)
+        )
+        padding-box,
+      linear-gradient(180deg, #8297ff -46.59%, #f36ab5 185.23%) border-box;
+  }
+  60% {
+    background:
+      linear-gradient(
+          var(--background-neutral-global-tertiary),
+          var(--background-neutral-global-tertiary)
+        )
+        padding-box,
+      linear-gradient(266.18deg, #8297ff 12.52%, #f36ab5 75.26%) border-box;
+  }
+  80% {
+    background:
+      linear-gradient(
+          var(--background-neutral-global-tertiary),
+          var(--background-neutral-global-tertiary)
+        )
+        padding-box,
+      linear-gradient(268.97deg, #8297ff 0%, #f36ab5 100%) border-box;
+  }
+  100% {
+    background:
+      linear-gradient(
+          var(--background-neutral-global-tertiary),
+          var(--background-neutral-global-tertiary)
+        )
+        padding-box,
+      linear-gradient(91.03deg, #8297ff -2.1%, #f36ab5 116.96%) border-box;
+  }
+}
+
+.text {
+  font-size: 15px;
+  font-weight: 600;
+  background: linear-gradient(91.03deg, #8297ff -2.1%, #f36ab5 116.96%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 24px;
+  letter-spacing: -0.16px;
+  user-select: none;
+}

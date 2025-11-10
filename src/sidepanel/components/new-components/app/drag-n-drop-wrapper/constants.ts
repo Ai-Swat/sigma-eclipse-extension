@@ -1,0 +1,17 @@
+export const ACCEPTS = [
+  'image/png',
+  'image/jpeg',
+  'application/pdf',
+  'pdf',
+  'doc',
+  'docx',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'txt',
+  'application/msword',
+  'text/plain',
+  'xlsx',
+  'xls',
+  'csv',
+  'text/csv',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+]

@@ -1,0 +1,68 @@
+.desktopWrapper {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (--vp-tablet) {
+    display: none;
+  }
+}
+
+.backgroundGradient {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 354px;
+  background: var(--plans-popup-background-gradient);
+  @media (--vp-tablet) {
+    display: none;
+  }
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 0 auto;
+
+  @media (--vp-tablet) {
+    display: none;
+  }
+}
+
+.tabs {
+  margin: 0 auto 26px;
+}
+
+.icon {
+  stroke: var(--text-neutral-primary);
+}
+
+.title {
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 110%;
+  letter-spacing: -1px;
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--text-neutral-primary);
+}
+
+.mobileWrapper {
+  overflow-y: auto !important;
+  height: 100%;
+  width: 100%;
+  background: var(--background-neutral-global-tertiary);
+
+  display: none;
+
+  @media (--vp-tablet) {
+    display: block;
+  }
+}
+
+.isExtension {
+  display: block !important;
+}

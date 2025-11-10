@@ -1,0 +1,58 @@
+.button {
+  display: inline-flex;
+  height: 36px;
+  padding: 6px 8px;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  border-radius: 32px;
+  color: var(--text-colored-brand);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--background-brand-primary-subdued);
+  }
+
+  &:hover {
+    background: var(--background-brand-primary-subdued-hover);
+  }
+}
+
+.text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: -0.15px;
+
+  @media (--vp-mobile) {
+    display: none;
+  }
+
+  &.isExtension {
+    display: block !important;
+  }
+}
+
+.clearButton {
+  height: 20px;
+  width: 20px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  transition: all 0.2s;
+
+  .clearIcon {
+    stroke: var(--text-colored-brand);
+  }
+
+  &:active {
+    background: var(--background-brand-primary-subdued-hover);
+  }
+}
+
+.button:hover .clearButton {
+  background: var(--background-brand-primary-subdued-active);
+}

@@ -1,0 +1,91 @@
+.content {
+  padding: 16px 16px 80px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.firstMobileBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .image {
+    max-width: 350px;
+    min-width: 350px;
+    object-fit: cover;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 590;
+    line-height: 110%;
+    letter-spacing: -0.32px;
+  }
+
+  .description {
+    max-width: 343px;
+    color: var(--text-neutral-tertiary);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+}
+
+.plansPanel {
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 18px;
+  border: 1px solid var(--stroke-neutral-alfa-tertiary);
+  background: var(--background-neutral-global-secondary);
+  box-shadow: var(--box-shadow-mobile-plans);
+
+  .divider {
+    width: calc(100% - 14px - 12px - 24px);
+    align-self: flex-end;
+    border-bottom: 1px solid var(--stroke-neutral-alfa-tertiary);
+  }
+}
+
+.fixedButton {
+  position: absolute;
+  z-index: 100;
+  background: var(--background-neutral-global-tertiary);
+  bottom: 0;
+  left: 0;
+  padding: 16px;
+  width: 100vw;
+  text-align: center;
+
+  & > button {
+    max-width: 700px;
+  }
+}
+
+.includedTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  color: var(--text-neutral-tertiary);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+
+  .divider {
+    height: 1px;
+    flex: 1 0 0;
+    background: var(--stroke-neutral-alfa-tertiary);
+  }
+}
+
+.stroke {
+  stroke: var(--white-alfa-main);
+}

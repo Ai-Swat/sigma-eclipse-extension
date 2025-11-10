@@ -1,4 +1,6 @@
-import React, { useState, useRef, KeyboardEvent, ChangeEvent } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Textarea } from './ui/Textarea';
+import BaseButton from './ui/BaseButton';
 
 interface MessageInputProps {
   onSendMessage: (message: string) => void;
@@ -19,42 +21,36 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, disabled }) 
     }
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(e.target.value);
-    
+  useEffect(() => {
     // Auto-resize textarea
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
     }
-  };
+  }, [message]);
 
   return (
     <div className="message-input-container">
-      <textarea
+      <Textarea
         ref={textareaRef}
         className="message-textarea"
         placeholder="Type your message..."
         value={message}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        onChange={setMessage}
+        onEnter={handleSend}
         disabled={disabled}
         rows={1}
       />
-      <button
+      <BaseButton
         className="message-send-button"
         onClick={handleSend}
-        disabled={disabled || !message.trim()}
+        isDisabled={disabled || !message.trim()}
+        color="primary"
+        size="m"
+        label="Send message"
       >
         <span>▶️</span>
-      </button>
+      </BaseButton>
     </div>
   );
 };

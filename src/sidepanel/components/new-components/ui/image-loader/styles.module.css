@@ -1,0 +1,17 @@
+.circle {
+  stroke: var(--stroke-neutral-alfa-tertiary);
+}
+
+.wrapper {
+  width: 56px;
+  position: relative;
+  user-select: none;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  fill: var(--text-neutral-primary);
+}

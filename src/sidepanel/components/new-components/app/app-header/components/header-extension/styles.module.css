@@ -1,0 +1,42 @@
+.headerStyles {
+  border: none;
+  z-index: 1900;
+  background: var(--background-neutral-global-tertiary);
+  height: var(--desktop-header-height);
+  width: 100%;
+  position: sticky;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0;
+  padding: 12px 16px;
+  transition: top 300ms ease-in-out;
+  top: 0;
+}
+
+.noBackground {
+  background: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+}
+
+.logo {
+  width: 28px;
+  height: 28px;
+}

@@ -62,6 +62,7 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  background: transparent;
 }
 
 .chat-messages-list {
@@ -241,5 +242,10 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
+  background: linear-gradient(
+    180.48deg,
+    rgba(118, 112, 241, 0.08) -3.41%,
+    rgba(255, 84, 127, 0) 98.98%
+  );
 }
 

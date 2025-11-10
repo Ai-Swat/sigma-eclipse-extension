@@ -1,0 +1,6 @@
+.mainLogo {
+  fill: var(--text-neutral-primary);
+  width: 292px;
+  height: 60px;
+  min-height: 60px;
+}

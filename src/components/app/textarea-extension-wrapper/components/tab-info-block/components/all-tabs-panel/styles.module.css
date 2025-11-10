@@ -1,0 +1,99 @@
+.container {
+  height: fit-content;
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 16px;
+  border: 1px solid var(--stroke-neutral-alfa-disabled);
+  background: var(--background-neutral-global-secondary);
+  position: relative;
+  box-shadow:
+    0 80px 22px 0 rgba(0, 0, 0, 0),
+    0 51px 20px 0 rgba(0, 0, 0, 0),
+    0 29px 17px 0 rgba(0, 0, 0, 0.01),
+    0 13px 13px 0 rgba(0, 0, 0, 0.02),
+    0 3px 7px 0 rgba(0, 0, 0, 0.02);
+}
+
+.header {
+  display: flex;
+  padding: 10px 14px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-bottom: 1px solid var(--stroke-neutral-alfa-disabled);
+  color: var(--text-neutral-secondary);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  position: sticky;
+  top: 0;
+  background: var(--background-neutral-global-secondary);
+  z-index: 10;
+
+  .icon {
+    cursor: pointer;
+    stroke: var(--icon-neutral-tertiary);
+    transition: stroke 0.2s;
+    user-select: none;
+
+    &:hover {
+      stroke: var(--icon-neutral-secondary);
+    }
+
+    &:active {
+      stroke: var(--icon-neutral-primary);
+    }
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+
+  &.longList {
+    margin-bottom: 12px;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    padding: 6px 8px;
+    height: 34px;
+    cursor: pointer;
+    justify-content: space-between;
+    gap: 12px;
+    background-color: var(--background-neutral-global-secondary);
+    transition: background-color 0.2s;
+    border-radius: 10px;
+    user-select: none;
+
+    &:hover {
+      background-color: var(--background-neutral-secondary);
+      border-radius: 10px;
+    }
+  }
+}
+
+.gradientFooter {
+  width: calc(100% - 4px);
+  height: 34px;
+  position: absolute;
+  bottom: 0;
+  border-radius: 0 0 16px 16px;
+  pointer-events: none;
+  margin: 0 -4px 0 2px;
+  background: linear-gradient(
+    0deg,
+    var(--transparent-background-1-quartenary) 0%,
+    var(--transparent-background-2-quartenary) 100%
+  );
+}
+
+.iconCheck {
+  min-width: 20px;
+  stroke: var(--background-brand-primary);
+}

@@ -1,0 +1,213 @@
+.card {
+  display: flex;
+  width: 340px;
+  height: 530px;
+  padding: 22px 22px 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border-radius: 22px;
+  border: 1px solid var(--stroke-neutral-alfa-secondary);
+  background: var(--background-neutral-global-secondary);
+  position: relative;
+  overflow: hidden;
+  color: var(--text-neutral-primary);
+
+  &.popularCard {
+    background: var(--plans-gradient);
+    border-radius: 22px;
+    color: var(--text-neutral-primary-on-color);
+    box-shadow: var(--box-shadow-popular-plan);
+    border: none;
+
+    &::after {
+      content: 'Limits Apply';
+      position: absolute;
+      bottom: 16px;
+      left: 22px;
+      color: var(--text-neutral-tertiary-on-color);
+      font-size: 13px;
+      line-height: 24px;
+      letter-spacing: -0.01em;
+    }
+  }
+}
+
+.badge {
+  display: flex;
+  transform: rotate(44deg);
+  padding: 8px 20px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: -50px;
+  height: 28px;
+  width: 170px;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 12px;
+  letter-spacing: -0.14px;
+}
+
+.popularBadge {
+  background: rgba(255, 255, 255, 1); /* не было переменной в дизайне */
+  color: #0d0d17;
+}
+
+.noLimitsBadge {
+  background: var(--background-neutral-primary-inverse);
+  color: var(--text-neutral-primary-inverse);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 6px;
+  width: fit-content;
+
+  .mainPrice {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 40px;
+    position: relative;
+  }
+
+  .renewalPrice {
+    color: var(--text-neutral-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+
+    &.popularCard {
+      color: var(--text-neutral-tertiary-on-color);
+    }
+  }
+
+  .oldPrice {
+    margin-right: 6px;
+
+    & > div {
+      position: relative;
+      color: var(--text-neutral-secondary);
+      font-size: 24px;
+      font-weight: 590;
+      display: inline-block;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: -2px;
+        top: 50%;
+        width: 46px;
+        border-radius: 2px;
+        height: 1.5px;
+        background-color: var(--text-neutral-secondary);
+        transform: rotate(-12deg);
+        transform-origin: center;
+      }
+    }
+
+    &.popularCard > div {
+      color: var(--text-neutral-tertiary-on-color);
+
+      &::after {
+        background-color: #fbacca;
+      }
+    }
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  justify-content: flex-start;
+
+  & > div:first-child {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+  }
+}
+
+.button {
+  width: 100%;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 4px;
+  margin-bottom: -8px;
+  color: var(--text-neutral-primary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.14px;
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+  }
+
+  &.popularCard {
+    color: var(--text-neutral-primary-on-color);
+    font-weight: 500;
+  }
+
+  &.bolder {
+    font-weight: 500;
+  }
+
+  .icon {
+    stroke: var(--icon-neutral-disabled);
+    min-width: 18px;
+  }
+
+  .iconPopular {
+    stroke: rgba(255, 255, 255, 0.5); /* не было переменной в дизайне */
+    min-width: 18px;
+  }
+}
+
+.limitsLink {
+  color: var(--text-neutral-tertiary-on-color);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.13px;
+  width: 100%;
+  position: absolute;
+  bottom: 16px;
+  left: 22px;
+}
+
+.gradientText {
+  background: var(--plans-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.boldText {
+  font-weight: 600;
+}

@@ -1,0 +1,134 @@
+.title {
+  color: var(--text-neutral-primary-on-color);
+  text-align: left;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 110%;
+  letter-spacing: -0.4px;
+  width: fit-content;
+
+  @media (--vp-mobile) {
+    font-size: 28px;
+    letter-spacing: -0.56px;
+    text-align: center;
+  }
+}
+
+.image {
+  width: 100px;
+  margin-left: 4px;
+  height: 100%;
+
+  @media (--vp-mobile) {
+    width: 130px;
+    margin-left: 0;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
+  @media (--vp-mobile) {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.buttonsRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 232px));
+  gap: 12px;
+  margin-right: 50px;
+
+  @media (--vp-mobile) {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-right: 0;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+
+    & > div {
+      width: 100%;
+    }
+  }
+
+  .text {
+    color: var(--text-neutral-tertiary-on-color);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.32px;
+
+    @media (--vp-mobile) {
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.28px;
+      text-align: center;
+      position: relative;
+
+      &::after {
+        border-radius: 9px;
+        background: #ffffff1f;
+        height: 1px;
+        flex: 1 0 0;
+        content: '';
+        z-index: 10;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: calc(50% - 16px);
+      }
+
+      &::before {
+        border-radius: 9px;
+        background: #ffffff1f;
+        height: 1px;
+        flex: 1 0 0;
+        content: '';
+        z-index: 10;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: calc(50% - 16px);
+      }
+    }
+  }
+
+  .button,
+  .buttonUpgrade {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    width: 100%;
+    height: 52px;
+
+    @media (--vp-mobile) {
+      width: 100%;
+      min-width: unset;
+      font-size: 16px !important;
+      height: 44px !important;
+    }
+  }
+}
+
+.icon {
+  margin-right: 6px;
+}
+
+.descriptionDesktop {
+  display: block;
+  color: var(--text-neutral-tertiary-on-color);
+  text-align: left;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 140%;
+  letter-spacing: -0.15px;
+
+  @media (--vp-mobile) {
+    text-align: center;
+  }
+}

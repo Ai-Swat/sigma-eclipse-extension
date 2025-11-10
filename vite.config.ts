@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 import { resolve } from 'path';
 import { copyFileSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
@@ -61,7 +62,19 @@ function chromeExtension() {
 }
 
 export default defineConfig({
-  plugins: [react(), chromeExtension()],
+  plugins: [
+    react(), 
+    svgr({
+      svgrOptions: {
+        exportType: 'default',
+        ref: true,
+        svgo: false,
+        titleProp: true,
+      },
+      include: '**/*.svg?react',
+    }),
+    chromeExtension()
+  ],
   base: './',
   build: {
     outDir: 'dist',
@@ -106,6 +119,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
+      'src': resolve(__dirname, 'src'),
     },
   },
 });

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { ChatMessage as ChatMessageType } from '../../types';
 import ChatMessage from './ChatMessage';
 import LoadingIndicator from './LoadingIndicator';
+import styles from './ChatContainer.module.css';
 
 interface ChatContainerProps {
   messages: ChatMessageType[];
@@ -21,6 +22,19 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  // Empty state - show when no messages
+  if (messages.length === 0 && !isLoading) {
+    return (
+      <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
+        <div className={styles.emptyState}>
+          <h1 className={styles.emptyStateTitle}>
+            What do you want to know today?
+          </h1>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>

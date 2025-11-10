@@ -1,0 +1,74 @@
+.wrapperActionPanel {
+  border-radius: 0;
+  border: none;
+  background: none;
+  width: calc(100vw - 32px);
+  max-width: 640px;
+}
+
+.wrapper {
+  display: flex;
+  height: 62px;
+  padding: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: var(--support-text-area-layer);
+  border: 1px solid var(--stroke-neutral-alfa-tertiary);
+  border-radius: 16px 16px 0 0;
+  margin-bottom: -24px;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+}
+
+.button {
+  color: var(--text-neutral-primary);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  height: 20px;
+  width: fit-content !important;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  user-select: none;
+
+  &:hover {
+    color: var(--text-neutral-disabled);
+  }
+
+  &:active {
+    color: var(--text-neutral-tertiary);
+  }
+
+  &.isOpen {
+    color: var(--text-neutral-disabled) !important;
+  }
+}
+
+.icon {
+  min-width: 16px;
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+.iconArrow {
+  min-width: 16px;
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+.iconRotate {
+  transition: all 0.3s;
+  transform: rotate(180deg);
+}

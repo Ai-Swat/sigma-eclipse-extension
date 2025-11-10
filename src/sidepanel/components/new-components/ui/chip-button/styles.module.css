@@ -1,0 +1,126 @@
+.chip {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.1s;
+  user-select: none;
+  min-height: 38px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06); /* не было переменной в дизайне */
+  background: var(--background-neutral-secondary);
+  color: var(--text-neutral-primary);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  text-align: right;
+  width: fit-content;
+
+  &.withType {
+    padding: 6px 12px 6px 10px;
+  }
+
+  @media (--vp-mobile) {
+    max-width: 100%;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+    padding: 8px 12px;
+    min-height: 42px;
+    height: 42px;
+    max-height: 42px;
+  }
+
+  @media (--only-desktop) {
+    &:hover {
+      background: var(--background-neutral-tertiary);
+    }
+
+    &:active {
+      background: var(--background-neutral-disabled);
+    }
+  }
+
+  &.image {
+    background: var(--background-warning-primary-subdued);
+    color: var(--icon-colored-warning);
+
+    @media (--only-desktop) {
+      &:hover {
+        background: var(--background-warning-primary-subdued-hover);
+      }
+
+      &:active {
+        background: var(--background-warning-primary-subdued-active);
+      }
+    }
+  }
+
+  &.chat {
+    background: var(--background-success-primary-subdued);
+    color: var(--icon-colored-success);
+
+    @media (--only-desktop) {
+      &:hover {
+        background: var(--background-success-primary-subdued-hover);
+      }
+
+      &:active {
+        background: var(--background-success-primary-subdued-active);
+      }
+    }
+  }
+
+  &.text {
+    background: var(--background-purple-primary-subdued);
+    color: var(--icon-colored-browser-recently);
+
+    @media (--only-desktop) {
+      &:hover {
+        background: var(--background-purple-primary-subdued-hover);
+      }
+
+      &:active {
+        background: var(--background-purple-primary-subdued-active);
+      }
+    }
+  }
+
+  &.search {
+    background: var(--background-brand-primary-subdued);
+    color: var(--icon-colored-brand);
+
+    @media (--only-desktop) {
+      &:hover {
+        background: var(--background-brand-primary-subdued-hover);
+      }
+
+      &:active {
+        background: var(--background-brand-primary-subdued-active);
+      }
+    }
+  }
+
+  &.telegram {
+    background: var(--background-telegram-primary-subdued);
+    color: var(--background-telegram-primary-active);
+
+    @media (--only-desktop) {
+      &:hover {
+        background: var(--background-telegram-primary-subdued-hover);
+      }
+
+      &:active {
+        background: var(--background-telegram-primary-subdued-active);
+      }
+    }
+  }
+}
+
+.icon {
+  min-width: 20px;
+}

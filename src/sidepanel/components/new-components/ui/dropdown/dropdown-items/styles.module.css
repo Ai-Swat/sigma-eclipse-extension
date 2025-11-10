@@ -1,0 +1,49 @@
+.listItem {
+  height: 40px;
+  border-radius: 12px;
+  padding: 6px;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: var(--text-neutral-primary);
+  transition:
+    color 0.2s,
+    background 0.2s;
+  user-select: none;
+  position: relative;
+  width: 100%;
+
+  @media (--vp-mobile) {
+    height: 44px;
+    padding: 6px 8px;
+  }
+
+  @media (--only-desktop) {
+    &:hover {
+      background: var(--background-neutral-secondary);
+    }
+
+    &:active {
+      background: var(--background-neutral-tertiary);
+    }
+  }
+
+  &.active {
+    background: var(--background-brand-primary-subdued);
+  }
+}
+
+.iconCheck {
+  stroke: var(--background-brand-primary);
+  position: absolute;
+  right: 10px;
+
+  @media (--vp-tablet) {
+    right: 16px;
+  }
+}

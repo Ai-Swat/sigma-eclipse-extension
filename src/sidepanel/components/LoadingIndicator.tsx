@@ -1,13 +1,12 @@
 import React from 'react';
+import { Loader } from './new-components/ui/loader';
 
 const LoadingIndicator: React.FC = () => {
   return (
     <div className="chat-message assistant">
       <div className="chat-message-content">
         <div className="loading-indicator">
-          <div className="loading-indicator-dot"></div>
-          <div className="loading-indicator-dot"></div>
-          <div className="loading-indicator-dot"></div>
+          <Loader size={32} color="primary" />
         </div>
       </div>
     </div>
