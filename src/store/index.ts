@@ -20,3 +20,14 @@ export const useSearchStore = create<SearchStore>((set) => ({
   },
 }));
 
+// Placeholder for useVirtualKeyboardStore
+interface VirtualKeyboardStore {
+  height: number;
+  isVirtualKeyboardOpen: boolean;
+}
+
+export const useVirtualKeyboardStore = create<VirtualKeyboardStore>((set) => ({
+  height: 0,
+  isVirtualKeyboardOpen: false,
+}));
+

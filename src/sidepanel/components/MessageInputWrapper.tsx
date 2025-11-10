@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import SmartTextarea from './new-components/app/smart-textarea';
+import SmartTextarea from 'src/components/app/smart-textarea';
 import { FileContextProvider } from 'src/contexts/fileContext';
 import { DictateContextProvider } from 'src/contexts/dictateContext';
-import { DropdownItemType } from './new-components/ui/dropdown';
+import { DropdownItemType } from 'src/components/ui/dropdown';
 import styles from './MessageInputWrapper.module.css';
 
 interface MessageInputWrapperProps {

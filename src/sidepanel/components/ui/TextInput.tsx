@@ -5,8 +5,8 @@ import {
   forwardRef,
 } from 'react';
 import cn from 'clsx';
-import { useEvent } from '../../libs/use/use-event';
-import styles from '../new-components/ui/text-input/styles.module.css';
+import { useEvent } from 'src/libs/use/use-event';
+import styles from 'src/components/ui/text-input/styles.module.css';
 
 export type InputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,

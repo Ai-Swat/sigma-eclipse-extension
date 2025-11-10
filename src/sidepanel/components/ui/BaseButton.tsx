@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import clsx from 'clsx';
-import styles from '../new-components/ui/base-button/styles.module.css';
+import styles from 'src/components/ui/base-button/styles.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

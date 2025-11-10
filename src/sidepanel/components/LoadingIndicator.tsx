@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loader } from './new-components/ui/loader';
+import { Loader } from 'src/components/ui/loader';
 
 const LoadingIndicator: React.FC = () => {
   return (

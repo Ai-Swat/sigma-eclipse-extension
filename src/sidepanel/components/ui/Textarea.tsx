@@ -7,10 +7,10 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
-import { useEvent } from '../../libs/use/use-event';
-import { mergeRefs } from '../../libs/merge-refs';
+import { useEvent } from 'src/libs/use/use-event';
+import { mergeRefs } from 'src/libs/merge-refs';
 
-import styles from '../new-components/ui/textarea/styles.module.css';
+import styles from 'src/components/ui/textarea/styles.module.css';
 
 type TextareaProps = Omit<
   TextareaHTMLAttributes<HTMLTextAreaElement>,

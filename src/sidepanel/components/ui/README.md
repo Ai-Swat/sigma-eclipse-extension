@@ -1,6 +1,6 @@
 # UI Components Library
 
-Интегрированные UI компоненты из new-components, адаптированные для работы без Zustand.
+Интегрированные UI компоненты из src/components, адаптированные для работы без Zustand.
 
 ## Базовые компоненты
 
@@ -133,6 +133,6 @@ import {
 
 ## Стили
 
-Компоненты используют CSS модули из `new-components/ui/*/styles.module.css`.
+Компоненты используют CSS модули из `src/components/ui/*/styles.module.css`.
 Убедитесь, что все стили правильно подключены в вашем проекте.
 
