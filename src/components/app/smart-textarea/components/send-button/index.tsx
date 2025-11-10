@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { clsx } from 'clsx'
-import { useShallow } from 'zustand/react/shallow'
-import { useSearchStore } from 'src/store'
+// Removed useSearchStore - simplified for extension
 import ArrowIcon from 'src/images/arrow-left.svg?react'
 import css from './styles.module.css'
 
@@ -29,12 +28,9 @@ export const SendButton = memo(
     isWaitingUserClarification?: boolean
     isExtension?: boolean
   }) => {
-    const { isStartSearch, cancelFollowup } = useSearchStore(
-      useShallow((state) => ({
-        isStartSearch: state.isStartSearch ?? false,
-        cancelFollowup: state.cancelFollowup,
-      }))
-    )
+    // Simplified stubs for extension
+    const isStartSearch = false
+    const cancelFollowup = () => {}
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {

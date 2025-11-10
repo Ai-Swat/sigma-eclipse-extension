@@ -1,5 +1,5 @@
 import cn from 'clsx'
-import { UploadedFile } from 'src/store/types'
+import { UploadedFile } from 'src/contexts/fileContext'
 import { Loader } from 'src/components/ui/loader'
 import PhotoViewItem from 'src/components/app/photo-view-item'
 import IconClose from 'src/images/clear-icon.svg?react'

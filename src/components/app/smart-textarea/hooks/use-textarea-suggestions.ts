@@ -7,10 +7,16 @@ import {
 } from 'react'
 import { wait } from 'src/libs/coxy-utils'
 import { fetchSuggestions, Option, prepareOptions } from './utils'
-import { useSettingsStore } from 'src/store/settings'
-import { FollowUpType } from 'src/store/types'
 import { useEvent } from 'src/libs/use/use-event'
 import { debounce } from 'src/libs/debounce'
+
+// Simplified FollowUpType for suggestions
+enum FollowUpType {
+  SEARCH = 'web-search',
+  CHAT = 'text-chat',
+  IMAGE = 'image-generation',
+  DEEP_RESEARCH = 'deep-research',
+}
 import {
   DEFAULT_QUESTIONS_CHAT,
   DEFAULT_QUESTIONS_DEEP_RESEARCH,
@@ -34,7 +40,6 @@ export default function useTextareaSuggestions({
   selectedMode: FollowUpType | undefined
   isMainPage?: boolean
 }) {
-  const isExtension = useSettingsStore((state) => state.isExtension)
   const [options, setOptions] = useState<Option[]>([])
   const [cursor, setCursor] = useState<number>(CURSOR_START_VALUE)
   const [query, setQuery] = useState(value)
@@ -142,7 +147,7 @@ export default function useTextareaSuggestions({
       const items = prepareOptions(DEFAULT_QUESTIONS_DEEP_RESEARCH)
       setOptions(items)
     }
-  }, [selectedMode, value, isMainPage, isExtension])
+  }, [selectedMode, value, isMainPage])
 
   // скидываем курсор когда меняем подсказки
   useEffect(() => {
@@ -151,7 +156,7 @@ export default function useTextareaSuggestions({
 
   // запрос подсказок с debounce задержкой для оптимизации
   useEffect(() => {
-    if (!isMainPage || isExtension) return
+    if (!isMainPage) return
 
     const debouncedFetch = debounce(async (value: string) => {
       const data = await fetchSuggestions(value || '')
@@ -171,7 +176,7 @@ export default function useTextareaSuggestions({
     return () => {
       debouncedFetch.clear()
     }
-  }, [query, isMainPage, isExtension])
+  }, [query, isMainPage])
 
   const onChangeInput = useEvent((e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value)

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import SmartTextarea from 'src/components/app/smart-textarea';
 import { FileContextProvider } from 'src/contexts/fileContext';
-import { DictateContextProvider } from 'src/contexts/dictateContext';
-import { DropdownItemType } from 'src/components/ui/dropdown';
 import styles from './MessageInputWrapper.module.css';
 
 interface MessageInputWrapperProps {
@@ -15,9 +13,6 @@ const MessageInputWrapper: React.FC<MessageInputWrapperProps> = ({
   disabled 
 }) => {
   const [message, setMessage] = useState('');
-  const [searchType, setSearchType] = useState<DropdownItemType | undefined>(
-    undefined
-  );
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
@@ -39,22 +34,16 @@ const MessageInputWrapper: React.FC<MessageInputWrapperProps> = ({
   return (
     <div className={styles.wrapper}>
       <FileContextProvider>
-        <DictateContextProvider>
-          <SmartTextarea
-            value={message}
-            onChange={handleChange}
-            onClear={handleClear}
-            onEnter={handleSend}
-            placeholder="Type your message..."
-            isActiveSendButton={isActiveSendButton}
-            searchType={{
-              value: searchType,
-              set: setSearchType,
-            }}
-            isDisabled={disabled}
-            isMainPage={false}
-          />
-        </DictateContextProvider>
+        <SmartTextarea
+          value={message}
+          onChange={handleChange}
+          onClear={handleClear}
+          onEnter={handleSend}
+          placeholder="Type your message..."
+          isActiveSendButton={isActiveSendButton}
+          isDisabled={disabled}
+          isMainPage={false}
+        />
       </FileContextProvider>
     </div>
   );

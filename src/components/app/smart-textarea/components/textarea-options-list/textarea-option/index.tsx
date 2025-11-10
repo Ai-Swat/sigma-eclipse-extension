@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import clsx from 'clsx'
 import { CURSOR_START_VALUE } from 'src/components/app/smart-textarea/hooks/use-textarea-suggestions'
-import { FollowUpType } from 'src/store/types'
 import StocksIcon from 'src/images/stocks.svg?react'
 import SuggestionOptionHighlight from 'src/components/app/smart-textarea/components/textarea-options-list/suggestion-option-highlight'
 import { Option } from 'src/components/app/smart-textarea/hooks/utils'
@@ -15,7 +14,7 @@ type TextareaOptionProps = {
   selectOption: (option: Option) => void
   setPreselected: (index: number) => void
   isLast: boolean
-  selectedMode?: FollowUpType
+  selectedMode?: string
 }
 
 export const TextareaOption = memo(
@@ -29,7 +28,7 @@ export const TextareaOption = memo(
     isLast,
     selectedMode,
   }: TextareaOptionProps) => {
-    const isWebSearch = selectedMode === FollowUpType.SEARCH
+    const isWebSearch = selectedMode === 'web-search'
     const isPreselected = index === cursor
     return (
       <>

@@ -3,7 +3,7 @@ import { PhotoProvider } from 'react-photo-view'
 import cn from 'clsx'
 import { useThemeContext } from 'src/contexts/themeContext'
 import { FileItem } from 'src/components/app/drag-n-drop-wrapper/components/file-item'
-import { UploadedFile } from 'src/store/types'
+import { UploadedFile } from 'src/contexts/fileContext'
 import styles from './styles.module.css'
 
 interface Props {

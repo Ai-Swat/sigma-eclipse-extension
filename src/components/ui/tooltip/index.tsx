@@ -8,7 +8,7 @@ import {
   Content,
   Arrow,
 } from '@radix-ui/react-tooltip'
-import { useSettingsStore } from 'src/store/settings'
+// Removed useSettingsStore - simplified for extension
 
 import styles from './styles.module.css'
 
@@ -25,7 +25,8 @@ export function TooltipDefault({
   side?: 'bottom' | 'top' | 'right' | 'left'
 }) {
   const id = useId()
-  const isExtension = useSettingsStore((state) => state.isExtension)
+  // Simplified stub for extension
+  const isExtension = true
 
   if (!text) return children
 

@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="inherit" viewBox="0 0 54 54">
-    <circle cx="27.0007" cy="27" r="26.6667" fill="inherit" fill-opacity=".6" opacity=".4"/>
-    <path fill="inherit" fill-rule="evenodd"
-          d="M26.2451 14.3906c1.1046 0 2 .8954 2 2v11.8918l6.6325 2.2108c1.0479.3493 1.6142 1.4819 1.2649 2.5298-.3493 1.0479-1.482 1.6142-2.5298 1.2649l-8-2.6666a2.0001 2.0001 0 0 1-1.3676-1.8974V16.3906c0-1.1046.8954-2 2-2Z"
-          clip-rule="evenodd"/>
-</svg>

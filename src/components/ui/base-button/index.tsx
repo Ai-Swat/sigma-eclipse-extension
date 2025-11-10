@@ -1,6 +1,6 @@
 import React, { ClassAttributes, HTMLAttributes } from 'react'
 import { clsx } from 'clsx'
-import { useSettingsStore } from 'src/store/settings'
+// Removed useSettingsStore - simplified for extension
 
 import css from './styles.module.css'
 
@@ -40,7 +40,8 @@ export default function BaseButton({
   label,
   ...otherProps
 }: ButtonProps) {
-  const isExtension = useSettingsStore((state) => state.isExtension)
+  // Simplified stub for extension
+  const isExtension = true
   const cn = clsx(
     css.button,
     css[color],

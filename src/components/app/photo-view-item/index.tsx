@@ -2,9 +2,22 @@ import { useState } from 'react'
 import { clsx } from 'clsx'
 import { PhotoView } from 'react-photo-view'
 
-// types
-import type { GalleryItem } from 'src/store/types'
-import { VideoItems } from 'src/store/types'
+// Local types for photo view
+export interface VideoItems {
+  type: 'video'
+  link?: string
+  thumbnail?: string
+  mimeType?: string
+}
+
+export interface ImageItem {
+  type: 'image'
+  url?: string
+  thumbnail?: string
+  mimeType?: string
+}
+
+export type GalleryItem = VideoItems | ImageItem
 
 // utils
 import { isVideoItem, isImageItem } from 'src/libs/utils'

@@ -13,7 +13,7 @@ import { useEvent } from 'src/libs/use/use-event'
 import { mergeRefs } from 'src/libs/merge-refs'
 
 import styles from './styles.module.css'
-import { useVirtualKeyboardStore } from 'src/store'
+// Removed useVirtualKeyboardStore - simplified for extension
 import useMobileOs from 'src/libs/use/use-mobile-os'
 
 type TextareaProps = Omit<
@@ -31,9 +31,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const { isMobile } = useMobileOs()
 
-    const { setOpen, setClose } = useVirtualKeyboardStore(
-      ({ setClose, setOpen }) => ({ setClose, setOpen })
-    )
+    // Simplified stubs for extension
+    const setOpen = () => {}
+    const setClose = () => {}
 
     const onChangeInput = useEvent((e: ChangeEvent<HTMLTextAreaElement>) => {
       if (onChange) {

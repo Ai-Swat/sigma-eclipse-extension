@@ -1,5 +1,4 @@
 import { memo, useMemo } from 'react'
-import { FollowUpType } from 'src/store/types'
 import { Option } from 'src/components/app/smart-textarea/hooks/utils'
 import { TextareaOption } from './textarea-option'
 
@@ -9,7 +8,7 @@ interface TextareaOptionsListProps {
   selectOption: (option: Option) => void
   setPreselected: (index: number) => void
   value: string
-  selectedMode?: FollowUpType
+  selectedMode?: string
 }
 
 const TextareaOptionsList = memo(
