@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import { copyFileSync, mkdirSync, readdirSync } from 'fs';
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 // Recursive copy function
@@ -33,11 +33,18 @@ function chromeExtension() {
         console.error('Error copying manifest:', err);
       }
 
-      // Copy sidepanel.html to dist root
+      // Move sidepanel.html from nested path to root and fix paths
       try {
-        copyFileSync('src/sidepanel/sidepanel.html', 'dist/sidepanel.html');
+        const nestedHtmlPath = resolve(__dirname, 'dist/src/sidepanel/sidepanel.html');
+        const rootHtmlPath = resolve(__dirname, 'dist/sidepanel.html');
+        
+        let htmlContent = readFileSync(nestedHtmlPath, 'utf-8');
+        // Fix relative paths: ../../ -> ./
+        htmlContent = htmlContent.replace(/\.\.\/..\//g, './');
+        
+        writeFileSync(rootHtmlPath, htmlContent);
       } catch (err) {
-        console.error('Error copying sidepanel.html:', err);
+        console.error('Error moving sidepanel.html:', err);
       }
 
       // Copy public/icons directly to dist/icons (not dist/public/icons)
@@ -55,12 +62,13 @@ function chromeExtension() {
 
 export default defineConfig({
   plugins: [react(), chromeExtension()],
+  base: './',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        sidepanel: resolve(__dirname, 'src/sidepanel/index.tsx'),
+        sidepanel: resolve(__dirname, 'src/sidepanel/sidepanel.html'),
         background: resolve(__dirname, 'src/background/background.ts'),
         content: resolve(__dirname, 'src/content/content.ts'),
       },
@@ -80,6 +88,10 @@ export default defineConfig({
         assetFileNames: (assetInfo) => {
           // Keep CSS in root for sidepanel
           if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return '[name][extname]';
+          }
+          // Keep HTML in root
+          if (assetInfo.name && assetInfo.name.endsWith('.html')) {
             return '[name][extname]';
           }
           return 'assets/[name]-[hash][extname]';

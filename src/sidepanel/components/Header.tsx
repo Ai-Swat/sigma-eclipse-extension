@@ -16,25 +16,28 @@ const Header: React.FC<HeaderProps> = ({
   translationMode
 }) => {
   return (
-    <header className="header">
-      <h1>⚙️ Sigma Private</h1>
-      <div className="header-actions">
+    <header className="app-header">
+      <h1 className="app-header-title">
+        <span>⚙️</span>
+        <span>Sigma Private</span>
+      </h1>
+      <div className="app-header-actions">
         <button
-          className={`icon-btn ${contextEnabled ? 'active' : ''}`}
+          className={`icon-button ${contextEnabled ? 'active' : ''}`}
           title="Toggle page context"
           onClick={onToggleContext}
         >
           <span>📄</span>
         </button>
         <button
-          className={`icon-btn ${translationMode ? 'active' : ''}`}
+          className={`icon-button ${translationMode ? 'active' : ''}`}
           title="Translation mode"
           onClick={onToggleTranslation}
         >
           <span>🌐</span>
         </button>
         <button
-          className="icon-btn"
+          className="icon-button"
           title="Settings"
           onClick={onSettings}
         >

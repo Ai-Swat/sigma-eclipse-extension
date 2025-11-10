@@ -2,12 +2,12 @@ import React from 'react';
 
 const LoadingIndicator: React.FC = () => {
   return (
-    <div className="message assistant">
-      <div className="message-content">
-        <div className="loading-dots">
-          <span>●</span>
-          <span>●</span>
-          <span>●</span>
+    <div className="chat-message assistant">
+      <div className="chat-message-content">
+        <div className="loading-indicator">
+          <div className="loading-indicator-dot"></div>
+          <div className="loading-indicator-dot"></div>
+          <div className="loading-indicator-dot"></div>
         </div>
       </div>
     </div>

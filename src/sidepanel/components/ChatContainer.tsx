@@ -23,8 +23,8 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
   }, [messages, isLoading]);
 
   return (
-    <div className="chat-container" ref={containerRef}>
-      <div className="messages">
+    <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
+      <div className="chat-messages-list">
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}

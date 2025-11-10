@@ -108,7 +108,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <div className="app-container">
       <Header
         onToggleContext={handleToggleContext}
         onToggleTranslation={handleToggleTranslation}
@@ -120,8 +120,9 @@ const App: React.FC = () => {
       <ChatContainer messages={messages} isLoading={isLoading} />
       
       {contextEnabled && (
-        <div className="context-indicator">
-          <span>📄 Page context enabled</span>
+        <div className="context-indicator-banner">
+          <span>📄</span>
+          <span>Page context enabled</span>
         </div>
       )}
       

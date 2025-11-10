@@ -7,8 +7,8 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   return (
-    <div className={`message ${message.role}`}>
-      <div className="message-content">
+    <div className={`chat-message ${message.role}`}>
+      <div className="chat-message-content">
         {message.content}
       </div>
     </div>

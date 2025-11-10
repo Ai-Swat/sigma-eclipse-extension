@@ -37,10 +37,10 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, disabled }) 
   };
 
   return (
-    <div className="input-container">
+    <div className="message-input-container">
       <textarea
         ref={textareaRef}
-        className="message-input"
+        className="message-textarea"
         placeholder="Type your message..."
         value={message}
         onChange={handleChange}
@@ -49,7 +49,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage, disabled }) 
         rows={1}
       />
       <button
-        className="send-btn"
+        className="message-send-button"
         onClick={handleSend}
         disabled={disabled || !message.trim()}
       >
