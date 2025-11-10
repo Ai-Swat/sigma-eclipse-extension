@@ -1,0 +1,33 @@
+{
+  "name": "sigma-private",
+  "version": "1.0.0",
+  "description": "AI-powered chat assistant Chrome extension with page context and translation",
+  "scripts": {
+    "dev": "vite build --watch --mode development",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,html}\""
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.253",
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.54.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
+

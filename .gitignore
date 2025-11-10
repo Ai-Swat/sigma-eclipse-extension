@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+
+# Extension packages
+*.crx
+*.pem
+*.zip
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# History
+.history/
