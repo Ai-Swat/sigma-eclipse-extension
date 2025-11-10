@@ -13,8 +13,7 @@ import { useEvent } from 'src/libs/use/use-event'
 import { mergeRefs } from 'src/libs/merge-refs'
 
 import styles from './styles.module.css'
-// Removed useVirtualKeyboardStore - simplified for extension
-import useMobileOs from 'src/libs/use/use-mobile-os'
+// Removed useVirtualKeyboardStore and useMobileOs - simplified for extension
 
 type TextareaProps = Omit<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -28,12 +27,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (props, ref) => {
     const innerRef = useRef<HTMLTextAreaElement>()
     const { onChange, className, onEnter, ...otherProps } = props
-
-    const { isMobile } = useMobileOs()
-
-    // Simplified stubs for extension
-    const setOpen = () => {}
-    const setClose = () => {}
 
     const onChangeInput = useEvent((e: ChangeEvent<HTMLTextAreaElement>) => {
       if (onChange) {
@@ -58,11 +51,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {...otherProps}
         className={clsx(styles.textarea, className)}
         onBlur={(e) => {
-          isMobile && setClose()
           otherProps.onBlur?.(e)
         }}
         onFocus={(e) => {
-          isMobile && setOpen()
           otherProps.onFocus?.(e)
           e.currentTarget.setSelectionRange(
             e.currentTarget.value.length,

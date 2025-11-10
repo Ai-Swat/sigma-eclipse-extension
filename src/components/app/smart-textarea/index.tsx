@@ -11,7 +11,6 @@ import loadable from '@loadable/component'
 import { mergeRefs } from 'src/libs/merge-refs'
 import { useFileContext } from 'src/contexts/fileContext'
 import useClickOutside from 'src/libs/use/use-click-outside'
-import useMobileDetect from 'src/libs/use/use-mobile-detect'
 import useTextareaSuggestions from './hooks/use-textarea-suggestions'
 import { useTextareaLayout } from './hooks/use-textarea-layout'
 
@@ -69,7 +68,6 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
     },
     ref
   ) => {
-    const isMobile = useMobileDetect()
     const { files, uploadedFiles, handlePaste, handleRemoveFile } =
       useFileContext()
 

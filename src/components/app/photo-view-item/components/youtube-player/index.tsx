@@ -4,7 +4,6 @@ import YouTube from 'react-youtube'
 import { clsx } from 'clsx'
 
 // lib
-import useMobileDetect from 'src/libs/use/use-mobile-detect'
 import { isElementInViewport } from 'src/libs/utils'
 
 // styles
@@ -21,7 +20,6 @@ interface IProps {
 }
 
 const VideoPlayer = ({ videoId, openLink, opts, playerClassName }: IProps) => {
-  const isMobile = useMobileDetect()
   const [loading, setLoading] = useState(true)
 
   const handleError = () => {
@@ -42,9 +40,10 @@ const VideoPlayer = ({ videoId, openLink, opts, playerClassName }: IProps) => {
     playerClassName
   )
 
+  // Фиксированные размеры для расширения
   const _opts = opts || {
-    height: isMobile ? '220' : '370',
-    width: isMobile ? '300' : '600',
+    height: '370',
+    width: '600',
   }
 
   return (
