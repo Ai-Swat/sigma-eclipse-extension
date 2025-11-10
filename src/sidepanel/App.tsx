@@ -1,42 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { MessageType, ChatMessage, ChatRequest } from '../types';
+import React, { useState } from 'react';
+import { ChatMessage } from '../types';
+import { ChatContextProvider, useChatContext } from '../contexts/chatContext';
+import { sendChatMessage } from '../utils/api';
 import Header from './components/Header';
 import ChatContainer from './components/ChatContainer';
 import MessageInputWrapper from './components/MessageInputWrapper';
+import ChatHistory from './components/ChatHistory';
 
-const App: React.FC = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+const AppContent: React.FC = () => {
+  const { 
+    chats,
+    activeChat, 
+    createNewChat,
+    selectChat,
+    deleteChat,
+    addMessageToActiveChat, 
+    updateMessageInActiveChat 
+  } = useChatContext();
   const [isLoading, setIsLoading] = useState(false);
-
-  // Load chat history on mount
-  useEffect(() => {
-    loadChatHistory();
-  }, []);
-
-  // Save chat history when messages change
-  useEffect(() => {
-    if (messages.length > 0) {
-      saveChatHistory();
-    }
-  }, [messages]);
-
-  const loadChatHistory = async () => {
-    const data = await chrome.storage.local.get('chatHistory');
-    if (data.chatHistory && Array.isArray(data.chatHistory)) {
-      setMessages(data.chatHistory);
-    } else {
-      setMessages([]);
-    }
-  };
-
-  const saveChatHistory = () => {
-    chrome.storage.local.set({
-      chatHistory: messages.slice(-50) // Keep last 50 messages
-    });
-  };
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   const handleSendMessage = async (content: string) => {
-    if (!content.trim()) return;
+    if (!content.trim() || !activeChat) return;
 
     // Add user message
     const userMessage: ChatMessage = {
@@ -46,69 +31,94 @@ const App: React.FC = () => {
       timestamp: Date.now()
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setIsLoading(true);
+    addMessageToActiveChat(userMessage);
+
+    // Create empty assistant message for streaming
+    const assistantMessageId = (Date.now() + 1).toString();
+    const assistantMessage: ChatMessage = {
+      id: assistantMessageId,
+      role: 'assistant',
+      content: '',
+      timestamp: Date.now()
+    };
+
+    addMessageToActiveChat(assistantMessage);
+    setIsLoading(true); // Disable input during generation
 
     try {
-      // Send to background script
-      const request: ChatRequest = {
-        message: content,
-        includeContext: false,
-        history: messages.slice(-10) // Last 10 messages for context
-      };
-
-      const response = await chrome.runtime.sendMessage({
-        type: MessageType.CHAT_REQUEST,
-        payload: request
+      // Send to LlamaCpp with streaming
+      const allMessages = [...activeChat.messages, userMessage];
+      let accumulatedContent = '';
+      
+      await sendChatMessage(allMessages, {
+        onChunk: (chunk: string) => {
+          // Accumulate content and update message
+          accumulatedContent += chunk;
+          updateMessageInActiveChat(assistantMessageId, accumulatedContent);
+        }
       });
 
-      // Add assistant response
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: response.message || 'Sorry, I encountered an error.',
-        timestamp: Date.now()
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Error sending message:', error);
-      const errorMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: 'Error: Failed to connect to the AI service. Please check your settings.',
-        timestamp: Date.now()
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      updateMessageInActiveChat(
+        assistantMessageId, 
+        'Error: Failed to connect to LlamaCpp. Make sure it is running on port 10345.'
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleNewThread = () => {
-    // Clear current chat and start new thread
-    setMessages([]);
+    // Don't create new chat if current chat is empty
+    if (activeChat && activeChat.messages.length === 0) {
+      return;
+    }
+    createNewChat();
   };
 
   const handleHistory = () => {
-    // TODO: Open history page/sidebar
-    console.log('History clicked');
+    setIsHistoryOpen(true);
   };
 
   return (
-    <div className="app-container">
-      <Header
-        onNewThread={handleNewThread}
-        onHistory={handleHistory}
-      />
-      
-      <ChatContainer messages={messages} isLoading={isLoading} />
-      
-      <MessageInputWrapper 
-        onSendMessage={handleSendMessage}
-        disabled={isLoading}
-      />
-    </div>
+    <>
+      <div className="app-container">
+        <Header
+          onNewThread={handleNewThread}
+          onHistory={handleHistory}
+        />
+        
+        <ChatContainer 
+          messages={activeChat?.messages || []} 
+          isLoading={isLoading} 
+        />
+        
+        <MessageInputWrapper 
+          onSendMessage={handleSendMessage}
+          disabled={isLoading}
+        />
+      </div>
+
+      {isHistoryOpen && (
+        <ChatHistory
+          chats={chats}
+          activeChatId={activeChat?.id || null}
+          onSelectChat={selectChat}
+          onDeleteChat={deleteChat}
+          onNewChat={createNewChat}
+          onClose={() => setIsHistoryOpen(false)}
+        />
+      )}
+    </>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <ChatContextProvider>
+      <AppContent />
+    </ChatContextProvider>
   );
 };
 

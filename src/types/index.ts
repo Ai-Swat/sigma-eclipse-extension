@@ -19,11 +19,21 @@ export interface PageContext {
   selectedText?: string;
 }
 
+// Chat Message - single message in a chat
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: number;
+}
+
+// Chat - dialog entity
+export interface Chat {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface TranslationRequest {
@@ -48,4 +58,7 @@ export interface ChatResponse {
   message: string;
   error?: string;
 }
+
+// Note: LlamaCpp API integration now uses OpenAI library
+// See src/utils/api.ts for implementation
 

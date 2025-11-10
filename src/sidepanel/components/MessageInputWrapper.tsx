@@ -34,16 +34,16 @@ const MessageInputWrapper: React.FC<MessageInputWrapperProps> = ({
   return (
     <div className={styles.wrapper}>
       <FileContextProvider>
-        <SmartTextarea
-          value={message}
-          onChange={handleChange}
-          onClear={handleClear}
-          onEnter={handleSend}
-          placeholder="Type your message..."
-          isActiveSendButton={isActiveSendButton}
-          isDisabled={disabled}
-          isMainPage={false}
-        />
+          <SmartTextarea
+            value={message}
+            onChange={handleChange}
+            onClear={handleClear}
+            onEnter={handleSend}
+            placeholder="Type your message..."
+            isActiveSendButton={isActiveSendButton}
+            isDisabled={disabled}
+            isMainPage={false}
+          />
       </FileContextProvider>
     </div>
   );

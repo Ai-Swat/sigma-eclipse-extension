@@ -42,7 +42,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
-        {isLoading && <LoadingIndicator />}
+        {/* Don't show loader during streaming - empty assistant message is already visible */}
         <div ref={messagesEndRef} />
       </div>
     </div>

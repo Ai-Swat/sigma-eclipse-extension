@@ -152,26 +152,26 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
             )}
 
             <div className={css.textareaWrapper}>
-              {isGradientShow && <div className={css.gradientTop} />}
-              <textarea
-                ref={mergeRefs([ref, innerRef])}
-                value={value}
-                placeholder={placeholder}
-                onChange={onChangeInput}
-                onPaste={handlePaste}
-                onKeyDown={onKeyDownInput}
-                onInput={handleInputHeight}
-                onFocus={handleFocus}
-                className={css.textarea}
-                autoComplete='off'
-                autoCapitalize='off'
-                tabIndex={0}
-                rows={1}
+                  {isGradientShow && <div className={css.gradientTop} />}
+                  <textarea
+                    ref={mergeRefs([ref, innerRef])}
+                    value={value}
+                    placeholder={placeholder}
+                    onChange={onChangeInput}
+                    onPaste={handlePaste}
+                    onKeyDown={onKeyDownInput}
+                    onInput={handleInputHeight}
+                    onFocus={handleFocus}
+                    className={css.textarea}
+                    autoComplete='off'
+                    autoCapitalize='off'
+                    tabIndex={0}
+                    rows={1}
                 autoFocus={true}
-                name='textarea-dropdown'
-                {...otherProps}
-              />
-              {isGradientShow && <div className={css.gradientBottom} />}
+                    name='textarea-dropdown'
+                    {...otherProps}
+                  />
+                  {isGradientShow && <div className={css.gradientBottom} />}
             </div>
 
             <div className={css.leftButtonWrapper}>
@@ -181,16 +181,16 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
             </div>
 
             <div className={css.rightButtonWrapper}>
-              <SendButton
-                disabled={isDisabled}
-                followup_id={followup_id}
-                isActive={isActiveSendButton}
-                onClick={onEnter}
-                isEnd={isEnd}
-                isLimitExceeded={isLimitExceeded}
-                created_at={created_at}
-                isWaitingUserClarification={isWaitingUserClarification}
-              />
+                <SendButton
+                  disabled={isDisabled}
+                  followup_id={followup_id}
+                  isActive={isActiveSendButton}
+                  onClick={onEnter}
+                  isEnd={isEnd}
+                  isLimitExceeded={isLimitExceeded}
+                  created_at={created_at}
+                  isWaitingUserClarification={isWaitingUserClarification}
+                />
             </div>
           </div>
 
