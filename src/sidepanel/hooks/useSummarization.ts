@@ -108,7 +108,7 @@ export const useSummarization = ({
       console.log('✅ Новый чат создан с ID:', newChatId);
 
       // Send summarization prompt to the new chat with metadata
-      const prompt = `Сделай краткую выжимку основных мыслей из текста: ${textToSummarize}`;
+      const prompt = `Please provide a comprehensive summary of the following text, highlighting the key points, main ideas, and important details: ${textToSummarize}`;
       await handleSendMessage(prompt, newChatId, {
         isSummarization: true,
         summarizationPreview: preview
