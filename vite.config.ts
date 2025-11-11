@@ -62,19 +62,7 @@ function chromeExtension() {
 }
 
 export default defineConfig({
-  plugins: [
-    react(), 
-    svgr({
-      svgrOptions: {
-        exportType: 'default',
-        ref: true,
-        svgo: false,
-        titleProp: true,
-      },
-      include: '**/*.svg?react',
-    }),
-    chromeExtension()
-  ],
+  plugins: [react(), svgr(), chromeExtension()],
   base: './',
   build: {
     outDir: 'dist',
@@ -109,12 +97,16 @@ export default defineConfig({
           }
           return 'assets/[name]-[hash][extname]';
         },
+        // Prevent code splitting - don't create shared chunks
+        manualChunks: undefined,
       },
     },
     // Target for Chrome extension
     target: 'esnext',
     minify: 'esbuild',
     sourcemap: true,
+    // Prevent code splitting for all entry points
+    modulePreload: false,
   },
   resolve: {
     alias: {

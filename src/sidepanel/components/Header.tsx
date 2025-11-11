@@ -5,11 +5,13 @@ import styles from './Header.module.css';
 interface HeaderProps {
   onNewThread: () => void;
   onHistory: () => void;
+  onSummarize: () => void;
 }
 
 export default function Header({
   onNewThread,
   onHistory,
+  onSummarize,
 }: HeaderProps) {
   // ----------------- Render -----------------
   return (
@@ -20,6 +22,15 @@ export default function Header({
         </h1>
         
         <div className={styles.actions}>
+          <button
+            className={styles.iconButton}
+            title="Summarize Page"
+            onClick={onSummarize}
+            aria-label="Summarize Page"
+          >
+            <span className={styles.sigmaIcon}>Σ</span>
+          </button>
+          
           <button
             className={styles.iconButton}
             title="New Thread"

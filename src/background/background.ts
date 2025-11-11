@@ -1,4 +1,37 @@
-import { MessageType, ChatRequest, ChatResponse, PageContext } from '../types';
+// Local types (inlined to avoid bundler creating shared chunks)
+interface PageContext {
+  url: string;
+  title: string;
+  content: string;
+  selectedText?: string;
+}
+
+interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  timestamp: number;
+}
+
+interface ChatRequest {
+  message: string;
+  includeContext?: boolean;
+  history?: ChatMessage[];
+}
+
+interface ChatResponse {
+  message: string;
+  error?: string;
+}
+
+const MessageType = {
+  GET_PAGE_CONTEXT: 'GET_PAGE_CONTEXT',
+  TRANSLATE_TEXT: 'TRANSLATE_TEXT',
+  CHAT_REQUEST: 'CHAT_REQUEST',
+  CHAT_RESPONSE: 'CHAT_RESPONSE',
+  SUMMARIZE_PAGE: 'SUMMARIZE_PAGE',
+  ERROR: 'ERROR',
+} as const;
 
 // Background service worker for Sigma Private extension
 console.log('Sigma Private background service worker initialized');
@@ -42,6 +75,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           console.error('Translation error:', error);
           sendResponse({ error: error.message });
         });
+      return true;
+
+    case MessageType.SUMMARIZE_PAGE:
+      // This message is handled by the sidepanel directly
+      // Background script just passes it through
+      sendResponse({ success: true });
       return true;
 
     default:
@@ -126,11 +165,17 @@ chrome.runtime.onInstalled.addListener((details) => {
     console.log('Sigma Private extension updated');
   }
   
-  // Add context menu item to open sidebar
+  // Add context menu items
   chrome.contextMenus.create({
     id: 'openSidePanel',
     title: 'Open Sigma Private Sidebar',
     contexts: ['all']
+  });
+  
+  chrome.contextMenus.create({
+    id: 'summarizePage',
+    title: 'Summarize page',
+    contexts: ['page', 'selection']
   });
 });
 
@@ -139,6 +184,19 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'openSidePanel' && tab?.id) {
     chrome.sidePanel.open({ tabId: tab.id }).catch((error) => {
       console.error('Error opening side panel from context menu:', error);
+    });
+  } else if (info.menuItemId === 'summarizePage' && tab?.id) {
+    // Open side panel first
+    chrome.sidePanel.open({ tabId: tab.id }).then(() => {
+      // Send message to sidepanel to trigger summarization
+      chrome.runtime.sendMessage({
+        type: MessageType.SUMMARIZE_PAGE,
+        payload: { tabId: tab.id }
+      }).catch((error) => {
+        console.error('Error sending summarize message:', error);
+      });
+    }).catch((error) => {
+      console.error('Error opening side panel for summarization:', error);
     });
   }
 });

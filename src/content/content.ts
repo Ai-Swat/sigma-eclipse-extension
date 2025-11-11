@@ -1,11 +1,20 @@
-import { MessageType, PageContext } from '../types';
-
 // Content script for Sigma Private - runs on all web pages
 console.log('Sigma Private content script loaded');
 
+// Local types (inlined to avoid bundler creating shared chunks)
+interface PageContext {
+  url: string;
+  title: string;
+  content: string;
+  selectedText?: string;
+}
+
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === MessageType.GET_PAGE_CONTEXT) {
+  console.log('message', message);
+  console.log('sender', sender);
+  console.log('sendResponse', sendResponse);
+  if (message.type === 'GET_PAGE_CONTEXT') {
     const context = getPageContext();
     sendResponse(context);
     return true;
@@ -53,7 +62,7 @@ function extractMainContent(): string {
     }
   }
 
-  return content.substring(0, 5000); // Limit to 5000 chars
+  return content.substring(0, 10000); // Limit to 5000 chars
 }
 
 function extractTextFromElement(element: Element): string {

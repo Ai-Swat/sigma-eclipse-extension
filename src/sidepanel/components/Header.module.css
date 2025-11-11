@@ -79,3 +79,10 @@
   }
 }
 
+.sigmaIcon {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--icon-neutral-primary);
+  line-height: 1;
+}
+

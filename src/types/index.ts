@@ -1,11 +1,14 @@
 // Message types for communication between components
-export enum MessageType {
-  GET_PAGE_CONTEXT = 'GET_PAGE_CONTEXT',
-  TRANSLATE_TEXT = 'TRANSLATE_TEXT',
-  CHAT_REQUEST = 'CHAT_REQUEST',
-  CHAT_RESPONSE = 'CHAT_RESPONSE',
-  ERROR = 'ERROR'
-}
+export const MessageType = {
+  GET_PAGE_CONTEXT: 'GET_PAGE_CONTEXT',
+  TRANSLATE_TEXT: 'TRANSLATE_TEXT',
+  CHAT_REQUEST: 'CHAT_REQUEST',
+  CHAT_RESPONSE: 'CHAT_RESPONSE',
+  SUMMARIZE_PAGE: 'SUMMARIZE_PAGE',
+  ERROR: 'ERROR',
+} as const;
+
+export type MessageType = typeof MessageType[keyof typeof MessageType];
 
 export interface Message {
   type: MessageType;
