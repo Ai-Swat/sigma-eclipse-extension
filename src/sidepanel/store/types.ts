@@ -21,3 +21,4 @@ export interface TypeFollowUp {
   was_panel_used?: boolean;
 }
 
+

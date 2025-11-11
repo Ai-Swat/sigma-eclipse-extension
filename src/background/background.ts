@@ -188,13 +188,15 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   } else if (info.menuItemId === 'summarizePage' && tab?.id) {
     // Open side panel first
     chrome.sidePanel.open({ tabId: tab.id }).then(() => {
-      // Send message to sidepanel to trigger summarization
-      chrome.runtime.sendMessage({
-        type: MessageType.SUMMARIZE_PAGE,
-        payload: { tabId: tab.id }
-      }).catch((error) => {
-        console.error('Error sending summarize message:', error);
-      });
+      // Wait for sidepanel to initialize before sending message
+      setTimeout(() => {
+        chrome.runtime.sendMessage({
+          type: MessageType.SUMMARIZE_PAGE,
+          payload: { tabId: tab.id }
+        }).catch((error) => {
+          console.error('Error sending summarize message:', error);
+        });
+      }, 500); // Give sidepanel time to mount and register listeners
     }).catch((error) => {
       console.error('Error opening side panel for summarization:', error);
     });

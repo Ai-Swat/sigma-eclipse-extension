@@ -5,11 +5,13 @@ import { generateChatTitle } from '../utils/api';
 interface ChatContextType {
   chats: Chat[];
   activeChat: Chat | null;
-  createNewChat: () => void;
+  createNewChat: () => string; // Returns the new chat ID
   selectChat: (chatId: string) => void;
   deleteChat: (chatId: string) => void;
   addMessageToActiveChat: (message: ChatMessage) => void;
+  addMessageToChat: (chatId: string, message: ChatMessage) => void; // Add message to specific chat
   updateMessageInActiveChat: (messageId: string, content: string) => void;
+  updateMessageInChat: (chatId: string, messageId: string, content: string) => void; // Update message in specific chat
   updateChatTitle: (chatId: string, title: string) => void;
 }
 
@@ -73,6 +75,7 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     const newChat = createChat();
     setChats((prev) => [newChat, ...prev]);
     setActiveChatId(newChat.id);
+    return newChat.id; // Return the new chat ID
   }, []);
 
   const selectChat = useCallback((chatId: string) => {
@@ -99,10 +102,10 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     });
   }, [activeChatId]);
 
-  const addMessageToActiveChat = useCallback((message: ChatMessage) => {
+  const addMessageToChat = useCallback((chatId: string, message: ChatMessage) => {
     setChats((prev) => {
       return prev.map((chat) => {
-        if (chat.id === activeChatId) {
+        if (chat.id === chatId) {
           const updatedMessages = [...chat.messages, message];
           
           // Auto-generate title from first user message
@@ -121,12 +124,17 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
         return chat;
       });
     });
-  }, [activeChatId]);
+  }, []);
 
-  const updateMessageInActiveChat = useCallback((messageId: string, content: string) => {
+  const addMessageToActiveChat = useCallback((message: ChatMessage) => {
+    if (!activeChatId) return;
+    addMessageToChat(activeChatId, message);
+  }, [activeChatId, addMessageToChat]);
+
+  const updateMessageInChat = useCallback((chatId: string, messageId: string, content: string) => {
     setChats((prev) => {
       return prev.map((chat) => {
-        if (chat.id === activeChatId) {
+        if (chat.id === chatId) {
           return {
             ...chat,
             messages: chat.messages.map((msg) => 
@@ -138,7 +146,12 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
         return chat;
       });
     });
-  }, [activeChatId]);
+  }, []);
+
+  const updateMessageInActiveChat = useCallback((messageId: string, content: string) => {
+    if (!activeChatId) return;
+    updateMessageInChat(activeChatId, messageId, content);
+  }, [activeChatId, updateMessageInChat]);
 
   const updateChatTitle = useCallback((chatId: string, title: string) => {
     setChats((prev) => {
@@ -164,7 +177,9 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     selectChat,
     deleteChat,
     addMessageToActiveChat,
+    addMessageToChat,
     updateMessageInActiveChat,
+    updateMessageInChat,
     updateChatTitle,
   };
 

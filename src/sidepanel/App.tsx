@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Chat, ChatMessage, MessageType } from '../types';
 import { ChatContextProvider, useChatContext } from '../contexts/chatContext';
 import { sendChatMessage } from '../utils/api';
@@ -113,7 +113,7 @@ const AppContent: React.FC = () => {
     setIsHistoryOpen(true);
   };
 
-  const handleSummarize = async () => {
+  const handleSummarize = useCallback(async () => {
     try {
       // Get active tab
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -201,16 +201,19 @@ const AppContent: React.FC = () => {
       console.error('❌ Ошибка при суммаризации:', error);
       alert('Произошла ошибка при суммаризации. Проверьте консоль для деталей.');
     }
-  };
+  }, [createNewChat]);
 
   // Listen for summarization requests from context menu
   useEffect(() => {
     const messageListener = (message: any) => {
+      console.log('📨 Sidepanel получил сообщение:', message.type);
       if (message.type === MessageType.SUMMARIZE_PAGE) {
+        console.log('🎯 Запускаю суммаризацию из контекстного меню');
         handleSummarize();
       }
     };
 
+    console.log('✅ Sidepanel зарегистрировал listener для SUMMARIZE_PAGE');
     chrome.runtime.onMessage.addListener(messageListener);
     
     return () => {

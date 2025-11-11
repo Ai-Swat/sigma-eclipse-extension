@@ -1,5 +1,12 @@
 // Content script for Sigma Private - runs on all web pages
-console.log('Sigma Private content script loaded');
+
+// Prevent multiple injections
+if ((window as any).__SIGMA_PRIVATE_CONTENT_SCRIPT_LOADED__) {
+  console.log('⚠️ Sigma Private content script already loaded, skipping');
+} else {
+  (window as any).__SIGMA_PRIVATE_CONTENT_SCRIPT_LOADED__ = true;
+  console.log('✅ Sigma Private content script loaded');
+}
 
 // Local types (inlined to avoid bundler creating shared chunks)
 interface PageContext {
@@ -11,12 +18,22 @@ interface PageContext {
 
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log('message', message);
-  console.log('sender', sender);
-  console.log('sendResponse', sendResponse);
+  console.log('📨 Content script received message:', message.type);
+  
   if (message.type === 'GET_PAGE_CONTEXT') {
-    const context = getPageContext();
-    sendResponse(context);
+    try {
+      const context = getPageContext();
+      console.log('✅ Sending page context:', {
+        url: context.url,
+        title: context.title,
+        contentLength: context.content.length,
+        hasSelection: !!context.selectedText
+      });
+      sendResponse(context);
+    } catch (error) {
+      console.error('❌ Error getting page context:', error);
+      sendResponse(null);
+    }
     return true;
   }
 });

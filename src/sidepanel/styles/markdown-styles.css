@@ -1,0 +1,214 @@
+/* Markdown rendering styles */
+
+/* Import highlight.js theme for code syntax highlighting */
+@import url('highlight.js/styles/github-dark.css');
+
+.chat-message-content {
+  /* Typography */
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-neutral-primary);
+}
+
+/* Headings */
+.chat-message-content h1,
+.chat-message-content h2,
+.chat-message-content h3,
+.chat-message-content h4,
+.chat-message-content h5,
+.chat-message-content h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-neutral-primary);
+}
+
+.chat-message-content h1 {
+  font-size: 2em;
+  border-bottom: 1px solid var(--stroke-neutral-alfa-disabled);
+  padding-bottom: 8px;
+}
+
+.chat-message-content h2 {
+  font-size: 1.5em;
+  border-bottom: 1px solid var(--stroke-neutral-alfa-disabled);
+  padding-bottom: 8px;
+}
+
+.chat-message-content h3 {
+  font-size: 1.25em;
+}
+
+.chat-message-content h4 {
+  font-size: 1em;
+}
+
+.chat-message-content h5 {
+  font-size: 0.875em;
+}
+
+.chat-message-content h6 {
+  font-size: 0.85em;
+  color: var(--text-neutral-secondary);
+}
+
+/* Paragraphs */
+.chat-message-content p {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+/* Lists */
+.chat-message-content ul,
+.chat-message-content ol {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-left: 32px;
+}
+
+.chat-message-content li {
+  margin-bottom: 4px;
+}
+
+.chat-message-content li > p {
+  margin-bottom: 8px;
+}
+
+/* Nested lists */
+.chat-message-content ul ul,
+.chat-message-content ul ol,
+.chat-message-content ol ol,
+.chat-message-content ol ul {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+/* Code blocks */
+.chat-message-content pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 16px;
+  overflow: auto;
+  font-size: 14px;
+  line-height: 1.45;
+  background-color: var(--background-neutral-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--stroke-neutral-alfa-disabled);
+}
+
+.chat-message-content pre code {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+  font-size: 100%;
+  white-space: pre;
+}
+
+/* Inline code */
+.chat-message-content code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: var(--background-neutral-secondary);
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+}
+
+/* Blockquotes */
+.chat-message-content blockquote {
+  margin: 0 0 16px 0;
+  padding: 0 16px;
+  color: var(--text-neutral-secondary);
+  border-left: 4px solid var(--stroke-neutral-alfa-disabled);
+}
+
+.chat-message-content blockquote > :first-child {
+  margin-top: 0;
+}
+
+.chat-message-content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* Tables */
+.chat-message-content table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 16px;
+  width: 100%;
+  overflow: auto;
+}
+
+.chat-message-content table th {
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid var(--stroke-neutral-alfa-disabled);
+  background-color: var(--background-neutral-secondary);
+}
+
+.chat-message-content table td {
+  padding: 8px 12px;
+  border: 1px solid var(--stroke-neutral-alfa-disabled);
+}
+
+.chat-message-content table tr {
+  border-top: 1px solid var(--stroke-neutral-alfa-disabled);
+}
+
+/* Horizontal rule */
+.chat-message-content hr {
+  height: 1px;
+  padding: 0;
+  margin: 24px 0;
+  background-color: var(--stroke-neutral-alfa-disabled);
+  border: 0;
+}
+
+/* Links */
+.chat-message-content a {
+  color: var(--text-brand-primary, #0969da);
+  text-decoration: none;
+}
+
+.chat-message-content a:hover {
+  text-decoration: underline;
+}
+
+/* Images */
+.chat-message-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 16px 0;
+  border-radius: 8px;
+}
+
+/* Task lists (GitHub Flavored Markdown) */
+.chat-message-content .task-list-item {
+  list-style-type: none;
+}
+
+.chat-message-content .task-list-item input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Strong and emphasis */
+.chat-message-content strong {
+  font-weight: 600;
+}
+
+.chat-message-content em {
+  font-style: italic;
+}
+
+/* Strikethrough (GFM) */
+.chat-message-content del {
+  text-decoration: line-through;
+}
+

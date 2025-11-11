@@ -16,3 +16,4 @@ export function sendMessageToExtension(message: any): Promise<any> {
   });
 }
 
+

@@ -22,11 +22,20 @@ export async function sendChatMessage(
   }
 ): Promise<string> {
   try {
+    // Add system prompt to enforce markdown formatting
+    const systemPrompt = {
+      role: 'system' as const,
+      content: 'You are a helpful AI assistant. Always format your responses using Markdown syntax. Use headings, lists, code blocks, bold, italic, and other markdown features to make your responses clear and well-structured.'
+    };
+    
     // Convert our ChatMessage format to OpenAI format
-    const openaiMessages = messages.map((msg) => ({
-      role: msg.role,
-      content: msg.content,
-    }));
+    const openaiMessages = [
+      systemPrompt,
+      ...messages.map((msg) => ({
+        role: msg.role,
+        content: msg.content,
+      }))
+    ];
 
     // Handle streaming
     if (options?.onChunk) {

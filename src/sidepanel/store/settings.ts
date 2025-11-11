@@ -14,3 +14,4 @@ export const useSettingsStore = create<SettingsStore>((set) => ({
   setIsWidget: (value) => set({ isWidget: value }),
 }));
 
+
