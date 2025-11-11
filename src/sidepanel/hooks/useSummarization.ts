@@ -81,10 +81,8 @@ export const useSummarization = ({
         return;
       }
 
-      // Use selected text if it's long enough (>= 200 chars), otherwise use page content
-      const MIN_SELECTION_LENGTH = 200;
-      const hasValidSelection = response.selectedText && response.selectedText.trim().length >= MIN_SELECTION_LENGTH;
-      const textToSummarize = hasValidSelection ? response.selectedText : response.content;
+      // Always use full page content for summarization
+      const textToSummarize = response.content;
       
       if (!textToSummarize || textToSummarize.trim().length === 0) {
         console.error('No content to summarize');
@@ -94,15 +92,8 @@ export const useSummarization = ({
 
       console.log('📝 Текст для суммаризации получен:', textToSummarize.substring(0, 100) + '...');
 
-      // Create preview for the banner
-      let preview = '';
-      if (hasValidSelection) {
-        // Show first 50 chars of selected text
-        preview = response.selectedText!.substring(0, 50).trim() + (response.selectedText!.length > 50 ? '...' : '');
-      } else {
-        // Show URL if no valid selection or using page content
-        preview = tab.url || 'Page content';
-      }
+      // Create preview for the banner - always show URL for full page summarization
+      const preview = tab.url || 'Page content';
 
       // Create new chat and get its ID
       console.log('🆕 Создаю новый чат для суммаризации...');

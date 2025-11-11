@@ -38,7 +38,7 @@ export const LANGUAGE_FULL_NAMES: Record<SupportedLanguage, string> = {
 // Get summarization prompt for a specific language
 export function getSummarizationPrompt(language: SupportedLanguage): string {
   const languageName = LANGUAGE_FULL_NAMES[language];
-  return `Provide a comprehensive summary of the following text, highlighting the key points, main ideas, and important details. PLEASE RESPOND IN ${languageName}:`;
+  return `Provide a brief summary of the following text, highlighting the key points, main ideas, and important details. PLEASE RESPOND IN ${languageName}:`;
 }
 
 // Get system prompt for a specific language
