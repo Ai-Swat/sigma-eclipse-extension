@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Chat, ChatMessage } from '../../types';
 import { sendChatMessage } from '../../utils/api';
+import { useLanguage } from '../contexts/languageContext';
+import { getSystemPrompt } from '../locales/prompts';
 
 interface UseMessageHandlingProps {
   activeChat: Chat | null;
@@ -22,6 +24,7 @@ export const useMessageHandling = ({
   updateMessageInChat,
   createNewChat,
 }: UseMessageHandlingProps) => {
+  const { language } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   
@@ -132,6 +135,9 @@ export const useMessageHandling = ({
       
       console.log('🚀 Отправляю запрос к LlamaCpp...');
       
+      // Get system prompt for current language
+      const systemPrompt = getSystemPrompt(language);
+      
       await sendChatMessage(allMessages, {
         onChunk: (chunk: string) => {
           // Accumulate content and update message
@@ -139,6 +145,7 @@ export const useMessageHandling = ({
           updateMessageInChat(chatId, assistantMessageId, accumulatedContent);
         },
         abortSignal: abortController.signal,
+        systemPrompt,
       });
 
       console.log('✅ Ответ получен');
@@ -164,7 +171,7 @@ export const useMessageHandling = ({
       currentMessageIdRef.current = null;
       currentChatIdRef.current = null;
     }
-  }, [chats, activeChatRef, addMessageToChat, updateMessageInChat, createNewChat]);
+  }, [chats, activeChatRef, addMessageToChat, updateMessageInChat, createNewChat, language]);
 
   return {
     isLoading,

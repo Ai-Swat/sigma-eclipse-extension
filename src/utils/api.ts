@@ -20,13 +20,14 @@ export async function sendChatMessage(
     max_tokens?: number;
     onChunk?: (chunk: string) => void;
     abortSignal?: AbortSignal;
+    systemPrompt?: string;
   }
 ): Promise<string> {
   try {
-    // Add system prompt to enforce markdown formatting
+    // Add system prompt to enforce markdown formatting and language
     const systemPrompt = {
       role: 'system' as const,
-      content: 'You are a helpful AI assistant. Always format your responses using Markdown syntax. Use headings, lists, code blocks, bold, italic, and other markdown features to make your responses clear and well-structured.'
+      content: options?.systemPrompt || 'You are a helpful AI assistant. Always format your responses using Markdown syntax. Use headings, lists, code blocks, bold, italic, and other markdown features to make your responses clear and well-structured.'
     };
     
     // Convert our ChatMessage format to OpenAI format

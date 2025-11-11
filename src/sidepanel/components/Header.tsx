@@ -1,5 +1,6 @@
 import HistoryIcon from 'src/images/history-icon-extension.svg?react';
 import PlusIcon from 'src/images/plus.svg?react';
+import LanguageDropdown from './LanguageDropdown';
 import styles from './Header.module.css';
 
 interface HeaderProps {
@@ -13,6 +14,7 @@ export default function Header({
   onHistory,
   onSummarize,
 }: HeaderProps) {
+
   // ----------------- Render -----------------
   return (
     <div className={styles.headerStyles}>
@@ -22,6 +24,8 @@ export default function Header({
         </h1>
         
         <div className={styles.actions}>
+          <LanguageDropdown />
+          
           <button
             className={styles.iconButton}
             title="Summarize Page"

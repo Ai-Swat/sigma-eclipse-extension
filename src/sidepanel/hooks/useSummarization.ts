@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { MessageType } from '../../types';
+import { useLanguage } from '../contexts/languageContext';
 
 interface UseSummarizationProps {
   createNewChat: () => string;
@@ -14,6 +15,7 @@ export const useSummarization = ({
   createNewChat,
   handleSendMessage,
 }: UseSummarizationProps) => {
+  const { getSummarizationPrompt } = useLanguage();
   
   const handleSummarize = useCallback(async () => {
     try {
@@ -108,7 +110,7 @@ export const useSummarization = ({
       console.log('✅ Новый чат создан с ID:', newChatId);
 
       // Send summarization prompt to the new chat with metadata
-      const prompt = `Please provide a comprehensive summary of the following text, highlighting the key points, main ideas, and important details: ${textToSummarize}`;
+      const prompt = `${getSummarizationPrompt()} ${textToSummarize}`;
       await handleSendMessage(prompt, newChatId, {
         isSummarization: true,
         summarizationPreview: preview
@@ -118,7 +120,7 @@ export const useSummarization = ({
       console.error('❌ Ошибка при суммаризации:', error);
       alert('Произошла ошибка при суммаризации. Проверьте консоль для деталей.');
     }
-  }, [createNewChat, handleSendMessage]);
+  }, [createNewChat, handleSendMessage, getSummarizationPrompt]);
 
   // Listen for summarization requests from context menu
   useEffect(() => {

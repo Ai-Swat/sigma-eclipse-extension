@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChatContextProvider, useChatContext } from '../contexts/chatContext';
+import { LanguageProvider } from './contexts/languageContext';
 import Header from './components/Header';
 import ChatContainer from './components/ChatContainer';
 import MessageInputWrapper from './components/MessageInputWrapper';
@@ -90,9 +91,11 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ChatContextProvider>
-      <AppContent />
-    </ChatContextProvider>
+    <LanguageProvider>
+      <ChatContextProvider>
+        <AppContent />
+      </ChatContextProvider>
+    </LanguageProvider>
   );
 };
 
