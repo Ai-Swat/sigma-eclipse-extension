@@ -15,6 +15,9 @@ interface UseMessageHandlingProps {
 interface MessageMetadata {
   isSummarization?: boolean;
   summarizationPreview?: string;
+  hasAttachedFiles?: boolean;
+  attachedFilesPreview?: string[];
+  displayContent?: string;
 }
 
 export const useMessageHandling = ({

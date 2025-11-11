@@ -147,6 +147,18 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+
+    &.textPreview {
+      color: var(--text-neutral-secondary);
+      font-size: 11px;
+      line-height: 14px;
+    }
+
+    &.error {
+      color: var(--text-colored-error);
+      font-size: 11px;
+      line-height: 14px;
+    }
   }
 }
 

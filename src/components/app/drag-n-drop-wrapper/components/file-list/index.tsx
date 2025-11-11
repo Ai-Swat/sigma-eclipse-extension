@@ -8,7 +8,7 @@ import styles from './styles.module.css'
 
 interface Props {
   files?: (UploadedFile | undefined)[]
-  onRemove?: (id: string) => void
+  onRemove?: (idOrIndex: string | number) => void
   className?: string
   isUserMessage?: boolean
 }
@@ -54,7 +54,7 @@ export const FileList = ({
     if (!isUserMessage) {
       return validFiles.map((file, index) => (
         <FileListItem
-          key={file.file_id || file.file_url || file.file_name || index}
+          key={file.id || file.file_id || file.file_url || file.file_name || index}
           file={file}
           onRemove={onRemove}
           isUserMessage={false}
@@ -80,6 +80,7 @@ export const FileList = ({
             {images.map((file, index) => (
               <FileListItem
                 key={
+                  file.id ||
                   file.file_id ||
                   file.file_url ||
                   file.file_name ||
@@ -95,7 +96,7 @@ export const FileList = ({
         {docs?.map((file, index) => (
           <FileListItem
             key={
-              file.file_id || file.file_url || file.file_name || `doc-${index}`
+              file.id || file.file_id || file.file_url || file.file_name || `doc-${index}`
             }
             file={file}
             onRemove={onRemove}

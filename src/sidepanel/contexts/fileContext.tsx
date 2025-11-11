@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, PropsWithChildren } from 'react';
+import { extractTextFromFile } from 'src/utils/file-text-extractor';
 
 export interface UploadedFile {
   name: string;
@@ -6,6 +7,9 @@ export interface UploadedFile {
   type: string;
   url?: string;
   id: string;
+  extractedText?: string;
+  isExtracting?: boolean;
+  extractionError?: string;
 }
 
 interface FileContextType {
@@ -15,7 +19,7 @@ interface FileContextType {
   setIsDragging: (isDragging: boolean) => void;
   processAndLimitFiles: (files: File[]) => void;
   handlePaste: (e: React.ClipboardEvent) => void;
-  handleRemoveFile: (index: number) => void;
+  handleRemoveFile: (idOrIndex: string | number) => void;
   clearFiles: () => void;
 }
 
@@ -38,10 +42,42 @@ export function FileContextProvider({ children }: PropsWithChildren) {
       return true;
     });
 
-    setFiles((prevFiles) => {
-      const combined = [...prevFiles, ...validFiles];
-      return combined.slice(0, MAX_FILES);
-    });
+    // Limit to 1 file - clear existing files before adding new one
+    if (validFiles.length === 0) return;
+    
+    // Take only the first file
+    const file = validFiles[0];
+    const fileId = `${file.name}-${Date.now()}-${Math.random()}`;
+
+    // Replace existing files with new one (limit to 1 file)
+    setUploadedFiles([
+      {
+        id: fileId,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        isExtracting: true,
+      },
+    ]);
+
+    // Extract text from the file
+    (async () => {
+      const result = await extractTextFromFile(file);
+      
+      // Update with extracted text
+      setUploadedFiles((prev) =>
+        prev.map((f) =>
+          f.id === fileId
+            ? {
+                ...f,
+                isExtracting: false,
+                extractedText: result.text,
+                extractionError: result.error,
+              }
+            : f
+        )
+      );
+    })();
   }, []);
 
   const handlePaste = useCallback(
@@ -65,9 +101,15 @@ export function FileContextProvider({ children }: PropsWithChildren) {
     [processAndLimitFiles]
   );
 
-  const handleRemoveFile = useCallback((index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  const handleRemoveFile = useCallback((idOrIndex: string | number) => {
+    if (typeof idOrIndex === 'string') {
+      // Remove by id (new files with extracted text)
+      setUploadedFiles((prevFiles) => prevFiles.filter((f) => f.id !== idOrIndex));
+    } else {
+      // Remove by index (legacy behavior)
+      setFiles((prevFiles) => prevFiles.filter((_, i) => i !== idOrIndex));
+      setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== idOrIndex));
+    }
   }, []);
 
   const clearFiles = useCallback(() => {

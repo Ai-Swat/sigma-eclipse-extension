@@ -31,6 +31,10 @@ export interface ChatMessage {
   // Metadata for summarization messages
   isSummarization?: boolean;
   summarizationPreview?: string; // Short preview text or URL to show on collapsed banner
+  // Metadata for file attachments
+  hasAttachedFiles?: boolean;
+  attachedFilesPreview?: string[]; // Array of file names to show in banner
+  displayContent?: string; // User's message without attached files text (for display only)
   // Flag for aborted generation
   isAborted?: boolean;
 }

@@ -57,6 +57,17 @@ function chromeExtension() {
       } catch (err) {
         console.error('Error copying icons:', err);
       }
+
+      // Copy PDF.js worker to dist/assets for Content Security Policy compliance
+      try {
+        const workerSrc = resolve(__dirname, 'node_modules/pdfjs-dist/build/pdf.worker.min.mjs');
+        const workerDest = resolve(__dirname, 'dist/pdf.worker.min.mjs');
+        
+        copyFileSync(workerSrc, workerDest);
+        console.log('✅ Copied PDF.js worker to dist/');
+      } catch (err) {
+        console.error('Error copying PDF.js worker:', err);
+      }
     }
   };
 }

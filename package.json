@@ -30,13 +30,16 @@
     "@loadable/component": "^5.16.7",
     "@radix-ui/react-tooltip": "^1.2.8",
     "clsx": "^2.1.1",
+    "mammoth": "^1.11.0",
     "openai": "^6.8.1",
+    "pdfjs-dist": "^5.4.394",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^10.1.0",
     "react-photo-view": "^1.2.7",
     "react-youtube": "^10.1.0",
     "rehype-highlight": "^7.0.2",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "xlsx": "^0.18.5"
   }
 }

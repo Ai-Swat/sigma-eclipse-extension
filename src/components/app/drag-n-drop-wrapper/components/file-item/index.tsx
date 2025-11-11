@@ -4,6 +4,7 @@ import { Loader } from 'src/components/ui/loader'
 import PhotoViewItem from 'src/components/app/photo-view-item'
 import IconClose from 'src/images/clear-icon.svg?react'
 import IconFile from 'src/images/file.svg?react'
+import { getTextPreview } from 'src/utils/file-text-extractor'
 import styles from './styles.module.css'
 
 const FileImage = ({
@@ -99,6 +100,16 @@ const FileDoc = ({
   const name = file?.file_name || file?.name || 'unknown'
   const typeFileName = name?.split('.')?.at(-1)
   const type = file?.file_extension || typeFileName || 'unknown'
+  
+  // Show text preview if available
+  const textPreview = file.extractedText 
+    ? getTextPreview(file.extractedText, 50) 
+    : file.extractionError 
+    ? 'Error extracting text' 
+    : ''
+
+  // Show loader if extracting
+  const isExtracting = file.isExtracting
 
   if (fileUrl) {
     return (
@@ -127,12 +138,24 @@ const FileDoc = ({
         [styles.isUserMessage]: isUserMessage,
       })}
     >
-      <div className={styles.fileLoader}>
-        <Loader size={24} />
-      </div>
+      {isExtracting ? (
+        <div className={styles.fileLoader}>
+          <Loader size={24} />
+        </div>
+      ) : (
+        <FileIconType type={type} />
+      )}
       <div className={styles.nameBlock}>
         <div className={styles.docName}>{name}</div>
-        <div className={styles.docType}>{typeFileName?.toUpperCase()} File</div>
+        <div className={cn(styles.docType, {
+          [styles.textPreview]: textPreview && !file.extractionError,
+          [styles.error]: file.extractionError,
+        })}>
+          {isExtracting 
+            ? 'Extracting text...' 
+            : textPreview || `${typeFileName?.toUpperCase()} File`
+          }
+        </div>
       </div>
     </div>
   )
@@ -140,24 +163,25 @@ const FileDoc = ({
 
 interface Props {
   file: UploadedFile
-  onRemove?: (id: string) => void
+  onRemove?: (idOrIndex: string | number) => void
   isUserMessage?: boolean
 }
 export const FileItem = ({ file, onRemove, isUserMessage }: Props) => {
-  const { file_extension, file_url, type, file_id } = file || {}
+  const { file_extension, file_url, type, file_id, id } = file || {}
 
   const isImage =
     (type || file_extension)?.startsWith('image') ||
     file_url?.toLowerCase()?.match(/\.(jpeg|jpg|png|gif|webp)$/)
 
-  const hasRemoveHandler = typeof onRemove === 'function' && file_id
+  const fileIdToUse = id || file_id
+  const hasRemoveHandler = typeof onRemove === 'function' && fileIdToUse
 
   return (
     <div className={styles.root}>
       {hasRemoveHandler && (
         <div
           className={cn(styles.remove, { [styles.isImage]: isImage })}
-          onClick={() => onRemove?.(file_id)}
+          onClick={() => onRemove?.(fileIdToUse!)}
         >
           <IconClose width={12} height={12} className={styles.removeIcon} />
         </div>
