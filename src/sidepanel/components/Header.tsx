@@ -19,12 +19,15 @@ export default function Header({
   return (
     <div className={styles.headerStyles}>
       <header className={styles.headerInner}>
-        <h1 className={styles.title}>
-          <span className={styles.titleText}>Sigma Private</span>
-        </h1>
-        
-        <div className={styles.actions}>
-          <LanguageDropdown />
+        <div className={styles.leftActions}>
+          <button
+            className={styles.iconButton}
+            title="New Thread"
+            onClick={onNewThread}
+            aria-label="New Thread"
+          >
+            <PlusIcon width={18} height={18} />
+          </button>
           
           <button
             className={styles.iconButton}
@@ -34,15 +37,14 @@ export default function Header({
           >
             <span className={styles.sigmaIcon}>Σ</span>
           </button>
-          
-          <button
-            className={styles.iconButton}
-            title="New Thread"
-            onClick={onNewThread}
-            aria-label="New Thread"
-          >
-            <PlusIcon width={18} height={18} />
-          </button>
+        </div>
+
+        <h1 className={styles.title}>
+          <span className={styles.titleText}>Sigma Private</span>
+        </h1>
+        
+        <div className={styles.rightActions}>
+          <LanguageDropdown />
           
           <button
             className={styles.iconButton}
