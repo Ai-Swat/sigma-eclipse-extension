@@ -19,14 +19,55 @@ const AppContent: React.FC = () => {
   } = useChatContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   
   // Use ref to always have the latest activeChat value
   const activeChatRef = useRef(activeChat);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const currentMessageIdRef = useRef<string | null>(null);
+  const currentChatIdRef = useRef<string | null>(null);
+  
   useEffect(() => {
     activeChatRef.current = activeChat;
   }, [activeChat]);
 
-  const handleSendMessage = async (content: string, targetChatId?: string) => {
+  const handleStopGeneration = useCallback(() => {
+    console.log('🛑 Остановка генерации...');
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    
+    // Mark current message as aborted
+    if (currentChatIdRef.current && currentMessageIdRef.current) {
+      const currentChat = chats.find(c => c.id === currentChatIdRef.current);
+      const currentMessage = currentChat?.messages.find(m => m.id === currentMessageIdRef.current);
+      
+      if (currentMessage) {
+        const abortedContent = currentMessage.content 
+          ? `${currentMessage.content}\n\n_[Generation aborted]_` 
+          : '_[Generation aborted]_';
+        
+        updateMessageInChat(
+          currentChatIdRef.current,
+          currentMessageIdRef.current,
+          abortedContent,
+          true // isAborted
+        );
+      }
+    }
+    
+    setIsGenerating(false);
+    setIsLoading(false);
+    currentMessageIdRef.current = null;
+    currentChatIdRef.current = null;
+  }, [chats, updateMessageInChat]);
+
+  const handleSendMessage = async (
+    content: string, 
+    targetChatId?: string,
+    metadata?: { isSummarization?: boolean; summarizationPreview?: string }
+  ) => {
     if (!content.trim()) return;
     
     // Determine which chat to use
@@ -55,7 +96,8 @@ const AppContent: React.FC = () => {
       id: Date.now().toString(),
       role: 'user',
       content,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      ...(metadata || {})
     };
 
     addMessageToChat(chatId, userMessage);
@@ -71,6 +113,13 @@ const AppContent: React.FC = () => {
 
     addMessageToChat(chatId, assistantMessage);
     setIsLoading(true); // Disable input during generation
+    setIsGenerating(true); // Show stop button
+    
+    // Create abort controller
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+    currentMessageIdRef.current = assistantMessageId;
+    currentChatIdRef.current = chatId;
 
     try {
       // Send to LlamaCpp with streaming
@@ -84,20 +133,32 @@ const AppContent: React.FC = () => {
           // Accumulate content and update message
           accumulatedContent += chunk;
           updateMessageInChat(chatId, assistantMessageId, accumulatedContent);
-        }
+        },
+        abortSignal: abortController.signal,
       });
 
       console.log('✅ Ответ получен');
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Ошибка при отправке сообщения:', error);
-      updateMessageInChat(
-        chatId,
-        assistantMessageId, 
-        'Error: Failed to connect to LlamaCpp. Make sure it is running on port 10345.'
-      );
+      
+      // Check if error is due to abort
+      if (error?.name === 'AbortError' || abortController.signal.aborted) {
+        console.log('⚠️ Генерация была прервана пользователем');
+        // Message already marked as aborted in handleStopGeneration
+      } else {
+        updateMessageInChat(
+          chatId,
+          assistantMessageId, 
+          'Error: Failed to connect to LlamaCpp. Make sure it is running on port 10345.'
+        );
+      }
     } finally {
       setIsLoading(false);
+      setIsGenerating(false);
+      abortControllerRef.current = null;
+      currentMessageIdRef.current = null;
+      currentChatIdRef.current = null;
     }
   };
 
@@ -188,14 +249,27 @@ const AppContent: React.FC = () => {
 
       console.log('📝 Текст для суммаризации получен:', textToSummarize.substring(0, 100) + '...');
 
+      // Create preview for the banner
+      let preview = '';
+      if (response.selectedText) {
+        // Show first 50 chars of selected text
+        preview = response.selectedText.substring(0, 50).trim() + (response.selectedText.length > 50 ? '...' : '');
+      } else {
+        // Show URL if no text selected
+        preview = tab.url || 'Page content';
+      }
+
       // Create new chat and get its ID
       console.log('🆕 Создаю новый чат для суммаризации...');
       const newChatId = createNewChat();
       console.log('✅ Новый чат создан с ID:', newChatId);
 
-      // Send summarization prompt to the new chat
+      // Send summarization prompt to the new chat with metadata
       const prompt = `Сделай краткую выжимку основных мыслей из текста: ${textToSummarize}`;
-      await handleSendMessage(prompt, newChatId);
+      await handleSendMessage(prompt, newChatId, {
+        isSummarization: true,
+        summarizationPreview: preview
+      });
 
     } catch (error) {
       console.error('❌ Ошибка при суммаризации:', error);
@@ -238,6 +312,8 @@ const AppContent: React.FC = () => {
         <MessageInputWrapper 
           onSendMessage={handleSendMessage}
           disabled={isLoading}
+          isGenerating={isGenerating}
+          onStopGeneration={handleStopGeneration}
         />
       </div>
 

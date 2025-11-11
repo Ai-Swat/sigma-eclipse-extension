@@ -119,6 +119,11 @@
   border-bottom-left-radius: 4px;
 }
 
+.chat-message.aborted .chat-message-content {
+  opacity: 0.8;
+  border-color: var(--stroke-neutral-alfa-secondary);
+}
+
 /* Message Input Styles */
 .message-input-container {
   display: flex;
@@ -247,5 +252,33 @@
     rgba(118, 112, 241, 0.08) -3.41%,
     rgba(255, 84, 127, 0) 98.98%
   );
+}
+
+/* Summarization Banner Styles */
+.summarization-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--background-neutral-tertiary);
+  border: 1px solid var(--stroke-neutral-alfa-secondary);
+  border-radius: 8px;
+  color: var(--text-neutral-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.summarization-banner-icon {
+  flex-shrink: 0;
+  color: var(--text-neutral-tertiary);
+}
+
+.summarization-banner-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
 }
 

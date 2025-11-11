@@ -16,6 +16,8 @@ export const SendButton = memo(
     created_at,
     isWaitingUserClarification,
     isExtension,
+    isGenerating,
+    onStopGeneration,
   }: {
     onClick?: () => void
     isActive?: boolean
@@ -27,6 +29,8 @@ export const SendButton = memo(
     created_at?: string
     isWaitingUserClarification?: boolean
     isExtension?: boolean
+    isGenerating?: boolean
+    onStopGeneration?: () => void
   }) => {
     // Simplified stubs for extension
     const isStartSearch = false
@@ -95,19 +99,41 @@ export const SendButton = memo(
       isActive,
     ])
 
-    const showStopButton = !isStopButtonClicked && isContinuedFollowup
+    // Use isGenerating for extension, fallback to old logic for main app
+    const shouldShowStopButton = isGenerating !== undefined 
+      ? isGenerating 
+      : (!isStopButtonClicked && isContinuedFollowup);
+
+    const handleButtonClick = useCallback(
+      (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        if (shouldShowStopButton) {
+          // Stop generation
+          if (isGenerating && onStopGeneration) {
+            onStopGeneration();
+          } else if (!disabled && followup_id) {
+            // Old logic for main app
+            handleStopClick(event);
+          }
+        } else {
+          // Send message
+          handleClick(event);
+        }
+      },
+      [shouldShowStopButton, isGenerating, onStopGeneration, disabled, followup_id, handleClick, handleStopClick]
+    );
 
     return (
       <div
         className={clsx({
-          [css.wrapper]: !showStopButton,
-          [css.stopButton]: showStopButton,
-          [css.notActive]: !isActive,
+          [css.wrapper]: !shouldShowStopButton,
+          [css.stopButton]: shouldShowStopButton,
+          [css.notActive]: !isActive && !shouldShowStopButton,
           [css.isExtension]: isExtension,
         })}
-        onClick={showStopButton ? handleStopClick : handleClick}
+        onClick={handleButtonClick}
       >
-        {!showStopButton && <ArrowIcon className={css.icon} />}
+        {!shouldShowStopButton && <ArrowIcon className={css.icon} />}
       </div>
     )
   },
@@ -125,6 +151,8 @@ export const SendButton = memo(
       'isEnd',
       'isLimitExceeded',
       'isWaitingUserClarification',
+      'isGenerating',
+      'onStopGeneration',
     ]
 
     keys.forEach((key) => {

@@ -28,6 +28,11 @@ export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: number;
+  // Metadata for summarization messages
+  isSummarization?: boolean;
+  summarizationPreview?: string; // Short preview text or URL to show on collapsed banner
+  // Flag for aborted generation
+  isAborted?: boolean;
 }
 
 // Chat - dialog entity

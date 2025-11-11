@@ -6,11 +6,15 @@ import styles from './MessageInputWrapper.module.css';
 interface MessageInputWrapperProps {
   onSendMessage: (message: string) => void;
   disabled: boolean;
+  isGenerating?: boolean;
+  onStopGeneration?: () => void;
 }
 
 const MessageInputWrapper: React.FC<MessageInputWrapperProps> = ({ 
   onSendMessage, 
-  disabled 
+  disabled,
+  isGenerating = false,
+  onStopGeneration
 }) => {
   const [message, setMessage] = useState('');
 
@@ -43,6 +47,8 @@ const MessageInputWrapper: React.FC<MessageInputWrapperProps> = ({
             isActiveSendButton={isActiveSendButton}
             isDisabled={disabled}
             isMainPage={false}
+            isGenerating={isGenerating}
+            onStopGeneration={onStopGeneration}
           />
       </FileContextProvider>
     </div>

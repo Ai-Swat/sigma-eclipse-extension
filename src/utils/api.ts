@@ -19,6 +19,7 @@ export async function sendChatMessage(
     temperature?: number;
     max_tokens?: number;
     onChunk?: (chunk: string) => void;
+    abortSignal?: AbortSignal;
   }
 ): Promise<string> {
   try {
@@ -45,6 +46,8 @@ export async function sendChatMessage(
         temperature: options.temperature ?? 0.7,
         max_tokens: options.max_tokens ?? 2048,
         stream: true,
+      }, {
+        signal: options.abortSignal,
       });
 
       let fullContent = '';

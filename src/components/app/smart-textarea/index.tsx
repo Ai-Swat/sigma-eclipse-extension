@@ -43,6 +43,8 @@ type SmartTextareaProps = Omit<
   setIsMobileTitleHidden?: (status: boolean) => void
   isWaitingUserClarification?: boolean
   isAgentReplyRequested?: boolean
+  isGenerating?: boolean
+  onStopGeneration?: () => void
 }
 
 const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
@@ -63,6 +65,8 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
       setIsMobileTitleHidden,
       isWaitingUserClarification,
       isAgentReplyRequested,
+      isGenerating,
+      onStopGeneration,
       className,
       ...otherProps
     },
@@ -190,6 +194,8 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
                   isLimitExceeded={isLimitExceeded}
                   created_at={created_at}
                   isWaitingUserClarification={isWaitingUserClarification}
+                  isGenerating={isGenerating}
+                  onStopGeneration={onStopGeneration}
                 />
             </div>
           </div>

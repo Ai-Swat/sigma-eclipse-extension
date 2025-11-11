@@ -10,8 +10,8 @@ interface ChatContextType {
   deleteChat: (chatId: string) => void;
   addMessageToActiveChat: (message: ChatMessage) => void;
   addMessageToChat: (chatId: string, message: ChatMessage) => void; // Add message to specific chat
-  updateMessageInActiveChat: (messageId: string, content: string) => void;
-  updateMessageInChat: (chatId: string, messageId: string, content: string) => void; // Update message in specific chat
+  updateMessageInActiveChat: (messageId: string, content: string, isAborted?: boolean) => void;
+  updateMessageInChat: (chatId: string, messageId: string, content: string, isAborted?: boolean) => void; // Update message in specific chat
   updateChatTitle: (chatId: string, title: string) => void;
 }
 
@@ -131,14 +131,14 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     addMessageToChat(activeChatId, message);
   }, [activeChatId, addMessageToChat]);
 
-  const updateMessageInChat = useCallback((chatId: string, messageId: string, content: string) => {
+  const updateMessageInChat = useCallback((chatId: string, messageId: string, content: string, isAborted?: boolean) => {
     setChats((prev) => {
       return prev.map((chat) => {
         if (chat.id === chatId) {
           return {
             ...chat,
             messages: chat.messages.map((msg) => 
-              msg.id === messageId ? { ...msg, content } : msg
+              msg.id === messageId ? { ...msg, content, ...(isAborted !== undefined && { isAborted }) } : msg
             ),
             updatedAt: Date.now(),
           };
@@ -148,9 +148,9 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
-  const updateMessageInActiveChat = useCallback((messageId: string, content: string) => {
+  const updateMessageInActiveChat = useCallback((messageId: string, content: string, isAborted?: boolean) => {
     if (!activeChatId) return;
-    updateMessageInChat(activeChatId, messageId, content);
+    updateMessageInChat(activeChatId, messageId, content, isAborted);
   }, [activeChatId, updateMessageInChat]);
 
   const updateChatTitle = useCallback((chatId: string, title: string) => {
