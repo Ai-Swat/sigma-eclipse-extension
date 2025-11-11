@@ -109,3 +109,69 @@ export async function checkLlamaCppConnection(): Promise<boolean> {
   }
 }
 
+/**
+ * Translate text to target language using LlamaCpp
+ */
+export async function translateText(
+  text: string,
+  targetLanguage: string,
+  options?: {
+    onChunk?: (chunk: string) => void;
+    abortSignal?: AbortSignal;
+  }
+): Promise<string> {
+  try {
+    const systemPrompt = `You are a professional translator. Translate the following text to ${targetLanguage}. Provide ONLY the translation without any additional comments, explanations, or formatting. Keep the same tone and style as the original.`;
+    
+    const messages = [{
+      role: 'user' as const,
+      content: text
+    }];
+
+    // Handle streaming
+    if (options?.onChunk) {
+      const stream = await client.chat.completions.create({
+        model: 'local-model',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          ...messages
+        ],
+        temperature: 0.3, // Lower temperature for more consistent translations
+        max_tokens: 2048,
+        stream: true,
+      }, {
+        signal: options.abortSignal,
+      });
+
+      let fullContent = '';
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content || '';
+        if (content) {
+          fullContent += content;
+          options.onChunk(content);
+        }
+      }
+
+      return fullContent;
+    }
+
+    // Handle non-streaming
+    const response = await client.chat.completions.create({
+      model: 'local-model',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        ...messages
+      ],
+      temperature: 0.3,
+      max_tokens: 2048,
+      stream: false,
+    });
+
+    return response.choices[0]?.message?.content || '';
+  } catch (error) {
+    console.error('Error translating text:', error);
+    throw new Error('Failed to translate text. Make sure LlamaCpp is running.');
+  }
+}
+
