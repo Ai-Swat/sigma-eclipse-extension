@@ -35,6 +35,9 @@ export interface ChatMessage {
   hasAttachedFiles?: boolean;
   attachedFilesPreview?: string[]; // Array of file names to show in banner
   displayContent?: string; // User's message without attached files text (for display only)
+  // Metadata for page context
+  hasPageContext?: boolean;
+  pageContextPreview?: { title: string; url: string }; // Page title and URL to show in banner
   // Flag for aborted generation
   isAborted?: boolean;
 }

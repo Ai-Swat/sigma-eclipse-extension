@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import SmartTextarea from 'src/components/app/smart-textarea';
 import { FileContextProvider, useFileContext } from 'src/contexts/fileContext';
+import { PageContextProvider, usePageContext } from '../contexts/pageContext';
+import PageContextIndicator from './PageContextIndicator';
 import styles from './MessageInputWrapper.module.css';
 
 interface MessageMetadata {
   hasAttachedFiles?: boolean;
   attachedFilesPreview?: string[];
   displayContent?: string;
+  hasPageContext?: boolean;
+  pageContextPreview?: { title: string; url: string };
 }
 
 interface MessageInputWrapperProps {
@@ -20,7 +24,7 @@ interface MessageInputWrapperProps {
   onStopGeneration?: () => void;
 }
 
-// Inner component with access to FileContext
+// Inner component with access to FileContext and PageContext
 const MessageInputInner: React.FC<MessageInputWrapperProps> = ({ 
   onSendMessage, 
   disabled,
@@ -29,9 +33,15 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
 }) => {
   const [message, setMessage] = useState('');
   const { uploadedFiles, clearFiles } = useFileContext();
+  const { pageContext, isAttached, detachContext } = usePageContext();
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
+      let fullContent = message;
+      const metadata: MessageMetadata = {
+        displayContent: message,
+      };
+
       // Check if there are files with extracted text
       const processedFiles = uploadedFiles.filter(
         file => file.extractedText && !file.isExtracting
@@ -47,23 +57,32 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
           })
           .join('\n');
 
-        // Create message with files metadata
-        // Content includes both user message and file texts (for AI to process)
-        const fullContent = `${message}${filesText}`;
+        fullContent += filesText;
         
         // File names for display banner (without showing full content)
         const fileNames = processedFiles.map(file => file.name);
         
-        // Send with metadata about attached files
-        onSendMessage(fullContent, undefined, {
-          hasAttachedFiles: true,
-          attachedFilesPreview: fileNames,
-          displayContent: message, // Store user's message separately for display
-        });
-      } else {
-        // No files, send message as is
-        onSendMessage(message);
+        metadata.hasAttachedFiles = true;
+        metadata.attachedFilesPreview = fileNames;
       }
+
+      // Check if page context is attached
+      if (isAttached && pageContext) {
+        const pageContextText = `\n\n---\nPage Context:\nTitle: ${pageContext.title}\nURL: ${pageContext.url}\nContent: ${pageContext.content}\n---`;
+        fullContent += pageContextText;
+        
+        metadata.hasPageContext = true;
+        metadata.pageContextPreview = {
+          title: pageContext.title,
+          url: pageContext.url,
+        };
+
+        // Detach context after sending
+        detachContext();
+      }
+      
+      // Send with metadata
+      onSendMessage(fullContent, undefined, metadata);
       
       setMessage('');
       clearFiles(); // Clear files after sending
@@ -81,27 +100,32 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
   const isActiveSendButton = message.trim().length > 0 && !disabled;
 
   return (
-    <SmartTextarea
-      value={message}
-      onChange={handleChange}
-      onClear={handleClear}
-      onEnter={handleSend}
-      placeholder="Type your message..."
-      isActiveSendButton={isActiveSendButton}
-      isDisabled={disabled}
-      isMainPage={false}
-      isGenerating={isGenerating}
-      onStopGeneration={onStopGeneration}
-    />
+    <>
+      <PageContextIndicator />
+      <SmartTextarea
+        value={message}
+        onChange={handleChange}
+        onClear={handleClear}
+        onEnter={handleSend}
+        placeholder="Type your message..."
+        isActiveSendButton={isActiveSendButton}
+        isDisabled={disabled}
+        isMainPage={false}
+        isGenerating={isGenerating}
+        onStopGeneration={onStopGeneration}
+      />
+    </>
   );
 };
 
 const MessageInputWrapper: React.FC<MessageInputWrapperProps> = (props) => {
   return (
     <div className={styles.wrapper}>
-      <FileContextProvider>
-        <MessageInputInner {...props} />
-      </FileContextProvider>
+      <PageContextProvider>
+        <FileContextProvider>
+          <MessageInputInner {...props} />
+        </FileContextProvider>
+      </PageContextProvider>
     </div>
   );
 };

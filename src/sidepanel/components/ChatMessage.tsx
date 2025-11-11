@@ -84,6 +84,35 @@ const FileAttachmentBanner: React.FC<{ files: string[] }> = ({ files }) => {
   );
 };
 
+const PageContextBanner: React.FC<{ pageContext: { title: string; url: string } }> = ({ pageContext }) => {
+  const hostname = new URL(pageContext.url).hostname;
+  
+  return (
+    <div className="summarization-banner page-context-banner">
+      <svg 
+        className="summarization-banner-icon" 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="16" 
+        height="16" 
+        viewBox="0 0 16 16" 
+        fill="none"
+      >
+        <path 
+          d="M8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1Z" 
+          stroke="currentColor" 
+          strokeWidth="1.2"
+        />
+        <path 
+          d="M1.5 8H14.5M8 1C9.5 3 10 5.5 10 8C10 10.5 9.5 13 8 15M8 1C6.5 3 6 5.5 6 8C6 10.5 6.5 13 8 15" 
+          stroke="currentColor" 
+          strokeWidth="1.2"
+        />
+      </svg>
+      <span className="summarization-banner-text">🌐 {pageContext.title} ({hostname})</span>
+    </div>
+  );
+};
+
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   // Show loader in empty assistant message (streaming starting)
   const isStreamingEmpty = message.role === 'assistant' && message.content === '';
@@ -94,6 +123,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   // Check if this is a file attachment message that should show file banner
   const shouldShowFileBanner = message.hasAttachedFiles && message.role === 'user' && message.attachedFilesPreview && message.attachedFilesPreview.length > 0;
 
+  // Check if this is a page context message that should show page context banner
+  const shouldShowPageContextBanner = message.hasPageContext && message.role === 'user' && message.pageContextPreview;
+
   // Add aborted class if message was aborted
   const messageClasses = `chat-message ${message.role}${message.isAborted ? ' aborted' : ''}`;
 
@@ -102,11 +134,16 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       <div className="chat-message-content">
         {shouldShowSummarizationBanner ? (
           <SummarizationBanner preview={message.summarizationPreview || ''} />
-        ) : shouldShowFileBanner ? (
+        ) : (
           <>
-            <FileAttachmentBanner files={message.attachedFilesPreview || []} />
-            {message.displayContent && (
-              <div style={{ marginTop: '8px' }}>
+            {shouldShowFileBanner && (
+              <FileAttachmentBanner files={message.attachedFilesPreview || []} />
+            )}
+            {shouldShowPageContextBanner && (
+              <PageContextBanner pageContext={message.pageContextPreview!} />
+            )}
+            {(shouldShowFileBanner || shouldShowPageContextBanner) && message.displayContent ? (
+              <div style={{ marginTop: shouldShowFileBanner || shouldShowPageContextBanner ? '8px' : '0' }}>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeHighlight]}
@@ -114,19 +151,19 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
                   {message.displayContent}
                 </ReactMarkdown>
               </div>
-            )}
+            ) : isStreamingEmpty ? (
+              <div className="loading-indicator">
+                <Loader size={24} color="primary" />
+              </div>
+            ) : !shouldShowFileBanner && !shouldShowPageContextBanner ? (
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+              >
+                {message.content}
+              </ReactMarkdown>
+            ) : null}
           </>
-        ) : isStreamingEmpty ? (
-          <div className="loading-indicator">
-            <Loader size={24} color="primary" />
-          </div>
-        ) : (
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight]}
-          >
-            {message.content}
-          </ReactMarkdown>
         )}
       </div>
     </div>

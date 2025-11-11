@@ -1,0 +1,148 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--color-bg-secondary, #f5f5f5);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  gap: 12px;
+  border: 1px solid var(--color-border, #e0e0e0);
+  transition: all 0.2s ease;
+}
+
+.pageInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+.favicon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faviconImg {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.faviconPlaceholder {
+  font-size: 14px;
+}
+
+.pageDetails {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pageTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary, #222);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pageUrl {
+  font-size: 11px;
+  color: var(--color-text-secondary, #666);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attachButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--color-bg-primary, #fff);
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-primary, #333);
+}
+
+.attachButton:hover:not(:disabled) {
+  background: var(--color-bg-hover, #f0f0f0);
+  border-color: var(--color-border-hover, #bbb);
+}
+
+.attachButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.attachButton.attached {
+  background: var(--color-primary, #007aff);
+  border-color: var(--color-primary, #007aff);
+  color: white;
+}
+
+.attachButton.attached:hover:not(:disabled) {
+  background: var(--color-primary-hover, #0051d5);
+  border-color: var(--color-primary-hover, #0051d5);
+}
+
+.attachIcon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.attachText {
+  line-height: 1;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: var(--color-bg-secondary-dark, #2a2a2a);
+    border-color: var(--color-border-dark, #444);
+  }
+
+  .pageTitle {
+    color: var(--color-text-primary-dark, #fff);
+  }
+
+  .pageUrl {
+    color: var(--color-text-secondary-dark, #aaa);
+  }
+
+  .attachButton {
+    background: var(--color-bg-primary-dark, #1e1e1e);
+    border-color: var(--color-border-dark, #555);
+    color: var(--color-text-primary-dark, #fff);
+  }
+
+  .attachButton:hover:not(:disabled) {
+    background: var(--color-bg-hover-dark, #333);
+    border-color: var(--color-border-hover-dark, #666);
+  }
+
+  .attachButton.attached {
+    background: var(--color-primary, #0a84ff);
+    border-color: var(--color-primary, #0a84ff);
+  }
+
+  .attachButton.attached:hover:not(:disabled) {
+    background: var(--color-primary-hover, #409cff);
+    border-color: var(--color-primary-hover, #409cff);
+  }
+}
+
