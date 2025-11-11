@@ -1,0 +1,59 @@
+.dropdown {
+  position: fixed;
+  min-width: 160px;
+  background: var(--background-neutral-secondary);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  z-index: 10000;
+  animation: slideUp 0.2s ease-out;
+  opacity: 1;
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--stroke-neutral-alfa-tertiary);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fileTypeList {
+  padding: 4px;
+}
+
+.fileTypeItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  text-align: left;
+}
+
+.fileTypeItem:hover {
+  background: var(--background-neutral-tertiary);
+}
+
+.fileTypeName {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-neutral-primary);
+  letter-spacing: -0.2px;
+}
+
+.fileTypeItem:hover .fileTypeName {
+  font-weight: 600;
+  color: var(--icon-neutral-primary);
+}
+
