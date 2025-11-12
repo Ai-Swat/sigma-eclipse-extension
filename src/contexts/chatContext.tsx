@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useCallback, PropsWithChildren, useEffect } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  PropsWithChildren,
+  useEffect,
+} from 'react';
 import { Chat, ChatMessage } from '../types';
 import { generateChatTitle } from '../utils/api';
 
@@ -11,7 +18,12 @@ interface ChatContextType {
   addMessageToActiveChat: (message: ChatMessage) => void;
   addMessageToChat: (chatId: string, message: ChatMessage) => void; // Add message to specific chat
   updateMessageInActiveChat: (messageId: string, content: string, isAborted?: boolean) => void;
-  updateMessageInChat: (chatId: string, messageId: string, content: string, isAborted?: boolean) => void; // Update message in specific chat
+  updateMessageInChat: (
+    chatId: string,
+    messageId: string,
+    content: string,
+    isAborted?: boolean
+  ) => void; // Update message in specific chat
   updateChatTitle: (chatId: string, title: string) => void;
 }
 
@@ -23,43 +35,43 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
 
   // Load chats from storage on mount
   useEffect(() => {
+    const loadChatsFromStorage = async () => {
+      try {
+        const data = await chrome.storage.local.get('chats');
+        if (data.chats && Array.isArray(data.chats)) {
+          setChats(data.chats);
+          // Set first chat as active if exists
+          if (data.chats.length > 0) {
+            setActiveChatId(data.chats[0].id);
+          }
+        } else {
+          // Create initial chat
+          const initialChat = createChat();
+          setChats([initialChat]);
+          setActiveChatId(initialChat.id);
+        }
+      } catch (error) {
+        console.error('Error loading chats:', error);
+        // Create initial chat on error
+        const initialChat = createChat();
+        setChats([initialChat]);
+        setActiveChatId(initialChat.id);
+      }
+    };
+
     loadChatsFromStorage();
   }, []);
+
+  const saveChatsToStorage = useCallback(() => {
+    chrome.storage.local.set({ chats });
+  }, [chats]);
 
   // Save chats to storage when they change
   useEffect(() => {
     if (chats.length > 0) {
       saveChatsToStorage();
     }
-  }, [chats]);
-
-  const loadChatsFromStorage = async () => {
-    try {
-      const data = await chrome.storage.local.get('chats');
-      if (data.chats && Array.isArray(data.chats)) {
-        setChats(data.chats);
-        // Set first chat as active if exists
-        if (data.chats.length > 0) {
-          setActiveChatId(data.chats[0].id);
-        }
-      } else {
-        // Create initial chat
-        const initialChat = createChat();
-        setChats([initialChat]);
-        setActiveChatId(initialChat.id);
-      }
-    } catch (error) {
-      console.error('Error loading chats:', error);
-      // Create initial chat on error
-      const initialChat = createChat();
-      setChats([initialChat]);
-      setActiveChatId(initialChat.id);
-    }
-  };
-
-  const saveChatsToStorage = useCallback(() => {
-    chrome.storage.local.set({ chats });
-  }, [chats]);
+  }, [chats, saveChatsToStorage]);
 
   const createChat = (): Chat => {
     return {
@@ -73,7 +85,7 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
 
   const createNewChat = useCallback(() => {
     const newChat = createChat();
-    setChats((prev) => [newChat, ...prev]);
+    setChats(prev => [newChat, ...prev]);
     setActiveChatId(newChat.id);
     return newChat.id; // Return the new chat ID
   }, []);
@@ -82,38 +94,41 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     setActiveChatId(chatId);
   }, []);
 
-  const deleteChat = useCallback((chatId: string) => {
-    setChats((prev) => {
-      const updated = prev.filter((chat) => chat.id !== chatId);
-      
-      // If deleting active chat, select another one
-      if (activeChatId === chatId) {
-        if (updated.length > 0) {
-          setActiveChatId(updated[0].id);
-        } else {
-          // Create new chat if no chats left
-          const newChat = createChat();
-          setActiveChatId(newChat.id);
-          return [newChat];
+  const deleteChat = useCallback(
+    (chatId: string) => {
+      setChats(prev => {
+        const updated = prev.filter(chat => chat.id !== chatId);
+
+        // If deleting active chat, select another one
+        if (activeChatId === chatId) {
+          if (updated.length > 0) {
+            setActiveChatId(updated[0].id);
+          } else {
+            // Create new chat if no chats left
+            const newChat = createChat();
+            setActiveChatId(newChat.id);
+            return [newChat];
+          }
         }
-      }
-      
-      return updated;
-    });
-  }, [activeChatId]);
+
+        return updated;
+      });
+    },
+    [activeChatId]
+  );
 
   const addMessageToChat = useCallback((chatId: string, message: ChatMessage) => {
-    setChats((prev) => {
-      return prev.map((chat) => {
+    setChats(prev => {
+      return prev.map(chat => {
         if (chat.id === chatId) {
           const updatedMessages = [...chat.messages, message];
-          
+
           // Auto-generate title from first user message
           let title = chat.title;
           if (title === 'New Chat' && message.role === 'user' && updatedMessages.length === 1) {
             title = generateChatTitle(message.content);
           }
-          
+
           return {
             ...chat,
             messages: updatedMessages,
@@ -126,36 +141,47 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
-  const addMessageToActiveChat = useCallback((message: ChatMessage) => {
-    if (!activeChatId) return;
-    addMessageToChat(activeChatId, message);
-  }, [activeChatId, addMessageToChat]);
+  const addMessageToActiveChat = useCallback(
+    (message: ChatMessage) => {
+      if (!activeChatId) return;
+      addMessageToChat(activeChatId, message);
+    },
+    [activeChatId, addMessageToChat]
+  );
 
-  const updateMessageInChat = useCallback((chatId: string, messageId: string, content: string, isAborted?: boolean) => {
-    setChats((prev) => {
-      return prev.map((chat) => {
-        if (chat.id === chatId) {
-          return {
-            ...chat,
-            messages: chat.messages.map((msg) => 
-              msg.id === messageId ? { ...msg, content, ...(isAborted !== undefined && { isAborted }) } : msg
-            ),
-            updatedAt: Date.now(),
-          };
-        }
-        return chat;
+  const updateMessageInChat = useCallback(
+    (chatId: string, messageId: string, content: string, isAborted?: boolean) => {
+      setChats(prev => {
+        return prev.map(chat => {
+          if (chat.id === chatId) {
+            return {
+              ...chat,
+              messages: chat.messages.map(msg =>
+                msg.id === messageId
+                  ? { ...msg, content, ...(isAborted !== undefined && { isAborted }) }
+                  : msg
+              ),
+              updatedAt: Date.now(),
+            };
+          }
+          return chat;
+        });
       });
-    });
-  }, []);
+    },
+    []
+  );
 
-  const updateMessageInActiveChat = useCallback((messageId: string, content: string, isAborted?: boolean) => {
-    if (!activeChatId) return;
-    updateMessageInChat(activeChatId, messageId, content, isAborted);
-  }, [activeChatId, updateMessageInChat]);
+  const updateMessageInActiveChat = useCallback(
+    (messageId: string, content: string, isAborted?: boolean) => {
+      if (!activeChatId) return;
+      updateMessageInChat(activeChatId, messageId, content, isAborted);
+    },
+    [activeChatId, updateMessageInChat]
+  );
 
   const updateChatTitle = useCallback((chatId: string, title: string) => {
-    setChats((prev) => {
-      return prev.map((chat) => {
+    setChats(prev => {
+      return prev.map(chat => {
         if (chat.id === chatId) {
           return {
             ...chat,
@@ -168,7 +194,7 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
-  const activeChat = chats.find((chat) => chat.id === activeChatId) || null;
+  const activeChat = chats.find(chat => chat.id === activeChatId) || null;
 
   const value: ChatContextType = {
     chats,
@@ -183,11 +209,7 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     updateChatTitle,
   };
 
-  return (
-    <ChatContext.Provider value={value}>
-      {children}
-    </ChatContext.Provider>
-  );
+  return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }
 
 export function useChatContext() {
@@ -197,4 +219,3 @@ export function useChatContext() {
   }
   return context;
 }
-

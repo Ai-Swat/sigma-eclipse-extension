@@ -205,8 +205,8 @@
 }
 
 .deleteButton:hover {
-  background: var(--background-error-subdued);
-  color: var(--icon-error);
+  background: var(--background-error-primary-subdued);
+  color: var(--icon-colored-error);
   transform: scale(1.05);
 }
 

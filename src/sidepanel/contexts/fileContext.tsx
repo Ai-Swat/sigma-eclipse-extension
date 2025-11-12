@@ -25,7 +25,7 @@ interface FileContextType {
 
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
-const MAX_FILES = 10;
+// const MAX_FILES = 10;
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 export function FileContextProvider({ children }: PropsWithChildren) {
@@ -34,7 +34,7 @@ export function FileContextProvider({ children }: PropsWithChildren) {
   const [isDragging, setIsDragging] = useState(false);
 
   const processAndLimitFiles = useCallback((newFiles: File[]) => {
-    const validFiles = newFiles.filter((file) => {
+    const validFiles = newFiles.filter(file => {
       if (file.size > MAX_FILE_SIZE) {
         console.warn(`File ${file.name} exceeds size limit`);
         return false;
@@ -44,7 +44,7 @@ export function FileContextProvider({ children }: PropsWithChildren) {
 
     // Limit to 1 file - clear existing files before adding new one
     if (validFiles.length === 0) return;
-    
+
     // Take only the first file
     const file = validFiles[0];
     const fileId = `${file.name}-${Date.now()}-${Math.random()}`;
@@ -63,10 +63,10 @@ export function FileContextProvider({ children }: PropsWithChildren) {
     // Extract text from the file
     (async () => {
       const result = await extractTextFromFile(file);
-      
+
       // Update with extracted text
-      setUploadedFiles((prev) =>
-        prev.map((f) =>
+      setUploadedFiles(prev =>
+        prev.map(f =>
           f.id === fileId
             ? {
                 ...f,
@@ -104,11 +104,11 @@ export function FileContextProvider({ children }: PropsWithChildren) {
   const handleRemoveFile = useCallback((idOrIndex: string | number) => {
     if (typeof idOrIndex === 'string') {
       // Remove by id (new files with extracted text)
-      setUploadedFiles((prevFiles) => prevFiles.filter((f) => f.id !== idOrIndex));
+      setUploadedFiles(prevFiles => prevFiles.filter(f => f.id !== idOrIndex));
     } else {
       // Remove by index (legacy behavior)
-      setFiles((prevFiles) => prevFiles.filter((_, i) => i !== idOrIndex));
-      setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== idOrIndex));
+      setFiles(prevFiles => prevFiles.filter((_, i) => i !== idOrIndex));
+      setUploadedFiles(prevFiles => prevFiles.filter((_, i) => i !== idOrIndex));
     }
   }, []);
 
@@ -142,5 +142,3 @@ export function useFileContext() {
   }
   return context;
 }
-
-

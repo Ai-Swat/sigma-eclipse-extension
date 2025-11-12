@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useCallback, useEffect, PropsWithChildren } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+  PropsWithChildren,
+} from 'react';
 import { MessageType, PageContext as PageContextType } from '../../types';
 
 interface PageContextState {
@@ -50,11 +57,11 @@ export function PageContextProvider({ children }: PropsWithChildren) {
       // Skip chrome:// and chrome-extension:// pages
       if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) {
         console.warn('[PageContext] Cannot get context from chrome:// pages');
-        setState(prev => ({ 
-          ...prev, 
+        setState(prev => ({
+          ...prev,
           pageContext: null,
           favicon: null,
-          isLoading: false 
+          isLoading: false,
         }));
         return;
       }
@@ -64,24 +71,24 @@ export function PageContextProvider({ children }: PropsWithChildren) {
       try {
         // Try to get page context from content script
         response = await chrome.tabs.sendMessage(tab.id, {
-          type: MessageType.GET_PAGE_CONTEXT
+          type: MessageType.GET_PAGE_CONTEXT,
         });
       } catch (error: any) {
         console.warn('[PageContext] Content script not responding, trying to inject...');
-        
+
         // Try to inject content script
         try {
           await chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            files: ['content.js']
+            files: ['content.js'],
           });
-          
+
           // Wait for initialization
           await new Promise(resolve => setTimeout(resolve, 300));
-          
+
           // Try again
           response = await chrome.tabs.sendMessage(tab.id, {
-            type: MessageType.GET_PAGE_CONTEXT
+            type: MessageType.GET_PAGE_CONTEXT,
           });
         } catch (injectError) {
           console.error('[PageContext] Failed to inject content script:', injectError);
@@ -90,11 +97,11 @@ export function PageContextProvider({ children }: PropsWithChildren) {
 
       if (response) {
         const favicon = tab.favIconUrl || getFaviconUrl(response.url);
-        setState(prev => ({ 
-          ...prev, 
+        setState(prev => ({
+          ...prev,
           pageContext: response,
           favicon,
-          isLoading: false 
+          isLoading: false,
         }));
       } else {
         setState(prev => ({ ...prev, isLoading: false }));
@@ -117,7 +124,7 @@ export function PageContextProvider({ children }: PropsWithChildren) {
     };
 
     // Listen for tab updates (page navigation, title change, etc.)
-    const handleTabUpdated = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
+    const handleTabUpdated = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
       // Only fetch if the updated tab is the active one and status is complete
       if (changeInfo.status === 'complete') {
         chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
@@ -171,4 +178,3 @@ export function usePageContext() {
   }
   return context;
 }
-

@@ -31,10 +31,10 @@
   border-radius: 100px;
   position: absolute;
   z-index: 1;
+}
 
-  &.green {
-    background: var(--background-success-primary-subdued);
-  }
+.bg.green {
+   background: var(--background-success-primary-subdued);
 }
 
 .bgStroke {

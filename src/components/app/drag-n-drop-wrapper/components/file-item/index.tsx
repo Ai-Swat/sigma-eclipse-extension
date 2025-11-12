@@ -1,56 +1,10 @@
-import cn from 'clsx'
-import { UploadedFile } from 'src/contexts/fileContext'
-import { Loader } from 'src/components/ui/loader'
-import PhotoViewItem from 'src/components/app/photo-view-item'
-import IconClose from 'src/images/clear-icon.svg?react'
-import IconFile from 'src/images/file.svg?react'
-import { getTextPreview } from 'src/utils/file-text-extractor'
-import styles from './styles.module.css'
-
-const FileImage = ({
-  fileUrl,
-  isUserMessage,
-}: {
-  fileUrl?: string
-  isUserMessage?: boolean
-}) => {
-  if (isUserMessage)
-    return (
-      <div className={styles.imageWrapperUserMessage}>
-        <PhotoViewItem
-          key={fileUrl}
-          item={{
-            resourceType: 'image',
-            original: fileUrl,
-            thumbnail: fileUrl,
-          }}
-          className={styles.imageUser}
-        />
-      </div>
-    )
-
-  return (
-    <>
-      {!fileUrl && (
-        <div className={styles.loader}>
-          <Loader size={24} />
-        </div>
-      )}
-
-      {fileUrl && (
-        <PhotoViewItem
-          key={fileUrl}
-          item={{
-            resourceType: 'image',
-            original: fileUrl,
-            thumbnail: fileUrl,
-          }}
-          className={styles.image}
-        />
-      )}
-    </>
-  )
-}
+import cn from 'clsx';
+import { UploadedFile } from 'src/contexts/fileContext';
+import { Loader } from 'src/components/ui/loader';
+import IconClose from 'src/images/clear-icon.svg?react';
+import IconFile from 'src/images/file.svg?react';
+import { getTextPreview } from 'src/utils/file-text-extractor';
+import styles from './styles.module.css';
 
 const FileIconType = ({ type }: { type: string }) => {
   return (
@@ -85,38 +39,38 @@ const FileIconType = ({ type }: { type: string }) => {
     >
       <IconFile />
     </div>
-  )
-}
+  );
+};
 
 const FileDoc = ({
   file,
   fileUrl,
   isUserMessage,
 }: {
-  file: UploadedFile
-  fileUrl?: string
-  isUserMessage?: boolean
+  file: UploadedFile;
+  fileUrl?: string;
+  isUserMessage?: boolean;
 }) => {
-  const name = file?.file_name || file?.name || 'unknown'
-  const typeFileName = name?.split('.')?.at(-1)
-  const type = file?.file_extension || typeFileName || 'unknown'
-  
+  const name = file?.file_name || file?.name || 'unknown';
+  const typeFileName = name?.split('.')?.at(-1);
+  const type = file?.file_extension || typeFileName || 'unknown';
+
   // Show text preview if available
-  const textPreview = file.extractedText 
-    ? getTextPreview(file.extractedText, 50) 
-    : file.extractionError 
-    ? 'Error extracting text' 
-    : ''
+  const textPreview = file.extractedText
+    ? getTextPreview(file.extractedText, 50)
+    : file.extractionError
+      ? 'Error extracting text'
+      : '';
 
   // Show loader if extracting
-  const isExtracting = file.isExtracting
+  const isExtracting = file.isExtracting;
 
   if (fileUrl) {
     return (
       <a
         href={fileUrl}
-        target='_blank'
-        rel='noreferrer'
+        target="_blank"
+        rel="noreferrer"
         className={cn(styles.fileDoc, {
           [styles.isUserMessage]: isUserMessage,
         })}
@@ -124,12 +78,10 @@ const FileDoc = ({
         <FileIconType type={type} />
         <div className={styles.nameBlock}>
           <div className={styles.docName}>{name}</div>
-          <div className={styles.docType}>
-            {typeFileName?.toUpperCase()} File
-          </div>
+          <div className={styles.docType}>{typeFileName?.toUpperCase()} File</div>
         </div>
       </a>
-    )
+    );
   }
 
   return (
@@ -147,34 +99,35 @@ const FileDoc = ({
       )}
       <div className={styles.nameBlock}>
         <div className={styles.docName}>{name}</div>
-        <div className={cn(styles.docType, {
-          [styles.textPreview]: textPreview && !file.extractionError,
-          [styles.error]: file.extractionError,
-        })}>
-          {isExtracting 
-            ? 'Extracting text...' 
-            : textPreview || `${typeFileName?.toUpperCase()} File`
-          }
+        <div
+          className={cn(styles.docType, {
+            [styles.textPreview]: textPreview && !file.extractionError,
+            [styles.error]: file.extractionError,
+          })}
+        >
+          {isExtracting
+            ? 'Extracting text...'
+            : textPreview || `${typeFileName?.toUpperCase()} File`}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface Props {
-  file: UploadedFile
-  onRemove?: (idOrIndex: string | number) => void
-  isUserMessage?: boolean
+  file: UploadedFile;
+  onRemove?: (idOrIndex: string | number) => void;
+  isUserMessage?: boolean;
 }
 export const FileItem = ({ file, onRemove, isUserMessage }: Props) => {
-  const { file_extension, file_url, type, file_id, id } = file || {}
+  const { file_extension, file_url, type, file_id, id } = file || {};
 
   const isImage =
     (type || file_extension)?.startsWith('image') ||
-    file_url?.toLowerCase()?.match(/\.(jpeg|jpg|png|gif|webp)$/)
+    file_url?.toLowerCase()?.match(/\.(jpeg|jpg|png|gif|webp)$/);
 
-  const fileIdToUse = id || file_id
-  const hasRemoveHandler = typeof onRemove === 'function' && fileIdToUse
+  const fileIdToUse = id || file_id;
+  const hasRemoveHandler = typeof onRemove === 'function' && fileIdToUse;
 
   return (
     <div className={styles.root}>
@@ -187,16 +140,10 @@ export const FileItem = ({ file, onRemove, isUserMessage }: Props) => {
         </div>
       )}
 
-      {isImage && (
-        <FileImage isUserMessage={isUserMessage} fileUrl={file?.file_url} />
-      )}
-      {!isImage && (
-        <FileDoc
-          isUserMessage={isUserMessage}
-          file={file}
-          fileUrl={file?.file_url}
-        />
-      )}
+      {/*{isImage && (*/}
+      {/*  <FileImage isUserMessage={isUserMessage} fileUrl={file?.file_url} />*/}
+      {/*)}*/}
+      {!isImage && <FileDoc isUserMessage={isUserMessage} file={file} fileUrl={file?.file_url} />}
     </div>
-  )
-}
+  );
+};

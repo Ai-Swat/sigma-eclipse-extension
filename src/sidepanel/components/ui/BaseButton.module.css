@@ -1,0 +1,16 @@
+.button {
+  border: none;
+  outline: none;
+}
+
+.primary {
+  background: var(--background-brand-primary);
+}
+
+.default {
+  height: 44px;
+}
+
+.icon {
+  width: 20px;
+}

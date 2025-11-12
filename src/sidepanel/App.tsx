@@ -7,27 +7,23 @@ import MessageInputWrapper from './components/MessageInputWrapper';
 import ChatHistory from './components/ChatHistory';
 import { useMessageHandling } from './hooks/useMessageHandling';
 import { useSummarization } from './hooks/useSummarization';
+import { AppToaster } from '@/sidepanel/components/new-components/app/app-toaster';
 
 const AppContent: React.FC = () => {
-  const { 
+  const {
     chats,
-    activeChat, 
+    activeChat,
     createNewChat,
     selectChat,
     deleteChat,
     addMessageToChat,
-    updateMessageInChat
+    updateMessageInChat,
   } = useChatContext();
-  
+
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  
+
   // Message handling hook
-  const {
-    isLoading,
-    isGenerating,
-    handleSendMessage,
-    handleStopGeneration,
-  } = useMessageHandling({
+  const { isLoading, isGenerating, handleSendMessage, handleStopGeneration } = useMessageHandling({
     activeChat,
     chats,
     addMessageToChat,
@@ -61,13 +57,10 @@ const AppContent: React.FC = () => {
           onHistory={handleHistory}
           onSummarize={handleSummarize}
         />
-        
-        <ChatContainer 
-          messages={activeChat?.messages || []} 
-          isLoading={isLoading} 
-        />
-        
-        <MessageInputWrapper 
+
+        <ChatContainer messages={activeChat?.messages || []} isLoading={isLoading} />
+
+        <MessageInputWrapper
           onSendMessage={handleSendMessage}
           disabled={isLoading}
           isGenerating={isGenerating}
@@ -85,6 +78,8 @@ const AppContent: React.FC = () => {
           onClose={() => setIsHistoryOpen(false)}
         />
       )}
+
+      <AppToaster />
     </>
   );
 };
@@ -100,4 +95,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

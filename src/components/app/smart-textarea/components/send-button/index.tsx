@@ -1,15 +1,14 @@
-import React, { memo, useCallback, useEffect, useState } from 'react'
-import { clsx } from 'clsx'
+import React, { memo, useCallback, useEffect, useState } from 'react';
+import { clsx } from 'clsx';
 // Removed useSearchStore - simplified for extension
-import ArrowIcon from 'src/images/arrow-left.svg?react'
-import css from './styles.module.css'
+import ArrowIcon from 'src/images/arrow-left.svg?react';
+import css from './styles.module.css';
 
 export const SendButton = memo(
   ({
     onClick,
     isActive,
     followup_id,
-    thread_id,
     disabled,
     isEnd,
     isLimitExceeded,
@@ -19,53 +18,42 @@ export const SendButton = memo(
     isGenerating,
     onStopGeneration,
   }: {
-    onClick?: () => void
-    isActive?: boolean
-    followup_id?: string
-    thread_id?: string
-    disabled?: boolean
-    isEnd?: boolean
-    isLimitExceeded?: boolean
-    created_at?: string
-    isWaitingUserClarification?: boolean
-    isExtension?: boolean
-    isGenerating?: boolean
-    onStopGeneration?: () => void
+    onClick?: () => void;
+    isActive?: boolean;
+    followup_id?: string;
+    thread_id?: string;
+    disabled?: boolean;
+    isEnd?: boolean;
+    isLimitExceeded?: boolean;
+    created_at?: string;
+    isWaitingUserClarification?: boolean;
+    isExtension?: boolean;
+    isGenerating?: boolean;
+    onStopGeneration?: () => void;
   }) => {
     // Simplified stubs for extension
-    const isStartSearch = false
-    const cancelFollowup = () => {}
+    const isStartSearch = false;
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation()
-        if (!isActive || disabled) return
-        onClick?.()
-        setIsStopButtonClicked(false) // кнопка STOP отображается. ✅
+        event.stopPropagation();
+        if (!isActive || disabled) return;
+        onClick?.();
+        setIsStopButtonClicked(false); // кнопка STOP отображается. ✅
       },
       [isActive, disabled, onClick]
-    )
+    );
 
-    const handleStopClick = useCallback(
-      (event: React.MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation()
-        if (disabled || !followup_id) return
-        cancelFollowup(followup_id, thread_id)
-        setIsStopButtonClicked(true) // кнопка STOP больше не показывается. ✅
-      },
-      [disabled, followup_id, cancelFollowup]
-    )
-
-    const [isStopButtonClicked, setIsStopButtonClicked] = useState(false)
-    const [isContinuedFollowup, setIsContinuedFollowup] = useState(false)
+    const [isStopButtonClicked, setIsStopButtonClicked] = useState(false);
+    const [isContinuedFollowup, setIsContinuedFollowup] = useState(false);
 
     // Если сменился followup_id или created_at,
     // кнопка STOP снова может появиться. ✅
     useEffect(() => {
       requestAnimationFrame(() => {
-        setIsStopButtonClicked(false)
-      })
-    }, [followup_id, created_at])
+        setIsStopButtonClicked(false);
+      });
+    }, [followup_id, created_at]);
 
     // Разбор условий:
     // STOP не отображается, если isEnd = true. ✅
@@ -73,36 +61,24 @@ export const SendButton = memo(
     // STOP не отображается, если isWaitingUserClarification = true и введен запрос пользователя. ✅
     // В остальных случаях → isShow = true → кнопка STOP отображается. ✅
     useEffect(() => {
-      if (!followup_id) return
+      if (!followup_id) return;
 
-      let isShow = !isEnd
+      let isShow = !isEnd;
 
       if (!isStartSearch && isLimitExceeded) {
-        isShow = false
+        isShow = false;
       }
 
-      if (
-        isWaitingUserClarification !== undefined &&
-        isWaitingUserClarification &&
-        isActive
-      ) {
-        isShow = false
+      if (isWaitingUserClarification !== undefined && isWaitingUserClarification && isActive) {
+        isShow = false;
       }
 
-      setIsContinuedFollowup(isShow)
-    }, [
-      isEnd,
-      followup_id,
-      isLimitExceeded,
-      isWaitingUserClarification,
-      isStartSearch,
-      isActive,
-    ])
+      setIsContinuedFollowup(isShow);
+    }, [isEnd, followup_id, isLimitExceeded, isWaitingUserClarification, isStartSearch, isActive]);
 
     // Use isGenerating for extension, fallback to old logic for main app
-    const shouldShowStopButton = isGenerating !== undefined 
-      ? isGenerating 
-      : (!isStopButtonClicked && isContinuedFollowup);
+    const shouldShowStopButton =
+      isGenerating !== undefined ? isGenerating : !isStopButtonClicked && isContinuedFollowup;
 
     const handleButtonClick = useCallback(
       (event: React.MouseEvent<HTMLDivElement>) => {
@@ -111,16 +87,13 @@ export const SendButton = memo(
           // Stop generation
           if (isGenerating && onStopGeneration) {
             onStopGeneration();
-          } else if (!disabled && followup_id) {
-            // Old logic for main app
-            handleStopClick(event);
           }
         } else {
           // Send message
           handleClick(event);
         }
       },
-      [shouldShowStopButton, isGenerating, onStopGeneration, disabled, followup_id, handleClick, handleStopClick]
+      [shouldShowStopButton, isGenerating, onStopGeneration, handleClick]
     );
 
     return (
@@ -135,10 +108,10 @@ export const SendButton = memo(
       >
         {!shouldShowStopButton && <ArrowIcon className={css.icon} />}
       </div>
-    )
+    );
   },
   (prevProps, nextProps) => {
-    let shouldRerender = false
+    let shouldRerender = false;
 
     // Список ключевых пропсов для сравнения
     const keys: (keyof typeof prevProps)[] = [
@@ -153,16 +126,18 @@ export const SendButton = memo(
       'isWaitingUserClarification',
       'isGenerating',
       'onStopGeneration',
-    ]
+    ];
 
-    keys.forEach((key) => {
+    keys.forEach(key => {
       if (prevProps[key] !== nextProps[key]) {
-        shouldRerender = true
+        shouldRerender = true;
       }
-    })
+    });
 
     // true — пропсы равны, ререндер не нужен
     // false — пропсы изменились, ререндер нужен
-    return !shouldRerender
+    return !shouldRerender;
   }
-)
+);
+
+SendButton.displayName = 'SendButton';

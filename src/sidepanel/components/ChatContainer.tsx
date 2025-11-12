@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { ChatMessage as ChatMessageType } from '../../types';
 import ChatMessage from './ChatMessage';
-import LoadingIndicator from './LoadingIndicator';
 import styles from './ChatContainer.module.css';
 
 interface ChatContainerProps {
@@ -28,9 +27,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
     return (
       <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
         <div className={styles.emptyState}>
-          <h1 className={styles.emptyStateTitle}>
-            What do you want to know today?
-          </h1>
+          <h1 className={styles.emptyStateTitle}>What do you want to know today?</h1>
         </div>
       </div>
     );
@@ -39,7 +36,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
   return (
     <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
       <div className="chat-messages-list">
-        {messages.map((message) => (
+        {messages.map(message => (
           <ChatMessage key={message.id} message={message} />
         ))}
         {/* Don't show loader during streaming - empty assistant message is already visible */}
@@ -50,4 +47,3 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
 };
 
 export default ChatContainer;
-

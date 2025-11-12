@@ -73,19 +73,19 @@
   transition: 
     background 0.3s ease,
     border-color 0.3s ease;
+}
 
-  & svg {
-    fill: var(--icon-neutral-primary);
-    stroke: var(--icon-neutral-primary);
-  }
+.iconButton svg {
+  fill: var(--icon-neutral-primary);
+  stroke: var(--icon-neutral-primary);
+}
 
-  &:hover {
-    background: var(--circle-button-hover);
-  }
+.iconButton:hover {
+  background: var(--circle-button-hover);
+}
 
-  &:active {
-    background: var(--background-neutral-tertiary);
-  }
+.iconButton:active {
+  background: var(--background-neutral-tertiary);
 }
 
 .sigmaIcon {

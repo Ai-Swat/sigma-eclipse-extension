@@ -1,4 +1,4 @@
-import React, { createContext, useContext, PropsWithChildren } from 'react';
+import { createContext, useContext, PropsWithChildren } from 'react';
 
 interface DictateContextType {
   isRecording: boolean;
@@ -16,11 +16,7 @@ export function DictateContextProvider({ children }: PropsWithChildren) {
     clearTranscribedText: () => {},
   };
 
-  return (
-    <DictateContext.Provider value={value}>
-      {children}
-    </DictateContext.Provider>
-  );
+  return <DictateContext.Provider value={value}>{children}</DictateContext.Provider>;
 }
 
 export function useDictateContext() {
@@ -30,6 +26,3 @@ export function useDictateContext() {
   }
   return context;
 }
-
-
-

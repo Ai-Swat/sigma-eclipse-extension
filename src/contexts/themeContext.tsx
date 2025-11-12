@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, PropsWithChildren } from 'react';
+import { createContext, useContext, useState, useEffect, PropsWithChildren } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -40,7 +40,7 @@ export function ThemeContextProvider({ children }: PropsWithChildren) {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
 
   return (
@@ -57,6 +57,3 @@ export function useThemeContext() {
   }
   return context;
 }
-
-
-
