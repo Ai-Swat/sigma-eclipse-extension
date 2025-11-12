@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { ChatMessage as ChatMessageType } from '../../types';
 import { Loader } from 'src/components/ui/loader';
+import { FileIconType } from '@/components/app/files/components/file-item';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -41,33 +42,18 @@ const SummarizationBanner: React.FC<{ preview: string }> = ({ preview }) => {
 
 const FileAttachmentBanner: React.FC<{ files: string[] }> = ({ files }) => {
   const fileText = files.length === 1 ? files[0] : `${files.length} files (${files.join(', ')})`;
+  const lastDot = fileText.lastIndexOf('.');
+  const type = lastDot !== -1 ? fileText.substring(lastDot + 1) : '';
 
   return (
-    <div className="summarization-banner file-attachment-banner">
-      <svg
-        className="summarization-banner-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-      >
-        <path
-          d="M9 1H4C3.44772 1 3 1.44772 3 2V14C3 14.5523 3.44772 15 4 15H12C12.5523 15 13 14.5523 13 14V5L9 1Z"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinejoin="round"
-        />
-        <path d="M9 1V5H13" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-        <path
-          d="M6 8.5L7.5 10L10.5 7"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <span className="summarization-banner-text">📎 {fileText}</span>
+    <div className="file-attachment-banner">
+      <FileIconType type={type} />
+      <div className="file-attachment-banner-text-container">
+        <div className="summarization-banner-text file-attachment-banner-text">{fileText}</div>
+        { type &&
+          <div className="file-attachment-banner-text-type">{type}</div>
+        }
+      </div>
     </div>
   );
 };
@@ -128,41 +114,37 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const messageClasses = `chat-message ${message.role}${message.isAborted ? ' aborted' : ''}`;
 
   return (
-    <div className={messageClasses}>
-      <div className="chat-message-content">
-        {shouldShowSummarizationBanner ? (
-          <SummarizationBanner preview={message.summarizationPreview || ''} />
-        ) : (
-          <>
-            {shouldShowFileBanner && (
-              <FileAttachmentBanner files={message.attachedFilesPreview || []} />
-            )}
-            {shouldShowPageContextBanner && (
-              <PageContextBanner pageContext={message.pageContextPreview!} />
-            )}
-            {(shouldShowFileBanner || shouldShowPageContextBanner) && message.displayContent ? (
-              <div
-                style={{
-                  marginTop: shouldShowFileBanner || shouldShowPageContextBanner ? '8px' : '0',
-                }}
-              >
-                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-                  {message.displayContent}
-                </ReactMarkdown>
-              </div>
-            ) : isStreamingEmpty ? (
-              <div className="loading-indicator">
-                <Loader size={24} color="primary" />
-              </div>
-            ) : !shouldShowFileBanner && !shouldShowPageContextBanner ? (
-              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-                {message.content}
-              </ReactMarkdown>
-            ) : null}
-          </>
-        )}
+    <>
+      {shouldShowFileBanner &&
+        <div className="file-attachment-banner-container">
+          <FileAttachmentBanner files={message.attachedFilesPreview || []} />
+        </div>
+      }
+      <div className={messageClasses}>
+        <div className="chat-message-content">
+          {shouldShowSummarizationBanner && (
+            <SummarizationBanner preview={message.summarizationPreview || ''} />
+          )}
+          {shouldShowPageContextBanner && (
+            <PageContextBanner pageContext={message.pageContextPreview!} />
+          )}
+          {(shouldShowFileBanner || shouldShowPageContextBanner) && message.displayContent && (
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+              {message.displayContent}
+            </ReactMarkdown>
+          )}
+          {isStreamingEmpty ? (
+            <div className="loading-indicator">
+              <Loader size={24} color="primary" />
+            </div>
+          ) : !shouldShowFileBanner && !shouldShowPageContextBanner ? (
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+              {message.content}
+            </ReactMarkdown>
+          ) : null}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

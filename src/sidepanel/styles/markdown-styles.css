@@ -59,6 +59,10 @@
   margin-bottom: 16px;
 }
 
+.chat-message-content p:last-child {
+  margin-bottom: 0;
+}
+
 /* Lists */
 .chat-message-content ul,
 .chat-message-content ol {
