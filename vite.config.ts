@@ -9,11 +9,11 @@ import { join } from 'path';
 function copyDir(src: string, dest: string): void {
   mkdirSync(dest, { recursive: true });
   const entries = readdirSync(src, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     const srcPath = join(src, entry.name);
     const destPath = join(dest, entry.name);
-    
+
     if (entry.isDirectory()) {
       copyDir(srcPath, destPath);
     } else {
@@ -38,11 +38,11 @@ function chromeExtension() {
       try {
         const nestedHtmlPath = resolve(__dirname, 'dist/src/sidepanel/sidepanel.html');
         const rootHtmlPath = resolve(__dirname, 'dist/sidepanel.html');
-        
+
         let htmlContent = readFileSync(nestedHtmlPath, 'utf-8');
         // Fix relative paths: ../../ -> ./
         htmlContent = htmlContent.replace(/\.\.\/..\//g, './');
-        
+
         writeFileSync(rootHtmlPath, htmlContent);
       } catch (err) {
         console.error('Error moving sidepanel.html:', err);
@@ -52,7 +52,7 @@ function chromeExtension() {
       try {
         const iconsPath = resolve(__dirname, 'public/icons');
         const distIconsPath = resolve(__dirname, 'dist/icons');
-        
+
         copyDir(iconsPath, distIconsPath);
       } catch (err) {
         console.error('Error copying icons:', err);
@@ -62,13 +62,13 @@ function chromeExtension() {
       try {
         const workerSrc = resolve(__dirname, 'node_modules/pdfjs-dist/build/pdf.worker.min.mjs');
         const workerDest = resolve(__dirname, 'dist/pdf.worker.min.mjs');
-        
+
         copyFileSync(workerSrc, workerDest);
         console.log('✅ Copied PDF.js worker to dist/');
       } catch (err) {
         console.error('Error copying PDF.js worker:', err);
       }
-    }
+    },
   };
 }
 
@@ -76,6 +76,16 @@ export default defineConfig({
   plugins: [react(), svgr(), chromeExtension()],
   base: './',
   build: {
+    cssCodeSplit: false,
+    minify: 'terser',
+    cssMinify: true,
+    terserOptions: {
+      compress: {
+        dead_code: false,
+        // drop_console: true,
+      },
+      sourceMap: false,
+    },
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
@@ -85,7 +95,7 @@ export default defineConfig({
         content: resolve(__dirname, 'src/content/content.ts'),
       },
       output: {
-        entryFileNames: (chunkInfo) => {
+        entryFileNames: chunkInfo => {
           // Keep background and content scripts in root
           if (chunkInfo.name === 'background' || chunkInfo.name === 'content') {
             return '[name].js';
@@ -97,7 +107,7 @@ export default defineConfig({
           return 'assets/[name]-[hash].js';
         },
         chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: (assetInfo) => {
+        assetFileNames: assetInfo => {
           // Keep CSS in root for sidepanel
           if (assetInfo.name && assetInfo.name.endsWith('.css')) {
             return '[name][extname]';
@@ -114,7 +124,6 @@ export default defineConfig({
     },
     // Target for Chrome extension
     target: 'esnext',
-    minify: 'esbuild',
     sourcemap: true,
     // Prevent code splitting for all entry points
     modulePreload: false,
@@ -122,8 +131,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
-      'src': resolve(__dirname, 'src'),
+      src: resolve(__dirname, 'src'),
     },
   },
 });
-
