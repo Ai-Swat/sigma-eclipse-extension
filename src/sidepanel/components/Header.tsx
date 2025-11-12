@@ -1,8 +1,8 @@
 import HistoryIcon from 'src/images/history-icon-extension.svg?react';
 import PlusIcon from 'src/images/plus.svg?react';
-import styles from './Header.module.css';
 import { BaseButton } from '@/sidepanel/components/ui';
 import { TooltipDefault } from '@/components/ui/tooltip';
+import styles from './Header.module.css';
 
 interface HeaderProps {
   onNewThread: () => void;
