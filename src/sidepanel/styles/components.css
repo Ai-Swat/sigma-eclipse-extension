@@ -323,7 +323,6 @@
   background: var(--background-neutral-global-secondary);
   border: 1px solid var(--stroke-neutral-alfa-tertiary);
   border-radius: 18px;
-  transition: all 0.2s ease;
   width: 286px;
   overflow: hidden;
 }
