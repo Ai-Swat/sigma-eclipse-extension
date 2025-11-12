@@ -43,6 +43,8 @@ const AppContent: React.FC = () => {
   return (
     <>
       <div className="app-container">
+        <div className="background-gradient" />
+
         <Header onNewThread={handleNewThread} onHistory={handleHistory} />
 
         <ChatContainer messages={activeChat?.messages || []} isLoading={isLoading} />

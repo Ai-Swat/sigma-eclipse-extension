@@ -48,3 +48,16 @@
 .br100 {
   border-radius: 100px;
 }
+
+.opacity-animation {
+  animation: opacityAnimation ease 0.6s;
+}
+
+@keyframes opacityAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
