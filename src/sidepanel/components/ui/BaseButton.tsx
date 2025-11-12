@@ -4,9 +4,10 @@ import styles from './BaseButton.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: 'primary';
-  size?: 'default';
+  color?: 'primary' | 'transparent';
+  size?: 'default' | 'sm';
   label?: string;
+  onClick?: () => void;
 }
 
 export default function BaseButton({
@@ -14,13 +15,21 @@ export default function BaseButton({
   color = 'primary',
   className,
   size = 'default',
+  onClick,
   label,
   ...otherProps
 }: ButtonProps) {
   const cn = clsx(styles.button, styles[color], styles[size], className);
 
   return (
-    <button className={cn} {...otherProps} role="button" aria-label={label} type="button">
+    <button
+      className={cn}
+      onClick={onClick}
+      {...otherProps}
+      role="button"
+      aria-label={label}
+      type="button"
+    >
       {children}
     </button>
   );
