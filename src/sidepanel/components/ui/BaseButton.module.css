@@ -16,20 +16,14 @@
 
 .transparent {
   background: transparent;
-  color: var(--icon-neutral-secondary);
+}
 
-  & > svg {
-    stroke: var(--icon-neutral-secondary);
-  }
+.transparent > svg {
+  stroke: var(--text-neutral-tertiary);
 }
 
 .transparent:hover {
-  background-color: var(--background-neutral-secondary);
-  color: var(--text-neutral-primary);
-
-  & > svg {
-    stroke: var(--icon-neutral-tertiary);
-  }
+  background: var(--background-neutral-secondary);
 }
 
 .default {
