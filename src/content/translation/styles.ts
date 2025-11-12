@@ -6,7 +6,7 @@
  */
 export function injectTranslationStyles(): void {
   if (document.getElementById('sigma-translation-styles')) return;
-  
+
   const style = document.createElement('style');
   style.id = 'sigma-translation-styles';
   style.textContent = `
@@ -155,7 +155,6 @@ export function injectTranslationStyles(): void {
       font-size: 14px;
     }
   `;
-  
+
   document.head.appendChild(style);
 }
-

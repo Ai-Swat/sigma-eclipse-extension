@@ -1,16 +1,9 @@
-import { PropsWithChildren, useId } from 'react'
-import cn from 'clsx'
-import {
-  Provider,
-  Root,
-  Trigger,
-  Portal,
-  Content,
-  Arrow,
-} from '@radix-ui/react-tooltip'
+import { PropsWithChildren, useId } from 'react';
+import cn from 'clsx';
+import { Provider, Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-tooltip';
 // Removed useSettingsStore - simplified for extension
 
-import styles from './styles.module.css'
+import styles from './styles.module.css';
 
 export function TooltipDefault({
   children,
@@ -19,16 +12,16 @@ export function TooltipDefault({
   delayShow = 500,
   side,
 }: PropsWithChildren & {
-  text?: string
-  isShow?: boolean
-  delayShow?: number
-  side?: 'bottom' | 'top' | 'right' | 'left'
+  text?: string;
+  isShow?: boolean;
+  delayShow?: number;
+  side?: 'bottom' | 'top' | 'right' | 'left';
 }) {
-  const id = useId()
+  const id = useId();
   // Simplified stub for extension
-  const isExtension = true
+  const isExtension = true;
 
-  if (!text) return children
+  if (!text) return children;
 
   return (
     <Provider delayDuration={delayShow}>
@@ -37,7 +30,7 @@ export function TooltipDefault({
         <Portal key={id}>
           <Content
             side={side || 'bottom'}
-            align='center'
+            align="center"
             className={cn(styles.tooltip, {
               [styles.isExtension]: isExtension,
             })}
@@ -49,5 +42,5 @@ export function TooltipDefault({
         </Portal>
       </Root>
     </Provider>
-  )
+  );
 }

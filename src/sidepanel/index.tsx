@@ -17,4 +17,3 @@ root.render(
     </ThemeContextProvider>
   </React.StrictMode>
 );
-

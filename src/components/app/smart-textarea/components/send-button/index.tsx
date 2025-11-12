@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-// Removed useSearchStore - simplified for extension
 import ArrowIcon from 'src/images/arrow-left.svg?react';
 import css from './styles.module.css';
 

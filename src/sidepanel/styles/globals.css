@@ -50,11 +50,11 @@ body {
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
 
-  &::-webkit-scrollbar {
-    display: none;
-    width: 0;
-  }
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
 }
 
 #root {
@@ -130,88 +130,32 @@ h1 {
   }
 }
 
-.show-mobile {
-  display: none;
-}
-
-@media (--vp-mobile) {
-  .hide-mobile {
-    display: none;
-  }
-
-  .show-mobile {
-    display: block;
-  }
-}
-
 .customScrollBarVertical {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
+}
 
-  @media (--only-desktop) {
+@media (min-width: 1024px) {
+  .customScrollBarVertical {
     -ms-overflow-style: auto !important;
     scrollbar-width: auto !important;
   }
-
-  &::-webkit-scrollbar {
-    display: initial !important;
-    width: 8px !important;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--stroke-neutral-alfa-tertiary);
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
 }
 
-.customScrollBarHorizontal {
-  overflow-x: auto;
-  -ms-overflow-style: auto !important;
-  scrollbar-width: auto !important;
-  scrollbar-gutter: stable;
-
-  @media (--vp-mobile) {
-    padding-bottom: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: var(--background-neutral-global-tertiary);
-  }
-
-  &::-webkit-scrollbar {
-    background-color: var(--background-neutral-global-tertiary);
-    height: 4px !important;
-    display: initial !important;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background: var(--stroke-neutral-alfa-tertiary);
-    cursor: pointer;
-  }
+.customScrollBarVertical::-webkit-scrollbar {
+  display: initial !important;
+  width: 8px !important;
 }
 
-.banner-photo-provider > div:nth-child(2) {
-  background: transparent;
+.customScrollBarVertical::-webkit-scrollbar-thumb {
+  background-color: var(--stroke-neutral-alfa-tertiary);
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.banner-photo-provider > div:nth-child(2) > div:nth-child(1) {
-  opacity: 0;
-}
-
-.photo-wrap-style {
-  transition: all 0.4s ease-out;
-}
-
-.photo-wrap-style > div:nth-child(1) > img {
-  transform: scale(0.9);
+.customScrollBarVertical::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 /* react-hot-toast styles */
@@ -220,9 +164,13 @@ h1 {
 }
 
 .go2072408551 {
-  @media (--vp-mobile) {
-    width: 100%;
-  }
+  width: 100% !important;
+  max-width: 400px !important;
+  max-height: unset !important;
+}
+
+.go3958317564 {
+  justify-content: flex-start !important;
 }
 
 .go2344853693 {
@@ -230,38 +178,6 @@ h1 {
 }
 
 .toaster-container {
-  top: 28px;
-  right: 16px;
+  top: 16px;
   z-index: 999999 !important;
-
-  @media (--vp-mobile) {
-    top: 16px;
-  }
-}
-
-.PhotoView-Portal {
-  z-index: 20000 !important;
-}
-
-.overlay-blocker {
-  position: fixed;
-  width: 100vw;
-  height: calc(100vh + 100px);
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  display: block;
-  background: transparent;
-  inset: 0;
-  pointer-events: unset;
-  cursor: default;
-
-  @media (--vp-mobile) {
-    display: none;
-  }
-}
-
-.mark-color-fuzzy-search {
-  background: var(--background-neutral-disabled) !important;
-  color: currentColor !important;
 }

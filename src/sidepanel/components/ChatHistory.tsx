@@ -1,5 +1,5 @@
 import React from 'react';
-import { Chat } from '../../types';
+import { Chat } from '@/types';
 import styles from './ChatHistory.module.css';
 
 interface ChatHistoryProps {
@@ -31,7 +31,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     if (diffDays < 7) return `${diffDays}d ago`;
-    
+
     return date.toLocaleDateString();
   };
 
@@ -49,7 +49,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.sidebar} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.sidebar} onClick={e => e.stopPropagation()}>
         <div className={styles.header}>
           <h2 className={styles.title}>Chat History</h2>
           <button className={styles.closeButton} onClick={onClose}>
@@ -57,17 +57,21 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
           </button>
         </div>
 
-        <button className={styles.newChatButton} onClick={() => { onNewChat(); onClose(); }}>
+        <button
+          className={styles.newChatButton}
+          onClick={() => {
+            onNewChat();
+            onClose();
+          }}
+        >
           + New Chat
         </button>
 
         <div className={styles.chatList}>
           {chats.length === 0 ? (
-            <div className={styles.emptyState}>
-              No chats yet. Start a new conversation!
-            </div>
+            <div className={styles.emptyState}>No chats yet. Start a new conversation!</div>
           ) : (
-            chats.map((chat) => (
+            chats.map(chat => (
               <div
                 key={chat.id}
                 className={`${styles.chatItem} ${chat.id === activeChatId ? styles.active : ''}`}
@@ -82,7 +86,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
                 </div>
                 <button
                   className={styles.deleteButton}
-                  onClick={(e) => handleDeleteChat(e, chat.id)}
+                  onClick={e => handleDeleteChat(e, chat.id)}
                   title="Delete chat"
                 >
                   🗑️
@@ -97,4 +101,3 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
 };
 
 export default ChatHistory;
-

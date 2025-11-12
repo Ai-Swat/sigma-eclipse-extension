@@ -14,4 +14,3 @@ const LoadingIndicator: React.FC = () => {
 };
 
 export default LoadingIndicator;
-

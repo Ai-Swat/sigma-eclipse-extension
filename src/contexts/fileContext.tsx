@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, PropsWithChildren } from 'react';
 import { extractTextFromFile } from 'src/utils/file-text-extractor';
+import { addToastError } from '@/libs/toast-messages.ts';
 
 export interface UploadedFile {
   name: string;
@@ -13,10 +14,7 @@ export interface UploadedFile {
 }
 
 interface FileContextType {
-  files: File[];
   uploadedFiles: UploadedFile[];
-  isDragging: boolean;
-  setIsDragging: (isDragging: boolean) => void;
   processAndLimitFiles: (files: File[]) => void;
   handlePaste: (e: React.ClipboardEvent) => void;
   handleRemoveFile: (idOrIndex: string | number) => void;
@@ -29,9 +27,7 @@ const FileContext = createContext<FileContextType | undefined>(undefined);
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 export function FileContextProvider({ children }: PropsWithChildren) {
-  const [files, setFiles] = useState<File[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-  const [isDragging, setIsDragging] = useState(false);
 
   const processAndLimitFiles = useCallback((newFiles: File[]) => {
     const validFiles = newFiles.filter(file => {
@@ -63,6 +59,11 @@ export function FileContextProvider({ children }: PropsWithChildren) {
     // Extract text from the file
     (async () => {
       const result = await extractTextFromFile(file);
+
+      if (result.error) {
+        addToastError(result.error);
+        return;
+      }
 
       // Update with extracted text
       setUploadedFiles(prev =>
@@ -107,23 +108,18 @@ export function FileContextProvider({ children }: PropsWithChildren) {
       setUploadedFiles(prevFiles => prevFiles.filter(f => f.id !== idOrIndex));
     } else {
       // Remove by index (legacy behavior)
-      setFiles(prevFiles => prevFiles.filter((_, i) => i !== idOrIndex));
       setUploadedFiles(prevFiles => prevFiles.filter((_, i) => i !== idOrIndex));
     }
   }, []);
 
   const clearFiles = useCallback(() => {
-    setFiles([]);
     setUploadedFiles([]);
   }, []);
 
   return (
     <FileContext.Provider
       value={{
-        files,
         uploadedFiles,
-        isDragging,
-        setIsDragging,
         processAndLimitFiles,
         handlePaste,
         handleRemoveFile,

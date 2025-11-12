@@ -1,22 +1,19 @@
 import { useCallback, useEffect } from 'react';
-import { MessageType } from '../../types';
+import { MessageType } from '@/types';
 import { useLanguage } from '../contexts/languageContext';
 
 interface UseSummarizationProps {
   createNewChat: () => string;
   handleSendMessage: (
-    content: string, 
+    content: string,
     targetChatId?: string,
     metadata?: { isSummarization?: boolean; summarizationPreview?: string }
   ) => Promise<void>;
 }
 
-export const useSummarization = ({
-  createNewChat,
-  handleSendMessage,
-}: UseSummarizationProps) => {
+export const useSummarization = ({ createNewChat, handleSendMessage }: UseSummarizationProps) => {
   const { getSummarizationPrompt } = useLanguage();
-  
+
   const handleSummarize = useCallback(async () => {
     try {
       // Get active tab
@@ -30,7 +27,9 @@ export const useSummarization = ({
       // Check if page is accessible (not chrome:// or chrome-extension://)
       if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) {
         console.error('Cannot access chrome:// pages');
-        alert('Суммаризация не работает на служебных страницах Chrome.\nОткройте обычную веб-страницу.');
+        alert(
+          'Суммаризация не работает на служебных страницах Chrome.\nОткройте обычную веб-страницу.'
+        );
         return;
       }
 
@@ -38,11 +37,11 @@ export const useSummarization = ({
 
       let response;
       let needsInjection = false;
-      
+
       try {
         // Try to get page context from content script
         response = await chrome.tabs.sendMessage(tab.id, {
-          type: MessageType.GET_PAGE_CONTEXT
+          type: MessageType.GET_PAGE_CONTEXT,
         });
         console.log('✅ Content script ответил');
       } catch (error: any) {
@@ -56,21 +55,23 @@ export const useSummarization = ({
         try {
           await chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            files: ['content.js']
+            files: ['content.js'],
           });
-          
+
           console.log('✅ Content script инжектирован, жду инициализации...');
           // Wait a bit for script to initialize
           await new Promise(resolve => setTimeout(resolve, 300));
-          
+
           // Try again
           response = await chrome.tabs.sendMessage(tab.id, {
-            type: MessageType.GET_PAGE_CONTEXT
+            type: MessageType.GET_PAGE_CONTEXT,
           });
           console.log('✅ Content script ответил после инжекции');
         } catch (injectError: any) {
           console.error('❌ Не удалось инжектировать content script:', injectError.message);
-          alert('Не удалось получить контент страницы.\n\nПопробуйте:\n1. Перезагрузить страницу (F5)\n2. Попробовать снова');
+          alert(
+            'Не удалось получить контент страницы.\n\nПопробуйте:\n1. Перезагрузить страницу (F5)\n2. Попробовать снова'
+          );
           return;
         }
       }
@@ -83,7 +84,7 @@ export const useSummarization = ({
 
       // Always use full page content for summarization
       const textToSummarize = response.content;
-      
+
       if (!textToSummarize || textToSummarize.trim().length === 0) {
         console.error('No content to summarize');
         alert('На странице нет текста для суммаризации');
@@ -104,9 +105,8 @@ export const useSummarization = ({
       const prompt = `${getSummarizationPrompt()} ${textToSummarize}`;
       await handleSendMessage(prompt, newChatId, {
         isSummarization: true,
-        summarizationPreview: preview
+        summarizationPreview: preview,
       });
-
     } catch (error) {
       console.error('❌ Ошибка при суммаризации:', error);
       alert('Произошла ошибка при суммаризации. Проверьте консоль для деталей.');
@@ -125,7 +125,7 @@ export const useSummarization = ({
 
     console.log('✅ Sidepanel зарегистрировал listener для SUMMARIZE_PAGE');
     chrome.runtime.onMessage.addListener(messageListener);
-    
+
     return () => {
       chrome.runtime.onMessage.removeListener(messageListener);
     };
@@ -135,4 +135,3 @@ export const useSummarization = ({
     handleSummarize,
   };
 };
-

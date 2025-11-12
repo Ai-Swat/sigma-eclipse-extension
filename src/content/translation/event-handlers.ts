@@ -10,18 +10,18 @@ let mouseUpTimeout: number | null = null;
  */
 function handleMouseUp(e: MouseEvent): void {
   console.log('🖱️ mouseup event detected');
-  
+
   // Clear previous timeout
   if (mouseUpTimeout) {
     clearTimeout(mouseUpTimeout);
   }
-  
+
   // Longer delay to ensure selection is complete
   mouseUpTimeout = window.setTimeout(() => {
     const selection = window.getSelection();
     const selectedText = selection?.toString().trim();
     console.log('📝 Selection after delay:', selectedText);
-    
+
     if (selectedText && selectedText.length > 0) {
       setCurrentSelectedText(selectedText);
       showTranslationBubble(e.clientX, e.clientY, selectedText);
@@ -41,7 +41,7 @@ function handleMouseDown(e: MouseEvent): void {
     console.log('👆 Clicked on translation bubble - keeping it');
     return;
   }
-  
+
   if (mouseUpTimeout) {
     clearTimeout(mouseUpTimeout);
   }
@@ -53,11 +53,10 @@ function handleMouseDown(e: MouseEvent): void {
  */
 export function initTranslationEventHandlers(): void {
   console.log('🔧 Initializing translation event handlers...');
-  
+
   document.addEventListener('mouseup', handleMouseUp);
   console.log('✅ Translation mouseup listener added');
-  
+
   document.addEventListener('mousedown', handleMouseDown);
   console.log('✅ Translation mousedown listener added');
 }
-

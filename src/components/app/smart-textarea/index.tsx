@@ -13,7 +13,7 @@ import { useFileContext } from 'src/contexts/fileContext';
 import { useTextareaLayout } from './hooks/use-textarea-layout';
 
 import { SendButton } from 'src/components/app/smart-textarea/components/send-button';
-import { FileList } from 'src/components/app/drag-n-drop-wrapper/components/file-list';
+import { FileList } from '@/components/app/files/components/file-list';
 import { FileUploadButton } from './components/file-upload-button';
 
 import css from './styles.module.css';
@@ -65,12 +65,12 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
     },
     ref
   ) => {
-    const { files, uploadedFiles, handlePaste, handleRemoveFile } = useFileContext();
+    const { uploadedFiles, handlePaste, handleRemoveFile } = useFileContext();
 
     const innerRef = useRef<HTMLTextAreaElement | null>(null);
     const wrapperInputRef = useRef<HTMLDivElement>(null);
 
-    const isFiles = files.length > 0 || uploadedFiles.length > 0;
+    const isFiles = uploadedFiles.length > 0;
 
     const { isGradientShow, handleInputHeight } = useTextareaLayout();
 
@@ -98,6 +98,8 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
       return () => observer.disconnect();
     }, []);
 
+    console.log(uploadedFiles, 'uploadedFiles');
+
     return (
       <>
         <div className={css.root} ref={wrapperInputRef}>
@@ -112,7 +114,7 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
           >
             {isFiles && (
               <div className={css.fileListWrapper}>
-                <FileList files={[...uploadedFiles, ...files]} onRemove={handleRemoveFile} />
+                <FileList files={uploadedFiles} onRemove={handleRemoveFile} />
               </div>
             )}
 

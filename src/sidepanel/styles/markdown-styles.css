@@ -117,7 +117,8 @@
   font-size: 85%;
   background-color: var(--background-neutral-secondary);
   border-radius: 4px;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 }
 
 /* Blockquotes */
@@ -173,7 +174,7 @@
 
 /* Links */
 .chat-message-content a {
-  color: var(--text-brand-primary, #0969da);
+  color: var(--text-neutral-primary);
   text-decoration: none;
 }
 
@@ -194,7 +195,7 @@
   list-style-type: none;
 }
 
-.chat-message-content .task-list-item input[type="checkbox"] {
+.chat-message-content .task-list-item input[type='checkbox'] {
   margin-right: 8px;
 }
 
@@ -211,4 +212,3 @@
 .chat-message-content del {
   text-decoration: line-through;
 }
-

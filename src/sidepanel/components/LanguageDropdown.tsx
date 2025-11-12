@@ -1,13 +1,28 @@
 import { useState, useRef, useEffect } from 'react';
 import { SupportedLanguage, LANGUAGE_NAMES } from '../locales/prompts';
 import { useLanguage } from '../contexts/languageContext';
+import { BaseButton } from '@/sidepanel/components/ui';
+import { TooltipDefault } from '@/components/ui/tooltip';
+import GlobeIcon from 'src/images/globe.svg?react';
 import styles from './LanguageDropdown.module.css';
 
 interface LanguageDropdownProps {
   onClose?: () => void;
 }
 
-const ALL_LANGUAGES: SupportedLanguage[] = ['en', 'de', 'es', 'fr', 'ja', 'pt', 'ar', 'cs', 'it', 'ko', 'nl', 'zh', 'ru'];
+const ALL_LANGUAGES: SupportedLanguage[] = [
+  'en',
+  'de',
+  'es',
+  'fr',
+  'ja',
+  'pt',
+  'ar',
+  'it',
+  'ko',
+  'nl',
+  'zh',
+];
 
 export default function LanguageDropdown({ onClose }: LanguageDropdownProps) {
   const { language, setLanguage } = useLanguage();
@@ -56,58 +71,36 @@ export default function LanguageDropdown({ onClose }: LanguageDropdownProps) {
     onClose?.();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      setIsOpen(false);
-      setSearchQuery('');
-    } else if (e.key === 'Enter' && filteredLanguages.length === 1) {
-      handleSelectLanguage(filteredLanguages[0]);
-    }
-  };
-
   return (
     <div className={styles.container} ref={dropdownRef}>
-      <button
-        className={styles.triggerButton}
-        onClick={handleToggle}
-        title={`Language: ${LANGUAGE_NAMES[language]}`}
-        aria-label="Change Language"
-      >
-        <span className={styles.languageCode}>{LANGUAGE_NAMES[language]}</span>
-      </button>
+      <TooltipDefault text="Change Language">
+        <div className="relative">
+          <BaseButton
+            aria-label="Change Language"
+            color={'transparent'}
+            size={'sm'}
+            onClick={handleToggle}
+          >
+            <GlobeIcon width={18} height={18} />
+          </BaseButton>
+        </div>
+      </TooltipDefault>
 
       {isOpen && (
         <div className={styles.dropdown}>
-          <div className={styles.searchWrapper}>
-            <input
-              ref={searchInputRef}
-              type="text"
-              className={styles.searchInput}
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-          </div>
-
           <div className={styles.languageList}>
-            {filteredLanguages.length > 0 ? (
-              filteredLanguages.map(lang => (
-                <button
-                  key={lang}
-                  className={`${styles.languageItem} ${lang === language ? styles.active : ''}`}
-                  onClick={() => handleSelectLanguage(lang)}
-                >
-                  <span className={styles.languageItemCode}>{LANGUAGE_NAMES[lang]}</span>
-                </button>
-              ))
-            ) : (
-              <div className={styles.noResults}>No languages found</div>
-            )}
+            {filteredLanguages?.map(lang => (
+              <button
+                key={lang}
+                className={`${styles.languageItem} ${lang === language ? styles.active : ''}`}
+                onClick={() => handleSelectLanguage(lang)}
+              >
+                <span className={styles.languageItemCode}>{LANGUAGE_NAMES[lang]}</span>
+              </button>
+            ))}
           </div>
         </div>
       )}
     </div>
   );
 }
-

@@ -14,22 +14,18 @@ interface MessageMetadata {
 }
 
 interface MessageInputWrapperProps {
-  onSendMessage: (
-    message: string, 
-    targetChatId?: string,
-    metadata?: MessageMetadata
-  ) => void;
+  onSendMessage: (message: string, targetChatId?: string, metadata?: MessageMetadata) => void;
   disabled: boolean;
   isGenerating?: boolean;
   onStopGeneration?: () => void;
 }
 
 // Inner component with access to FileContext and PageContext
-const MessageInputInner: React.FC<MessageInputWrapperProps> = ({ 
-  onSendMessage, 
+const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
+  onSendMessage,
   disabled,
   isGenerating = false,
-  onStopGeneration
+  onStopGeneration,
 }) => {
   const [message, setMessage] = useState('');
   const { uploadedFiles, clearFiles } = useFileContext();
@@ -43,10 +39,8 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
       };
 
       // Check if there are files with extracted text
-      const processedFiles = uploadedFiles.filter(
-        file => file.extractedText && !file.isExtracting
-      );
-      
+      const processedFiles = uploadedFiles.filter(file => file.extractedText && !file.isExtracting);
+
       if (processedFiles.length > 0) {
         // Collect extracted text from all files
         const filesText = processedFiles
@@ -58,10 +52,10 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
           .join('\n');
 
         fullContent += filesText;
-        
+
         // File names for display banner (without showing full content)
         const fileNames = processedFiles.map(file => file.name);
-        
+
         metadata.hasAttachedFiles = true;
         metadata.attachedFilesPreview = fileNames;
       }
@@ -70,7 +64,7 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
       if (isAttached && pageContext) {
         const pageContextText = `\n\n---\nPage Context:\nTitle: ${pageContext.title}\nURL: ${pageContext.url}\nContent: ${pageContext.content}\n---`;
         fullContent += pageContextText;
-        
+
         metadata.hasPageContext = true;
         metadata.pageContextPreview = {
           title: pageContext.title,
@@ -80,10 +74,10 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
         // Detach context after sending
         detachContext();
       }
-      
+
       // Send with metadata
       onSendMessage(fullContent, undefined, metadata);
-      
+
       setMessage('');
       clearFiles(); // Clear files after sending
     }
@@ -118,7 +112,7 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
   );
 };
 
-const MessageInputWrapper: React.FC<MessageInputWrapperProps> = (props) => {
+const MessageInputWrapper: React.FC<MessageInputWrapperProps> = props => {
   return (
     <div className={styles.wrapper}>
       <PageContextProvider>
@@ -131,4 +125,3 @@ const MessageInputWrapper: React.FC<MessageInputWrapperProps> = (props) => {
 };
 
 export default MessageInputWrapper;
-

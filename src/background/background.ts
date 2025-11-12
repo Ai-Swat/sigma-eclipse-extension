@@ -9,9 +9,9 @@ import { handleInstallation, handleContextMenuClick } from './handlers/menu-hand
 console.log('Sigma Private background service worker initialized');
 
 // Handle action button click - open side panel
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener(tab => {
   if (tab.id) {
-    chrome.sidePanel.open({ tabId: tab.id }).catch((error) => {
+    chrome.sidePanel.open({ tabId: tab.id }).catch(error => {
       console.error('Error opening side panel:', error);
     });
   }

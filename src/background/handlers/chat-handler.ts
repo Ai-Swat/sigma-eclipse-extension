@@ -21,7 +21,7 @@ export async function handleChatRequest(
     // TODO: Integrate with actual AI API (OpenAI, Anthropic, etc.)
     // For now, return a placeholder response
     const response: ChatResponse = {
-      message: `[AI Response Placeholder]\n\nYou said: "${request.message}"${contextInfo}\n\nNote: Please configure your AI API key in the extension settings to enable actual AI responses.`
+      message: `[AI Response Placeholder]\n\nYou said: "${request.message}"${contextInfo}\n\nNote: Please configure your AI API key in the extension settings to enable actual AI responses.`,
     };
 
     return response;
@@ -29,4 +29,3 @@ export async function handleChatRequest(
     throw new Error('Failed to process chat request: ' + (error as Error).message);
   }
 }
-

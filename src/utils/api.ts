@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import type { ChatMessage } from '../types';
+import type { ChatMessage } from '@/types';
 
 const LLAMACPP_URL = 'http://localhost:10345';
 
@@ -27,29 +27,34 @@ export async function sendChatMessage(
     // Add system prompt to enforce markdown formatting and language
     const systemPrompt = {
       role: 'system' as const,
-      content: options?.systemPrompt || 'You are a helpful AI assistant. Always format your responses using Markdown syntax. Use headings, lists, code blocks, bold, italic, and other markdown features to make your responses clear and well-structured.'
+      content:
+        options?.systemPrompt ||
+        'You are a helpful AI assistant. Always format your responses using Markdown syntax. Use headings, lists, code blocks, bold, italic, and other markdown features to make your responses clear and well-structured.',
     };
-    
+
     // Convert our ChatMessage format to OpenAI format
     const openaiMessages = [
       systemPrompt,
-      ...messages.map((msg) => ({
+      ...messages.map(msg => ({
         role: msg.role,
         content: msg.content,
-      }))
+      })),
     ];
 
     // Handle streaming
     if (options?.onChunk) {
-      const stream = await client.chat.completions.create({
-        model: 'local-model', // LlamaCpp ignores this
-        messages: openaiMessages,
-        temperature: options.temperature ?? 0.7,
-        max_tokens: options.max_tokens ?? 2048,
-        stream: true,
-      }, {
-        signal: options.abortSignal,
-      });
+      const stream = await client.chat.completions.create(
+        {
+          model: 'local-model', // LlamaCpp ignores this
+          messages: openaiMessages,
+          temperature: options.temperature ?? 0.7,
+          max_tokens: options.max_tokens ?? 2048,
+          stream: true,
+        },
+        {
+          signal: options.abortSignal,
+        }
+      );
 
       let fullContent = '';
 
@@ -80,18 +85,17 @@ export async function sendChatMessage(
   }
 }
 
-
 /**
  * Generate a title for a chat based on the first message
  */
 export function generateChatTitle(firstMessage: string): string {
   const maxLength = 50;
   const cleaned = firstMessage.trim();
-  
+
   if (cleaned.length <= maxLength) {
     return cleaned;
   }
-  
+
   return cleaned.substring(0, maxLength) + '...';
 }
 
@@ -122,26 +126,28 @@ export async function translateText(
 ): Promise<string> {
   try {
     const systemPrompt = `You are a professional translator. Translate the following text to ${targetLanguage}. Provide ONLY the translation without any additional comments, explanations, or formatting. Keep the same tone and style as the original.`;
-    
-    const messages = [{
-      role: 'user' as const,
-      content: text
-    }];
+
+    const messages = [
+      {
+        role: 'user' as const,
+        content: text,
+      },
+    ];
 
     // Handle streaming
     if (options?.onChunk) {
-      const stream = await client.chat.completions.create({
-        model: 'local-model',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          ...messages
-        ],
-        temperature: 0.3, // Lower temperature for more consistent translations
-        max_tokens: 2048,
-        stream: true,
-      }, {
-        signal: options.abortSignal,
-      });
+      const stream = await client.chat.completions.create(
+        {
+          model: 'local-model',
+          messages: [{ role: 'system', content: systemPrompt }, ...messages],
+          temperature: 0.3, // Lower temperature for more consistent translations
+          max_tokens: 2048,
+          stream: true,
+        },
+        {
+          signal: options.abortSignal,
+        }
+      );
 
       let fullContent = '';
 
@@ -159,10 +165,7 @@ export async function translateText(
     // Handle non-streaming
     const response = await client.chat.completions.create({
       model: 'local-model',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...messages
-      ],
+      messages: [{ role: 'system', content: systemPrompt }, ...messages],
       temperature: 0.3,
       max_tokens: 2048,
       stream: false,
@@ -174,4 +177,3 @@ export async function translateText(
     throw new Error('Failed to translate text. Make sure LlamaCpp is running.');
   }
 }
-

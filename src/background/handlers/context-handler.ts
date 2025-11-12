@@ -15,7 +15,7 @@ export async function getActiveTabContext(): Promise<PageContext | null> {
 
     // Send message to content script to get page content
     const response = await chrome.tabs.sendMessage(tab.id, {
-      type: MessageType.GET_PAGE_CONTEXT
+      type: MessageType.GET_PAGE_CONTEXT,
     });
 
     return response;
@@ -24,4 +24,3 @@ export async function getActiveTabContext(): Promise<PageContext | null> {
     return null;
   }
 }
-

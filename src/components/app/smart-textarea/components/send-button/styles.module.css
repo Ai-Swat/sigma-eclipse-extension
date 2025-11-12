@@ -12,32 +12,32 @@
   transition: background-color 0.2s;
   user-select: none;
   will-change: background-color;
+}
 
-  &:hover {
-    background-color: var(--background-neutral-secondary-inverse);
-  }
+.wrapper:hover {
+  background-color: var(--background-neutral-secondary-inverse);
+}
 
-  &:active {
-    background-color: var(--background-neutral-tertiary-inverse);
-  }
+.wrapper:active {
+  background-color: var(--background-neutral-tertiary-inverse);
+}
 
-  .icon {
-    stroke: var(--icon-neutral-primary-inverse);
-    transform: rotate(90deg);
-  }
+.wrapper .icon {
+  stroke: var(--icon-neutral-primary-inverse);
+  transform: rotate(90deg);
+}
 
-  &.notActive {
-    background: var(--background-neutral-tertiary) !important;
-    cursor: initial;
+.wrapper.notActive {
+  background: var(--background-neutral-tertiary) !important;
+  cursor: initial;
+}
 
-    .icon {
-      stroke: var(--icon-neutral-disabled);
-    }
-  }
+.wrapper.notActive .icon {
+  stroke: var(--icon-neutral-disabled);
+}
 
-  &.notActive.isExtension {
-    background: var(--background-neutral-secondary) !important;
-  }
+.wrapper.notActive.isExtension {
+  background: var(--background-neutral-secondary) !important;
 }
 
 .stopButton {
@@ -55,24 +55,24 @@
   transition: background-color 0.2s;
   user-select: none;
   will-change: background-color;
+}
 
-  &:hover {
-    background-color: var(--background-neutral-secondary-inverse);
-  }
+.stopButton:hover {
+  background-color: var(--background-neutral-secondary-inverse);
+}
 
-  &:active {
-    background-color: var(--background-neutral-tertiary-inverse);
-  }
+.stopButton:active {
+  background-color: var(--background-neutral-tertiary-inverse);
+}
 
-  &::after {
-    z-index: 1;
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-    aspect-ratio: 1/1;
-    border-radius: 4px;
-    background: var(--icon-neutral-primary-inverse);
-  }
+.stopButton::after {
+  z-index: 1;
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+  border-radius: 4px;
+  background: var(--icon-neutral-primary-inverse);
 }

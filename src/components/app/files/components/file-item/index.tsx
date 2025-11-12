@@ -42,18 +42,10 @@ const FileIconType = ({ type }: { type: string }) => {
   );
 };
 
-const FileDoc = ({
-  file,
-  fileUrl,
-  isUserMessage,
-}: {
-  file: UploadedFile;
-  fileUrl?: string;
-  isUserMessage?: boolean;
-}) => {
-  const name = file?.file_name || file?.name || 'unknown';
+const FileDoc = ({ file, isUserMessage }: { file: UploadedFile; isUserMessage?: boolean }) => {
+  const name = file?.name || 'unknown';
   const typeFileName = name?.split('.')?.at(-1);
-  const type = file?.file_extension || typeFileName || 'unknown';
+  const type = typeFileName || 'unknown';
 
   // Show text preview if available
   const textPreview = file.extractedText
@@ -64,25 +56,6 @@ const FileDoc = ({
 
   // Show loader if extracting
   const isExtracting = file.isExtracting;
-
-  if (fileUrl) {
-    return (
-      <a
-        href={fileUrl}
-        target="_blank"
-        rel="noreferrer"
-        className={cn(styles.fileDoc, {
-          [styles.isUserMessage]: isUserMessage,
-        })}
-      >
-        <FileIconType type={type} />
-        <div className={styles.nameBlock}>
-          <div className={styles.docName}>{name}</div>
-          <div className={styles.docType}>{typeFileName?.toUpperCase()} File</div>
-        </div>
-      </a>
-    );
-  }
 
   return (
     <div
@@ -101,13 +74,10 @@ const FileDoc = ({
         <div className={styles.docName}>{name}</div>
         <div
           className={cn(styles.docType, {
-            [styles.textPreview]: textPreview && !file.extractionError,
-            [styles.error]: file.extractionError,
+            [styles.textPreview]: textPreview,
           })}
         >
-          {isExtracting
-            ? 'Extracting text...'
-            : textPreview || `${typeFileName?.toUpperCase()} File`}
+          {type}
         </div>
       </div>
     </div>
@@ -119,31 +89,21 @@ interface Props {
   onRemove?: (idOrIndex: string | number) => void;
   isUserMessage?: boolean;
 }
+
 export const FileItem = ({ file, onRemove, isUserMessage }: Props) => {
-  const { file_extension, file_url, type, file_id, id } = file || {};
-
-  const isImage =
-    (type || file_extension)?.startsWith('image') ||
-    file_url?.toLowerCase()?.match(/\.(jpeg|jpg|png|gif|webp)$/);
-
-  const fileIdToUse = id || file_id;
+  const { id } = file;
+  const fileIdToUse = id;
   const hasRemoveHandler = typeof onRemove === 'function' && fileIdToUse;
 
   return (
     <div className={styles.root}>
       {hasRemoveHandler && (
-        <div
-          className={cn(styles.remove, { [styles.isImage]: isImage })}
-          onClick={() => onRemove?.(fileIdToUse!)}
-        >
+        <div className={cn(styles.remove)} onClick={() => onRemove?.(fileIdToUse!)}>
           <IconClose width={12} height={12} className={styles.removeIcon} />
         </div>
       )}
 
-      {/*{isImage && (*/}
-      {/*  <FileImage isUserMessage={isUserMessage} fileUrl={file?.file_url} />*/}
-      {/*)}*/}
-      {!isImage && <FileDoc isUserMessage={isUserMessage} file={file} fileUrl={file?.file_url} />}
+      <FileDoc isUserMessage={isUserMessage} file={file} />
     </div>
   );
 };

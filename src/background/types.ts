@@ -35,4 +35,3 @@ export const MessageType = {
 } as const;
 
 export type MessageTypeKeys = keyof typeof MessageType;
-

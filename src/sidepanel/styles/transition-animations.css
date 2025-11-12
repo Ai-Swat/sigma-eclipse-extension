@@ -26,14 +26,16 @@
     transform 500ms ease;
 }
 
-/* переменные для анимация сдвига Follow Up когда isOpenImprovementsBlock === true */
+/* переменные для анимации сдвига Follow Up когда isOpenImprovementsBlock === true */
 :root {
   --right-margin-for-improvements-block: calc(
     (100vw - var(--content-width) - var(--improvements-block-width)) / 2 - 32px
   );
   --shift-amount-for-slide-content: var(--improvements-block-width);
+}
 
-  @media (max-width: 1024px) {
+@media (max-width: 1024px) {
+  :root {
     --right-margin-for-improvements-block: 0 !important;
   }
 }
