@@ -98,8 +98,6 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
       return () => observer.disconnect();
     }, []);
 
-    console.log(uploadedFiles, 'uploadedFiles');
-
     return (
       <>
         <div className={css.root} ref={wrapperInputRef}>

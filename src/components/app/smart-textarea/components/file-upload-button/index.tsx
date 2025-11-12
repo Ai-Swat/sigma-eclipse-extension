@@ -41,7 +41,7 @@ export function FileUploadButton({ isDisabled }: { isDisabled?: boolean }) {
         ref={fileInputRef}
         hidden
         type="file"
-        multiple
+        multiple={false}
         onClick={event => event.stopPropagation()}
         accept={ACCEPTS.join(', ')}
         onChange={handleFileChange}

@@ -10,7 +10,7 @@ export const truncateFileName = (name: string, maxLength: number) => {
 };
 
 export const BYTES_IN_MB = 1048576;
-export const LIMIT_MB = 10;
+export const LIMIT_MB = 50;
 
 export const handleCheckFile = (file: File): boolean => {
   if (file.size > LIMIT_MB * BYTES_IN_MB) {

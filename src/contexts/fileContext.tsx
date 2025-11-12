@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, PropsWithChildren } from 'react';
 import { extractTextFromFile } from 'src/utils/file-text-extractor';
 import { addToastError } from '@/libs/toast-messages.ts';
+import { handleCheckFile } from '@/components/app/files/utils.ts';
 
 export interface UploadedFile {
   name: string;
@@ -23,19 +24,14 @@ interface FileContextType {
 
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
-// const MAX_FILES = 10;
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_FILES_LIMIT = 1;
 
 export function FileContextProvider({ children }: PropsWithChildren) {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
   const processAndLimitFiles = useCallback((newFiles: File[]) => {
     const validFiles = newFiles.filter(file => {
-      if (file.size > MAX_FILE_SIZE) {
-        console.warn(`File ${file.name} exceeds size limit`);
-        return false;
-      }
-      return true;
+      return handleCheckFile(file);
     });
 
     // Limit to 1 file - clear existing files before adding new one
@@ -43,6 +39,12 @@ export function FileContextProvider({ children }: PropsWithChildren) {
 
     // Take only the first file
     const file = validFiles[0];
+
+    if (validFiles.length > MAX_FILES_LIMIT) {
+      const errorText = `You can upload up to ${MAX_FILES_LIMIT} files`;
+      addToastError(errorText);
+    }
+
     const fileId = `${file.name}-${Date.now()}-${Math.random()}`;
 
     // Replace existing files with new one (limit to 1 file)
@@ -62,6 +64,7 @@ export function FileContextProvider({ children }: PropsWithChildren) {
 
       if (result.error) {
         addToastError(result.error);
+        setUploadedFiles([]);
         return;
       }
 

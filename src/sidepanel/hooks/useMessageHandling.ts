@@ -3,6 +3,7 @@ import { Chat, ChatMessage } from '@/types';
 import { sendChatMessage } from '@/utils/api.ts';
 import { useLanguage } from '../contexts/languageContext';
 import { getSystemPrompt } from '../locales/prompts';
+import { addToastError } from '@/libs/toast-messages.ts';
 
 interface UseMessageHandlingProps {
   activeChat: Chat | null;
@@ -47,7 +48,7 @@ export const useMessageHandling = ({
   }, [activeChat]);
 
   const handleStopGeneration = useCallback(() => {
-    console.log('🛑 Остановка генерации...');
+    console.log('🛑 Stopping generation...');
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
       abortControllerRef.current = null;
@@ -90,17 +91,17 @@ export const useMessageHandling = ({
         // Use specified chat ID (for new chats created for summarization)
         chatId = targetChatId;
         currentChat = chats.find(c => c.id === chatId) || null;
-        console.log('✅ Отправка сообщения в указанный чат:', chatId);
+        console.log('✅ Sending message to specified chat:', chatId);
       } else {
         // Use active chat
         currentChat = activeChatRef.current;
         if (!currentChat) {
-          console.log('⚠️ Нет активного чата, создаю новый...');
+          console.log('⚠️ No active chat found, creating a new one...');
           createNewChat();
           return; // Exit and let user send again
         }
         chatId = currentChat.id;
-        console.log('✅ Отправка сообщения в активный чат:', chatId);
+        console.log('✅ Sending message to active chat:', chatId);
       }
 
       // Add user message
@@ -138,7 +139,7 @@ export const useMessageHandling = ({
         const allMessages = currentChat ? [...currentChat.messages, userMessage] : [userMessage];
         let accumulatedContent = '';
 
-        console.log('🚀 Отправляю запрос к LlamaCpp...');
+        console.log('🚀 Sending request to LlamaCpp...');
 
         // Get system prompt for current language
         const systemPrompt = getSystemPrompt(language);
@@ -153,13 +154,14 @@ export const useMessageHandling = ({
           systemPrompt,
         });
 
-        console.log('✅ Ответ получен');
+        console.log('✅ Response received successfully.');
       } catch (error: any) {
-        console.error('❌ Ошибка при отправке сообщения:', error);
+        addToastError('Error while sending message');
+        console.error('❌ Error while sending message:', error);
 
         // Check if error is due to abort
         if (error?.name === 'AbortError' || abortController.signal.aborted) {
-          console.log('⚠️ Генерация была прервана пользователем');
+          console.log('⚠️ Generation was stopped by the user.');
           // Message already marked as aborted in handleStopGeneration
         } else {
           updateMessageInChat(
