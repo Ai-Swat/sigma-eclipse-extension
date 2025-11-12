@@ -56,6 +56,10 @@
 }
 
 /* Chat Container Styles */
+.chat-message-wrapper {
+  width: 100%;
+}
+
 .chat-messages-container {
   flex: 1;
   overflow-y: auto;
@@ -73,10 +77,17 @@
 }
 
 /* Chat Message Styles */
+.chat-message-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
 .chat-message {
   display: flex;
   flex-direction: column;
-  max-width: 85%;
+  max-width: 100%;
   animation: slideIn 0.3s ease;
 }
 
@@ -110,7 +121,7 @@
 
 .chat-message.user .chat-message-content {
   background: var(--background-neutral-secondary);
-  color: var(--text-neutral-primary-on-color);
+  color: var(--text-neutral-primary);
 }
 
 .chat-message.assistant .chat-message-content {
@@ -262,17 +273,20 @@
 
 /* Summarization Banner Styles */
 .summarization-banner {
+  width: calc(100% + 14px);
+  margin-left: -8px;
+  margin-top: -2px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   padding: 10px 14px;
-  background: var(--background-neutral-global-secondary);
-  border: 1px solid var(--stroke-neutral-alfa-tertiary);
-  border-radius: 18px;
-  color: var(--text-neutral-secondary);
-  font-size: 13px;
-  font-weight: 500;
+  background: var(--background-neutral-global-tertiary);
+  border-radius: 12px;
+  color: var(--text-neutral-primary);
+  font-size: 15px;
+  height: 34px;
   transition: all 0.2s ease;
+  margin-bottom: 6px;
 }
 
 .summarization-banner-icon {
@@ -298,6 +312,7 @@
   width: 100%;
   display: flex;
   justify-content: end;
+  margin-bottom: 12px;
 }
 
 .file-attachment-banner {

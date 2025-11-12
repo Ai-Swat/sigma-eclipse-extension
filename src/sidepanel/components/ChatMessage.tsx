@@ -85,7 +85,7 @@ const PageContextBanner: React.FC<{ pageContext: { title: string; url: string } 
         />
       </svg>
       <span className="summarization-banner-text">
-        🌐 {pageContext.title} ({hostname})
+        {pageContext.title} ({hostname})
       </span>
     </div>
   );
@@ -114,7 +114,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const messageClasses = `chat-message ${message.role}${message.isAborted ? ' aborted' : ''}`;
 
   return (
-    <>
+    <div className='chat-message-container'>
       {shouldShowFileBanner &&
         <div className="file-attachment-banner-container">
           <FileAttachmentBanner files={message.attachedFilesPreview || []} />
@@ -144,7 +144,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           ) : null}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

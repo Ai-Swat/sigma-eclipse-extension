@@ -5,8 +5,7 @@
 
 .chat-message-content {
   /* Typography */
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
   color: var(--text-neutral-primary);
 }
 
