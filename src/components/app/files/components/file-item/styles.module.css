@@ -146,18 +146,6 @@
   overflow: hidden;
 }
 
-.nameBlock .docType.textPreview {
-  color: var(--text-neutral-secondary);
-  font-size: 11px;
-  line-height: 14px;
-}
-
-.nameBlock .docType.error {
-  color: var(--text-colored-error);
-  font-size: 11px;
-  line-height: 14px;
-}
-
 .fileIconWrapper {
   display: flex;
   width: 44px;

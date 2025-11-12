@@ -72,13 +72,7 @@ const FileDoc = ({ file, isUserMessage }: { file: UploadedFile; isUserMessage?: 
       )}
       <div className={styles.nameBlock}>
         <div className={styles.docName}>{name}</div>
-        <div
-          className={cn(styles.docType, {
-            [styles.textPreview]: textPreview,
-          })}
-        >
-          {type}
-        </div>
+        <div className={styles.docType}>{textPreview}</div>
       </div>
     </div>
   );
