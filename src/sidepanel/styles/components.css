@@ -309,13 +309,6 @@
   line-height: 1.4;
 }
 
-.file-attachment-banner-container {
-  width: 100%;
-  display: flex;
-  justify-content: end;
-  margin-bottom: 12px;
-}
-
 .file-attachment-banner {
   display: flex;
   align-items: center;
@@ -330,6 +323,13 @@
   overflow: hidden;
 }
 
+.file-attachment-banner-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 12px;
+}
+
 .file-attachment-banner-text {
   font-size: 14px;
   color: var(--text-neutral-primary);
@@ -342,16 +342,3 @@
   line-height: 1;
 }
 
-.file-attachment-banner-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background-color: var(--background-neutral-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.file-attachment-banner-icon > svg {
-  stroke: var(--icon-neutral-tertiary);
-}
