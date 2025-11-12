@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useState, useCallback, PropsWithChildren } from 'react';
-import { extractTextFromFile } from 'src/utils/file-text-extractor';
+import { createContext, useContext, useState, useCallback, PropsWithChildren } from 'react';
+import { extractTextFromFile } from '@/utils/file-text-extractor.ts';
+import { addToastError } from '@/libs/toast-messages.ts';
+import { handleCheckFile } from '@/components/app/files/utils.ts';
 
 export interface UploadedFile {
   name: string;
@@ -13,10 +15,7 @@ export interface UploadedFile {
 }
 
 interface FileContextType {
-  files: File[];
   uploadedFiles: UploadedFile[];
-  isDragging: boolean;
-  setIsDragging: (isDragging: boolean) => void;
   processAndLimitFiles: (files: File[]) => void;
   handlePaste: (e: React.ClipboardEvent) => void;
   handleRemoveFile: (idOrIndex: string | number) => void;
@@ -25,21 +24,14 @@ interface FileContextType {
 
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
-// const MAX_FILES = 10;
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_FILES_LIMIT = 1;
 
 export function FileContextProvider({ children }: PropsWithChildren) {
-  const [files, setFiles] = useState<File[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-  const [isDragging, setIsDragging] = useState(false);
 
   const processAndLimitFiles = useCallback((newFiles: File[]) => {
     const validFiles = newFiles.filter(file => {
-      if (file.size > MAX_FILE_SIZE) {
-        console.warn(`File ${file.name} exceeds size limit`);
-        return false;
-      }
-      return true;
+      return handleCheckFile(file);
     });
 
     // Limit to 1 file - clear existing files before adding new one
@@ -47,6 +39,12 @@ export function FileContextProvider({ children }: PropsWithChildren) {
 
     // Take only the first file
     const file = validFiles[0];
+
+    if (validFiles.length > MAX_FILES_LIMIT) {
+      const errorText = `You can upload up to ${MAX_FILES_LIMIT} files`;
+      addToastError(errorText);
+    }
+
     const fileId = `${file.name}-${Date.now()}-${Math.random()}`;
 
     // Replace existing files with new one (limit to 1 file)
@@ -63,6 +61,12 @@ export function FileContextProvider({ children }: PropsWithChildren) {
     // Extract text from the file
     (async () => {
       const result = await extractTextFromFile(file);
+
+      if (result.error) {
+        addToastError(result.error);
+        setUploadedFiles([]);
+        return;
+      }
 
       // Update with extracted text
       setUploadedFiles(prev =>
@@ -107,23 +111,18 @@ export function FileContextProvider({ children }: PropsWithChildren) {
       setUploadedFiles(prevFiles => prevFiles.filter(f => f.id !== idOrIndex));
     } else {
       // Remove by index (legacy behavior)
-      setFiles(prevFiles => prevFiles.filter((_, i) => i !== idOrIndex));
       setUploadedFiles(prevFiles => prevFiles.filter((_, i) => i !== idOrIndex));
     }
   }, []);
 
   const clearFiles = useCallback(() => {
-    setFiles([]);
     setUploadedFiles([]);
   }, []);
 
   return (
     <FileContext.Provider
       value={{
-        files,
         uploadedFiles,
-        isDragging,
-        setIsDragging,
         processAndLimitFiles,
         handlePaste,
         handleRemoveFile,

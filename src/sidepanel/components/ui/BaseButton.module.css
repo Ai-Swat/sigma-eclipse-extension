@@ -16,6 +16,7 @@
 
 .transparent {
   background: transparent;
+  color: var(--text-neutral-tertiary);
 }
 
 .transparent > svg {

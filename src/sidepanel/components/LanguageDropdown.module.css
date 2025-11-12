@@ -27,14 +27,6 @@
   background: var(--background-neutral-tertiary);
 }
 
-.languageCode {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--icon-neutral-primary);
-  line-height: 1;
-  letter-spacing: -0.2px;
-}
-
 .dropdown {
   position: absolute;
   bottom: calc(100% + 8px);

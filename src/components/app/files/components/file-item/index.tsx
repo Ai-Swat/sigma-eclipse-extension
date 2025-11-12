@@ -1,5 +1,5 @@
 import cn from 'clsx';
-import { UploadedFile } from 'src/contexts/fileContext';
+import { UploadedFile } from '@/sidepanel/contexts/fileContext';
 import { Loader } from 'src/components/ui/loader';
 import IconClose from 'src/images/clear-icon.svg?react';
 import IconFile from 'src/images/file.svg?react';
@@ -72,13 +72,7 @@ const FileDoc = ({ file, isUserMessage }: { file: UploadedFile; isUserMessage?: 
       )}
       <div className={styles.nameBlock}>
         <div className={styles.docName}>{name}</div>
-        <div
-          className={cn(styles.docType, {
-            [styles.textPreview]: textPreview,
-          })}
-        >
-          {type}
-        </div>
+        <div className={styles.docType}>{textPreview}</div>
       </div>
     </div>
   );

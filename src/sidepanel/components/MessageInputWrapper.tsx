@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import SmartTextarea from 'src/components/app/smart-textarea';
-import { FileContextProvider, useFileContext } from 'src/contexts/fileContext';
-import { PageContextProvider, usePageContext } from '../contexts/pageContext';
-import PageContextIndicator from './PageContextIndicator';
+import { FileContextProvider, useFileContext } from '@/sidepanel/contexts/fileContext';
+import { PageContextProvider, usePageContext } from '@/sidepanel/contexts/pageContext.tsx';
+import { TabInfoHeader } from '@/components/app/tab-info-block';
 import styles from './MessageInputWrapper.module.css';
 
 interface MessageMetadata {
@@ -95,7 +95,7 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
 
   return (
     <>
-      <PageContextIndicator />
+      <TabInfoHeader />
       <SmartTextarea
         value={message}
         onChange={handleChange}
