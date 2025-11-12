@@ -8,7 +8,7 @@ export const MessageType = {
   ERROR: 'ERROR',
 } as const;
 
-export type MessageType = typeof MessageType[keyof typeof MessageType];
+export type MessageType = (typeof MessageType)[keyof typeof MessageType];
 
 export interface Message {
   type: MessageType;
@@ -76,4 +76,3 @@ export interface ChatResponse {
 
 // Note: LlamaCpp API integration now uses OpenAI library
 // See src/utils/api.ts for implementation
-

@@ -1,6 +1,4 @@
 export const ACCEPTS = [
-  'image/png',
-  'image/jpeg',
   'application/pdf',
   'pdf',
   'doc',
@@ -14,4 +12,4 @@ export const ACCEPTS = [
   'csv',
   'text/csv',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-]
+];

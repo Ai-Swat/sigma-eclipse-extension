@@ -13,4 +13,3 @@ export interface TranslationState {
   selectedText: string;
   mouseUpTimeout: number | null;
 }
-

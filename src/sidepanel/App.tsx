@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { ChatContextProvider, useChatContext } from '../contexts/chatContext';
 import { LanguageProvider } from './contexts/languageContext';
-import Header from './components/Header';
-import ChatContainer from './components/ChatContainer';
-import MessageInputWrapper from './components/MessageInputWrapper';
+import { Header, ChatContainer, MessageInputWrapper } from './components';
 import ChatHistory from './components/ChatHistory';
 import { useMessageHandling } from './hooks/useMessageHandling';
 import { useSummarization } from './hooks/useSummarization';
-import { AppToaster } from '@/sidepanel/components/new-components/app/app-toaster';
+import { AppToaster } from 'src/components/app/app-toaster';
 
 const AppContent: React.FC = () => {
   const {

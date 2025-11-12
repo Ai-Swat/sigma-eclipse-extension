@@ -12,32 +12,27 @@ interface ChatMessageProps {
 const SummarizationBanner: React.FC<{ preview: string }> = ({ preview }) => {
   return (
     <div className="summarization-banner">
-      <svg 
-        className="summarization-banner-icon" 
-        xmlns="http://www.w3.org/2000/svg" 
-        width="16" 
-        height="16" 
-        viewBox="0 0 16 16" 
+      <svg
+        className="summarization-banner-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
         fill="none"
       >
-        <path 
-          d="M3 2C3 1.44772 3.44772 1 4 1H9L13 5V14C13 14.5523 12.5523 15 12 15H4C3.44772 15 3 14.5523 3 14V2Z" 
-          stroke="currentColor" 
-          strokeWidth="1.2" 
+        <path
+          d="M3 2C3 1.44772 3.44772 1 4 1H9L13 5V14C13 14.5523 12.5523 15 12 15H4C3.44772 15 3 14.5523 3 14V2Z"
+          stroke="currentColor"
+          strokeWidth="1.2"
           strokeLinejoin="round"
         />
-        <path 
-          d="M9 1V4C9 4.55228 9.44772 5 10 5H13" 
-          stroke="currentColor" 
-          strokeWidth="1.2" 
+        <path
+          d="M9 1V4C9 4.55228 9.44772 5 10 5H13"
+          stroke="currentColor"
+          strokeWidth="1.2"
           strokeLinejoin="round"
         />
-        <path 
-          d="M5 8H11M5 11H9" 
-          stroke="currentColor" 
-          strokeWidth="1.2" 
-          strokeLinecap="round"
-        />
+        <path d="M5 8H11M5 11H9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
       </svg>
       <span className="summarization-banner-text">Summarize: {preview}</span>
     </div>
@@ -45,36 +40,29 @@ const SummarizationBanner: React.FC<{ preview: string }> = ({ preview }) => {
 };
 
 const FileAttachmentBanner: React.FC<{ files: string[] }> = ({ files }) => {
-  const fileText = files.length === 1 
-    ? files[0] 
-    : `${files.length} files (${files.join(', ')})`;
-  
+  const fileText = files.length === 1 ? files[0] : `${files.length} files (${files.join(', ')})`;
+
   return (
     <div className="summarization-banner file-attachment-banner">
-      <svg 
-        className="summarization-banner-icon" 
-        xmlns="http://www.w3.org/2000/svg" 
-        width="16" 
-        height="16" 
-        viewBox="0 0 16 16" 
+      <svg
+        className="summarization-banner-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
         fill="none"
       >
-        <path 
-          d="M9 1H4C3.44772 1 3 1.44772 3 2V14C3 14.5523 3.44772 15 4 15H12C12.5523 15 13 14.5523 13 14V5L9 1Z" 
-          stroke="currentColor" 
-          strokeWidth="1.2" 
+        <path
+          d="M9 1H4C3.44772 1 3 1.44772 3 2V14C3 14.5523 3.44772 15 4 15H12C12.5523 15 13 14.5523 13 14V5L9 1Z"
+          stroke="currentColor"
+          strokeWidth="1.2"
           strokeLinejoin="round"
         />
-        <path 
-          d="M9 1V5H13" 
-          stroke="currentColor" 
-          strokeWidth="1.2" 
-          strokeLinejoin="round"
-        />
-        <path 
-          d="M6 8.5L7.5 10L10.5 7" 
-          stroke="currentColor" 
-          strokeWidth="1.2" 
+        <path d="M9 1V5H13" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+        <path
+          d="M6 8.5L7.5 10L10.5 7"
+          stroke="currentColor"
+          strokeWidth="1.2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -84,31 +72,35 @@ const FileAttachmentBanner: React.FC<{ files: string[] }> = ({ files }) => {
   );
 };
 
-const PageContextBanner: React.FC<{ pageContext: { title: string; url: string } }> = ({ pageContext }) => {
+const PageContextBanner: React.FC<{ pageContext: { title: string; url: string } }> = ({
+  pageContext,
+}) => {
   const hostname = new URL(pageContext.url).hostname;
-  
+
   return (
     <div className="summarization-banner page-context-banner">
-      <svg 
-        className="summarization-banner-icon" 
-        xmlns="http://www.w3.org/2000/svg" 
-        width="16" 
-        height="16" 
-        viewBox="0 0 16 16" 
+      <svg
+        className="summarization-banner-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
         fill="none"
       >
-        <path 
-          d="M8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1Z" 
-          stroke="currentColor" 
+        <path
+          d="M8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1Z"
+          stroke="currentColor"
           strokeWidth="1.2"
         />
-        <path 
-          d="M1.5 8H14.5M8 1C9.5 3 10 5.5 10 8C10 10.5 9.5 13 8 15M8 1C6.5 3 6 5.5 6 8C6 10.5 6.5 13 8 15" 
-          stroke="currentColor" 
+        <path
+          d="M1.5 8H14.5M8 1C9.5 3 10 5.5 10 8C10 10.5 9.5 13 8 15M8 1C6.5 3 6 5.5 6 8C6 10.5 6.5 13 8 15"
+          stroke="currentColor"
           strokeWidth="1.2"
         />
       </svg>
-      <span className="summarization-banner-text">🌐 {pageContext.title} ({hostname})</span>
+      <span className="summarization-banner-text">
+        🌐 {pageContext.title} ({hostname})
+      </span>
     </div>
   );
 };
@@ -118,13 +110,19 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isStreamingEmpty = message.role === 'assistant' && message.content === '';
 
   // Check if this is a summarization message that should be collapsed
-  const shouldShowSummarizationBanner = message.isSummarization && message.role === 'user' && message.summarizationPreview;
-  
+  const shouldShowSummarizationBanner =
+    message.isSummarization && message.role === 'user' && message.summarizationPreview;
+
   // Check if this is a file attachment message that should show file banner
-  const shouldShowFileBanner = message.hasAttachedFiles && message.role === 'user' && message.attachedFilesPreview && message.attachedFilesPreview.length > 0;
+  const shouldShowFileBanner =
+    message.hasAttachedFiles &&
+    message.role === 'user' &&
+    message.attachedFilesPreview &&
+    message.attachedFilesPreview.length > 0;
 
   // Check if this is a page context message that should show page context banner
-  const shouldShowPageContextBanner = message.hasPageContext && message.role === 'user' && message.pageContextPreview;
+  const shouldShowPageContextBanner =
+    message.hasPageContext && message.role === 'user' && message.pageContextPreview;
 
   // Add aborted class if message was aborted
   const messageClasses = `chat-message ${message.role}${message.isAborted ? ' aborted' : ''}`;
@@ -143,11 +141,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
               <PageContextBanner pageContext={message.pageContextPreview!} />
             )}
             {(shouldShowFileBanner || shouldShowPageContextBanner) && message.displayContent ? (
-              <div style={{ marginTop: shouldShowFileBanner || shouldShowPageContextBanner ? '8px' : '0' }}>
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeHighlight]}
-                >
+              <div
+                style={{
+                  marginTop: shouldShowFileBanner || shouldShowPageContextBanner ? '8px' : '0',
+                }}
+              >
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
                   {message.displayContent}
                 </ReactMarkdown>
               </div>
@@ -156,10 +155,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
                 <Loader size={24} color="primary" />
               </div>
             ) : !shouldShowFileBanner && !shouldShowPageContextBanner ? (
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
-              >
+              <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
                 {message.content}
               </ReactMarkdown>
             ) : null}
@@ -171,4 +167,3 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 };
 
 export default ChatMessage;
-

@@ -1,76 +1,60 @@
-import React, { useCallback, useRef, useState } from 'react'
-import { clsx } from 'clsx'
+import React, { useCallback, useRef } from 'react';
+import { clsx } from 'clsx';
 
-import { useFileContext } from 'src/contexts/fileContext'
-import { TooltipDefault } from 'src/components/ui/tooltip'
-import IconPlus from 'src/images/plus.svg?react'
-import FileTypeDropdown, { FileType } from './FileTypeDropdown'
+import { ACCEPTS } from '@/components/app/files/constants.ts';
 
-import css from './styles.module.css'
+import { useFileContext } from 'src/contexts/fileContext';
+import { TooltipDefault } from 'src/components/ui/tooltip';
+import IconPlus from 'src/images/plus.svg?react';
 
-export function FileUploadButton({
-  isDisabled,
-}: {
-  isDisabled?: boolean
-}) {
-  const { processAndLimitFiles } = useFileContext()
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [currentAccept, setCurrentAccept] = useState('')
+import css from './styles.module.css';
+
+export function FileUploadButton({ isDisabled }: { isDisabled?: boolean }) {
+  const { processAndLimitFiles } = useFileContext();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files && Array.from(e.target.files)
-      if (!files) return
-      processAndLimitFiles(files)
+      const files = e.target.files && Array.from(e.target.files);
+      if (!files) return;
+      processAndLimitFiles(files);
       // Reset the input value to allow selecting the same file again
       if (fileInputRef.current) {
-        fileInputRef.current.value = ''
+        fileInputRef.current.value = '';
       }
     },
     [processAndLimitFiles]
-  )
+  );
 
   const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (isDisabled) return
-    setIsDropdownOpen(!isDropdownOpen)
-  }
-
-  const handleSelectFileType = (fileType: FileType) => {
-    setCurrentAccept(fileType.accept)
-    setIsDropdownOpen(false)
-    // Trigger file input click after a short delay to ensure dropdown closes
+    e.stopPropagation();
+    if (isDisabled) return;
     setTimeout(() => {
-      fileInputRef.current?.click()
-    }, 100)
-  }
-
-  const handleCloseDropdown = () => {
-    setIsDropdownOpen(false)
-  }
+      fileInputRef.current?.click();
+    }, 100);
+  };
 
   return (
     <div className={css.container}>
       <input
         ref={fileInputRef}
         hidden
-        type='file'
+        type="file"
         multiple
-        onClick={(event) => event.stopPropagation()}
-        accept={currentAccept}
+        onClick={event => event.stopPropagation()}
+        accept={ACCEPTS.join(', ')}
         onChange={handleFileChange}
       />
 
       <button
         ref={buttonRef}
-        aria-label='Add Files'
+        aria-label="Add Files"
         className={clsx(css.buttonWrapper, 'relative')}
         onClick={handleClick}
-        type='button'
+        type="button"
       >
-        <TooltipDefault text='Add Files'>
+        <TooltipDefault text="Add Files">
           <div
             className={clsx(css.button, {
               [css.isDisabled]: isDisabled,
@@ -80,14 +64,6 @@ export function FileUploadButton({
           </div>
         </TooltipDefault>
       </button>
-
-      <FileTypeDropdown
-        isOpen={isDropdownOpen}
-        onSelect={handleSelectFileType}
-        onClose={handleCloseDropdown}
-        buttonRef={buttonRef}
-      />
     </div>
-  )
+  );
 }
-

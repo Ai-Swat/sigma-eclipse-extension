@@ -27,7 +27,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
     return (
       <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
         <div className={styles.emptyState}>
-          <h1 className={styles.emptyStateTitle}>What do you want to know today?</h1>
+          <h1 className={styles.emptyStateTitle}>Make your private requests</h1>
         </div>
       </div>
     );

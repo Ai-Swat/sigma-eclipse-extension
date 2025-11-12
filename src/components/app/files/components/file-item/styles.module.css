@@ -22,14 +22,14 @@
   cursor: pointer;
   z-index: 10;
   transition: opacity 0.2s;
+}
 
-  &.isImage {
-    right: -5px;
-  }
+.remove.isImage {
+  right: -5px;
+}
 
-  &:hover {
-    opacity: 0.8;
-  }
+.remove:hover {
+  opacity: 0.8;
 }
 
 .removeIcon {
@@ -49,22 +49,24 @@
   justify-content: center;
   position: relative;
   height: auto;
+}
 
-  .imageUser {
-    object-fit: cover;
-    cursor: pointer;
-    border-radius: 0 !important;
-    min-width: var(--image-size);
-    width: var(--image-size);
-    height: var(--image-size);
-    position: relative;
-    z-index: 2;
+.imageWrapperUserMessage .imageUser {
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 0 !important;
+  min-width: var(--image-size);
+  width: var(--image-size);
+  height: var(--image-size);
+  position: relative;
+  z-index: 2;
+}
 
-    @media (--vp-mobile) {
-      min-width: var(--image-size-mobile);
-      width: var(--image-size-mobile);
-      height: var(--image-size-mobile);
-    }
+@media (max-width: 768px) {
+  .imageWrapperUserMessage .imageUser {
+    min-width: var(--image-size-mobile);
+    width: var(--image-size-mobile);
+    height: var(--image-size-mobile);
   }
 }
 
@@ -112,54 +114,48 @@
   border-radius: 18px;
   border: 1px solid var(--stroke-neutral-alfa-tertiary);
   background: var(--background-neutral-global-secondary);
-  width: 186px;
-  min-width: 186px;
-  max-width: 186px;
-
-  &.isUserMessage {
-    min-width: 286px;
-    width: 286px;
-    max-width: 286px;
-  }
+  width: 286px;
+  min-width: 286px;
+  max-width: 286px;
 }
 
 .nameBlock {
   display: flex;
   flex-direction: column;
   width: calc(100% - 44px - 12px);
+}
 
-  .docName {
-    color: var(--text-neutral-primary);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 15px;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
+.nameBlock .docName {
+  color: var(--text-neutral-primary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 15px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
-  .docType {
-    color: var(--text-neutral-tertiary);
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 18px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+.nameBlock .docType {
+  color: var(--text-neutral-tertiary);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
-    &.textPreview {
-      color: var(--text-neutral-secondary);
-      font-size: 11px;
-      line-height: 14px;
-    }
+.nameBlock .docType.textPreview {
+  color: var(--text-neutral-secondary);
+  font-size: 11px;
+  line-height: 14px;
+}
 
-    &.error {
-      color: var(--text-colored-error);
-      font-size: 11px;
-      line-height: 14px;
-    }
-  }
+.nameBlock .docType.error {
+  color: var(--text-colored-error);
+  font-size: 11px;
+  line-height: 14px;
 }
 
 .fileIconWrapper {
@@ -173,29 +169,29 @@
   border-radius: 14px;
   background: var(--background-neutral-secondary);
   stroke: var(--icon-neutral-tertiary);
+}
 
-  &.red {
-    background: var(--background-error-primary-subdued);
-    stroke: var(--icon-colored-error);
-  }
+.fileIconWrapper.red {
+  background: var(--background-error-primary-subdued);
+  stroke: var(--icon-colored-error);
+}
 
-  &.green {
-    background: var(--background-success-primary-subdued);
-    stroke: var(--icon-colored-success);
-  }
+.fileIconWrapper.green {
+  background: var(--background-success-primary-subdued);
+  stroke: var(--icon-colored-success);
+}
 
-  &.blue {
-    stroke: var(--icon-colored-brand);
-    background: var(--background-brand-primary-subdued);
-  }
+.fileIconWrapper.blue {
+  stroke: var(--icon-colored-brand);
+  background: var(--background-brand-primary-subdued);
+}
 
-  &.purple {
-    stroke: var(--icon-colored-browser-recently);
-    background: var(--background-purple-primary-subdued);
-  }
+.fileIconWrapper.purple {
+  stroke: var(--icon-colored-browser-recently);
+  background: var(--background-purple-primary-subdued);
+}
 
-  &.orange {
-    background: var(--background-warning-primary-subdued);
-    stroke: var(--icon-colored-warning);
-  }
+.fileIconWrapper.orange {
+  background: var(--background-warning-primary-subdued);
+  stroke: var(--icon-colored-warning);
 }

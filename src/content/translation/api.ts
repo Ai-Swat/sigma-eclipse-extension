@@ -3,7 +3,10 @@
 /**
  * Translate text via background script with streaming support
  */
-export async function translateTextViaBackground(text: string, targetLanguage: string): Promise<string> {
+export async function translateTextViaBackground(
+  text: string,
+  targetLanguage: string
+): Promise<string> {
   return new Promise((resolve, reject) => {
     try {
       // Check if chrome.runtime is available
@@ -11,21 +14,21 @@ export async function translateTextViaBackground(text: string, targetLanguage: s
         reject(new Error('Chrome extension API not available. Please reload the page.'));
         return;
       }
-      
+
       chrome.runtime.sendMessage(
         {
           type: 'TRANSLATE_TEXT',
           text,
-          targetLanguage
+          targetLanguage,
         },
-        (response) => {
+        response => {
           // Check for chrome.runtime.lastError (extension context invalidated)
           if (chrome.runtime.lastError) {
             console.error('❌ Chrome runtime error:', chrome.runtime.lastError);
             reject(new Error('Extension was updated. Please reload the page to use translation.'));
             return;
           }
-          
+
           if (response && response.success) {
             resolve(response.translation);
           } else {
@@ -50,7 +53,7 @@ export async function getTargetLanguage(): Promise<string> {
       console.warn('Chrome storage API not available, using default language');
       return 'en';
     }
-    
+
     const result = await chrome.storage.local.get('app_language');
     return result.app_language || 'en';
   } catch (error) {
@@ -75,6 +78,5 @@ export const LANGUAGE_NAMES: Record<string, string> = {
   ko: 'Korean',
   nl: 'Dutch',
   zh: 'Chinese',
-  ru: 'Russian'
+  ru: 'Russian',
 };
-

@@ -16,6 +16,7 @@
 
 .transparent {
   background: transparent;
+  color: var(--icon-neutral-secondary);
 
   & > svg {
     stroke: var(--icon-neutral-secondary);

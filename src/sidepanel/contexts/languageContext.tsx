@@ -20,7 +20,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
     const initLanguage = async () => {
       try {
         const result = await chrome.storage.local.get(STORAGE_KEY);
-        
+
         if (result[STORAGE_KEY]) {
           setLanguageState(result[STORAGE_KEY] as SupportedLanguage);
         } else {
@@ -69,4 +69,3 @@ export const useLanguage = (): LanguageContextType => {
   }
   return context;
 };
-

@@ -3,7 +3,8 @@ import { usePageContext } from '../contexts/pageContext';
 import styles from './PageContextIndicator.module.css';
 
 const PageContextIndicator: React.FC = () => {
-  const { pageContext, isAttached, isLoading, favicon, attachContext, detachContext } = usePageContext();
+  const { pageContext, isAttached, isLoading, favicon, attachContext, detachContext } =
+    usePageContext();
 
   // Don't show indicator if no page context available
   if (!pageContext) {
@@ -11,7 +12,10 @@ const PageContextIndicator: React.FC = () => {
   }
 
   // Skip chrome:// and extension pages
-  if (pageContext.url.startsWith('chrome://') || pageContext.url.startsWith('chrome-extension://')) {
+  if (
+    pageContext.url.startsWith('chrome://') ||
+    pageContext.url.startsWith('chrome-extension://')
+  ) {
     return null;
   }
 
@@ -28,11 +32,11 @@ const PageContextIndicator: React.FC = () => {
       <div className={styles.pageInfo}>
         <div className={styles.favicon}>
           {favicon ? (
-            <img 
-              src={favicon} 
-              alt="" 
+            <img
+              src={favicon}
+              alt=""
               className={styles.faviconImg}
-              onError={(e) => {
+              onError={e => {
                 // Hide favicon on error
                 e.currentTarget.style.display = 'none';
               }}
@@ -50,7 +54,7 @@ const PageContextIndicator: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       <button
         className={`${styles.attachButton} ${isAttached ? styles.attached : ''}`}
         onClick={handleToggleAttach}
@@ -74,4 +78,3 @@ const PageContextIndicator: React.FC = () => {
 };
 
 export default PageContextIndicator;
-

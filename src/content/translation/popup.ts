@@ -26,29 +26,29 @@ export function getCurrentSelectedText(): string {
  */
 export async function showTranslationPopup(): Promise<void> {
   console.log('🔄 showTranslationPopup called, text:', currentSelectedText);
-  
+
   // Force remove bubble immediately
   removeTranslationBubble();
-  
+
   if (!currentSelectedText) {
     console.log('❌ No text selected');
     return;
   }
-  
+
   // Get target language from extension storage
   const targetLanguage = await getTargetLanguage();
   console.log('🌍 Target language:', targetLanguage);
-  
+
   const targetLanguageName = LANGUAGE_NAMES[targetLanguage] || 'English';
-  
+
   // Create popup overlay
   const overlay = document.createElement('div');
   overlay.className = 'sigma-translate-popup-overlay';
-  
+
   // Create popup
   const popup = document.createElement('div');
   popup.className = 'sigma-translate-popup';
-  
+
   popup.innerHTML = `
     <div class="sigma-translate-popup-header">
       <div class="sigma-translate-popup-title">Translation</div>
@@ -72,26 +72,29 @@ export async function showTranslationPopup(): Promise<void> {
       </div>
     </div>
   `;
-  
+
   overlay.appendChild(popup);
   document.body.appendChild(overlay);
   translationPopup = overlay;
-  
+
   // Close button handler
   const closeBtn = popup.querySelector('.sigma-translate-popup-close');
   closeBtn?.addEventListener('click', removeTranslationPopup);
-  
+
   // Close on overlay click
-  overlay.addEventListener('click', (e) => {
+  overlay.addEventListener('click', e => {
     if (e.target === overlay) {
       removeTranslationPopup();
     }
   });
-  
+
   // Start translation
   try {
     console.log('📤 Sending translation request...');
-    const translationResult = await translateTextViaBackground(currentSelectedText, targetLanguageName);
+    const translationResult = await translateTextViaBackground(
+      currentSelectedText,
+      targetLanguageName
+    );
     console.log('✅ Translation received:', translationResult);
     const resultBox = document.getElementById('sigma-translation-result');
     if (resultBox) {
@@ -102,7 +105,7 @@ export async function showTranslationPopup(): Promise<void> {
     const resultBox = document.getElementById('sigma-translation-result');
     if (resultBox) {
       const errorMessage = error instanceof Error ? error.message : 'Translation failed';
-      
+
       if (errorMessage.includes('reload the page')) {
         resultBox.innerHTML = `<div class="sigma-translate-error">⚠️ Extension was updated. Please <strong>reload the page</strong> (F5) to use translation.</div>`;
       } else if (errorMessage.includes('LlamaCpp')) {
@@ -133,4 +136,3 @@ export function updateTranslationResult(fullText: string): void {
     resultBox.textContent = fullText;
   }
 }
-

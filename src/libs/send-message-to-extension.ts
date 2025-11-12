@@ -3,7 +3,7 @@
 export function sendMessageToExtension(message: any): Promise<any> {
   return new Promise((resolve, reject) => {
     if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
-      chrome.runtime.sendMessage(message, (response) => {
+      chrome.runtime.sendMessage(message, response => {
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError);
         } else {
@@ -15,6 +15,3 @@ export function sendMessageToExtension(message: any): Promise<any> {
     }
   });
 }
-
-
-

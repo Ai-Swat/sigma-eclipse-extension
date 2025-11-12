@@ -21,7 +21,7 @@ if ((window as any).__SIGMA_PRIVATE_CONTENT_SCRIPT_LOADED__) {
 if (typeof chrome !== 'undefined' && chrome.runtime) {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     console.log('📨 Content script received message:', message.type);
-    
+
     if (message.type === 'GET_PAGE_CONTEXT') {
       try {
         const context = getPageContext();
@@ -29,7 +29,7 @@ if (typeof chrome !== 'undefined' && chrome.runtime) {
           url: context.url,
           title: context.title,
           contentLength: context.content.length,
-          hasSelection: !!context.selectedText
+          hasSelection: !!context.selectedText,
         });
         sendResponse(context);
       } catch (error) {
@@ -38,7 +38,7 @@ if (typeof chrome !== 'undefined' && chrome.runtime) {
       }
       return true;
     }
-    
+
     if (message.type === 'TRANSLATION_CHUNK') {
       // Update translation result in real-time
       updateTranslationResult(message.fullText);

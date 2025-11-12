@@ -1,5 +1,16 @@
 // Language configuration for AI interactions
-export type SupportedLanguage = 'en' | 'de' | 'es' | 'fr' | 'ja' | 'pt' | 'ar' | 'cs' | 'it' | 'ko' | 'nl' | 'zh' | 'ru';
+export type SupportedLanguage =
+  | 'en'
+  | 'de'
+  | 'es'
+  | 'fr'
+  | 'ja'
+  | 'pt'
+  | 'ar'
+  | 'it'
+  | 'ko'
+  | 'nl'
+  | 'zh';
 
 // Language code to display name mapping
 export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
@@ -10,12 +21,10 @@ export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
   ja: 'JA',
   pt: 'PT',
   ar: 'AR',
-  cs: 'CS',
   it: 'IT',
   ko: 'KO',
   nl: 'NL',
   zh: 'ZH',
-  ru: 'RU',
 };
 
 // Language code to full language name mapping
@@ -27,12 +36,10 @@ export const LANGUAGE_FULL_NAMES: Record<SupportedLanguage, string> = {
   ja: 'Japanese',
   pt: 'Portuguese',
   ar: 'Arabic',
-  cs: 'Czech',
   it: 'Italian',
   ko: 'Korean',
   nl: 'Dutch',
   zh: 'Chinese',
-  ru: 'Russian',
 };
 
 // Get summarization prompt for a specific language
@@ -50,7 +57,7 @@ export function getSystemPrompt(language: SupportedLanguage): string {
 // Helper function to get browser language
 export function getBrowserLanguage(): SupportedLanguage {
   const browserLang = navigator.language.toLowerCase();
-  
+
   // Map browser language codes to supported languages
   if (browserLang.startsWith('en')) return 'en';
   if (browserLang.startsWith('de')) return 'de';
@@ -59,14 +66,11 @@ export function getBrowserLanguage(): SupportedLanguage {
   if (browserLang.startsWith('ja')) return 'ja';
   if (browserLang.startsWith('pt')) return 'pt';
   if (browserLang.startsWith('ar')) return 'ar';
-  if (browserLang.startsWith('cs')) return 'cs';
   if (browserLang.startsWith('it')) return 'it';
   if (browserLang.startsWith('ko')) return 'ko';
   if (browserLang.startsWith('nl')) return 'nl';
   if (browserLang.startsWith('zh')) return 'zh';
-  if (browserLang.startsWith('ru')) return 'ru';
-  
+
   // Default to English if language is not supported
   return 'en';
 }
-

@@ -28,34 +28,28 @@
   background-color: transparent;
   transition: background-color 0.2s;
   border: none;
+}
 
-  &:hover {
-    background-color: var(--background-neutral-secondary);
-  }
+.button:hover {
+  background-color: var(--background-neutral-secondary) !important;
+}
 
-  &:active {
-    background-color: var(--background-neutral-tertiary);
-  }
+.button:active {
+  background-color: var(--background-neutral-tertiary) !important;
+}
 
-  &.active {
-    background-color: var(--background-neutral-tertiary);
-  }
+.button.active {
+  background-color: var(--background-neutral-tertiary) !important;
+}
 
-  @media (--vp-mobile) {
-    &:not(.isExtension) {
-      background-color: transparent !important;
-    }
-  }
+.button .icon {
+  min-width: 20px;
+  stroke: var(--icon-neutral-tertiary);
+}
 
-  .icon {
-    min-width: 20px;
-    stroke: var(--icon-neutral-tertiary);
-  }
-
-  &.isDisabled {
-    background-color: transparent !important;
-    cursor: not-allowed;
-  }
+.button.isDisabled {
+  background-color: transparent !important;
+  cursor: not-allowed;
 }
 
 .iconPrimary {
@@ -77,16 +71,18 @@
     -1px 4px 4px 0 rgba(0, 0, 0, 0.03),
     0 1px 2px 0 rgba(0, 0, 0, 0.03);
   white-space: nowrap;
+}
 
-  @media (--vp-mobile) {
+@media (max-width: 768px) {
+  .wrapperActionPanel {
     width: fit-content;
     min-width: 204px;
   }
+}
 
-  &.wrapperActionPanelSmall {
-    min-width: 192px;
-    width: 192px;
-  }
+.wrapperActionPanel.wrapperActionPanelSmall {
+  min-width: 192px;
+  width: 192px;
 }
 
 .divider {
@@ -105,58 +101,56 @@
   font-size: 16px;
   line-height: 16px;
   letter-spacing: -0.16px;
-
-  .innerRow {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    .iconCheck {
-      stroke: var(--text-colored-brand);
-      min-width: 18px;
-    }
-
-    .iconClear {
-      stroke: var(--text-colored-brand);
-      min-width: 18px;
-      display: none;
-    }
-  }
-
-  &.selected {
-    color: var(--text-colored-brand);
-  }
-
-  &:active {
-    background-color: var(--background-neutral-secondary);
-  }
-
-  &.isOpen {
-    background-color: var(--background-neutral-secondary);
-  }
-
-  &.selected:hover {
-    background: var(--background-brand-primary-subdued) !important;
-  }
-
-  &.selected:active {
-    background: var(--background-brand-primary-subdued) !important;
-  }
-
-  .iconChevron {
-    rotate: -90deg;
-    stroke: var(--icon-neutral-disabled);
-  }
 }
 
-.actionPanelItem:hover {
-  .iconCheck {
-    display: none;
-  }
+.actionPanelItem .innerRow {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .iconClear {
-    display: flex;
-  }
+.actionPanelItem .innerRow .iconCheck {
+  stroke: var(--text-colored-brand);
+  min-width: 18px;
+}
+
+.actionPanelItem .innerRow .iconClear {
+  stroke: var(--text-colored-brand);
+  min-width: 18px;
+  display: none;
+}
+
+.actionPanelItem.selected {
+  color: var(--text-colored-brand);
+}
+
+.actionPanelItem:active {
+  background-color: var(--background-neutral-secondary);
+}
+
+.actionPanelItem.isOpen {
+  background-color: var(--background-neutral-secondary);
+}
+
+.actionPanelItem.selected:hover {
+  background: var(--background-brand-primary-subdued) !important;
+}
+
+.actionPanelItem.selected:active {
+  background: var(--background-brand-primary-subdued) !important;
+}
+
+.actionPanelItem .iconChevron {
+  rotate: -90deg;
+  stroke: var(--icon-neutral-disabled);
+}
+
+.actionPanelItem:hover .iconCheck {
+  display: none;
+}
+
+.actionPanelItem:hover .iconClear {
+  display: flex;
 }

@@ -8,13 +8,13 @@ import { PageContext } from './types';
 export function getPageContext(): PageContext {
   // Get page title
   const title = document.title;
-  
+
   // Get page URL
   const url = window.location.href;
-  
+
   // Get main text content
   const content = extractMainContent();
-  
+
   // Get selected text if any
   const selectedText = window.getSelection()?.toString() || undefined;
 
@@ -22,7 +22,7 @@ export function getPageContext(): PageContext {
     url,
     title,
     content,
-    selectedText
+    selectedText,
   };
 }
 
@@ -37,7 +37,7 @@ function extractMainContent(): string {
     document.querySelector('[role="main"]'),
     document.querySelector('.content'),
     document.querySelector('#content'),
-    document.body
+    document.body,
   ];
 
   let content = '';
@@ -60,15 +60,16 @@ function extractTextFromElement(element: Element): string {
   const clone = element.cloneNode(true) as Element;
 
   // Remove script, style, and other non-content elements
-  const elementsToRemove = clone.querySelectorAll('script, style, nav, header, footer, aside, noscript, iframe');
+  const elementsToRemove = clone.querySelectorAll(
+    'script, style, nav, header, footer, aside, noscript, iframe'
+  );
   elementsToRemove.forEach(el => el.remove());
 
   // Get text content and clean it up
   let text = clone.textContent || '';
-  
+
   // Remove extra whitespace
   text = text.replace(/\s+/g, ' ').trim();
-  
+
   return text;
 }
-

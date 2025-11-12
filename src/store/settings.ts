@@ -7,12 +7,9 @@ interface SettingsStore {
   setIsWidget: (value: boolean) => void;
 }
 
-export const useSettingsStore = create<SettingsStore>((set) => ({
+export const useSettingsStore = create<SettingsStore>(set => ({
   isExtension: true, // Default to extension mode
   isWidget: false,
-  setIsExtension: (value) => set({ isExtension: value }),
-  setIsWidget: (value) => set({ isWidget: value }),
+  setIsExtension: value => set({ isExtension: value }),
+  setIsWidget: value => set({ isWidget: value }),
 }));
-
-
-
