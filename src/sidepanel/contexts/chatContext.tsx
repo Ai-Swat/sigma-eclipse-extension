@@ -6,8 +6,8 @@ import {
   PropsWithChildren,
   useEffect,
 } from 'react';
-import { Chat, ChatMessage } from '../types';
-import { generateChatTitle } from '../utils/api';
+import { Chat, ChatMessage } from '@/types';
+import { generateChatTitle } from '@/utils/api.ts';
 
 interface ChatContextType {
   chats: Chat[];

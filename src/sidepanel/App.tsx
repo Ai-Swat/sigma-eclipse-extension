@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { ChatContextProvider, useChatContext } from '../contexts/chatContext';
-import { LanguageProvider } from './contexts/languageContext';
+import { ChatContextProvider, useChatContext } from '@/sidepanel/contexts/chatContext';
+import { LanguageProvider } from '@/sidepanel/contexts/languageContext.tsx';
 import { Header, ChatContainer, MessageInputWrapper } from './components';
 import ChatHistory from './components/ChatHistory';
 import { useMessageHandling } from './hooks/useMessageHandling';
-import { useSummarization } from './hooks/useSummarization';
 import { AppToaster } from 'src/components/app/app-toaster';
 
 const AppContent: React.FC = () => {
@@ -29,12 +28,6 @@ const AppContent: React.FC = () => {
     createNewChat,
   });
 
-  // Summarization hook
-  const { handleSummarize } = useSummarization({
-    createNewChat,
-    handleSendMessage,
-  });
-
   const handleNewThread = () => {
     // Don't create new chat if current chat is empty
     if (activeChat && activeChat.messages.length === 0) {
@@ -50,11 +43,7 @@ const AppContent: React.FC = () => {
   return (
     <>
       <div className="app-container">
-        <Header
-          onNewThread={handleNewThread}
-          onHistory={handleHistory}
-          onSummarize={handleSummarize}
-        />
+        <Header onNewThread={handleNewThread} onHistory={handleHistory} />
 
         <ChatContainer messages={activeChat?.messages || []} isLoading={isLoading} />
 

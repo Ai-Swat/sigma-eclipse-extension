@@ -35,6 +35,8 @@ export function ThemeContextProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     // Apply theme to document
     document.documentElement.setAttribute('data-theme', theme);
+    const html = document.documentElement;
+    html.className = `theme-${theme}`;
     // Save to storage
     chrome.storage.local.set({ theme });
   }, [theme]);

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { SupportedLanguage, LANGUAGE_NAMES } from '../locales/prompts';
-import { useLanguage } from '../contexts/languageContext';
+import { useLanguage } from '@/sidepanel/contexts/languageContext.tsx';
 import { BaseButton } from '@/sidepanel/components/ui';
 import { TooltipDefault } from '@/components/ui/tooltip';
 import GlobeIcon from 'src/images/globe.svg?react';

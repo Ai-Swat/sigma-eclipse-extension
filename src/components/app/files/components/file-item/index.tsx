@@ -1,5 +1,5 @@
 import cn from 'clsx';
-import { UploadedFile } from 'src/contexts/fileContext';
+import { UploadedFile } from '@/sidepanel/contexts/fileContext';
 import { Loader } from 'src/components/ui/loader';
 import IconClose from 'src/images/clear-icon.svg?react';
 import IconFile from 'src/images/file.svg?react';

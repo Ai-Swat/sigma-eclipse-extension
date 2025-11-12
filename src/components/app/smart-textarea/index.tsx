@@ -6,20 +6,21 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
+import { wait } from '@/libs/coxy-utils.ts';
 import clsx from 'clsx';
 
 import { mergeRefs } from 'src/libs/merge-refs';
-import { useFileContext } from 'src/contexts/fileContext';
+import { useFileContext } from '@/sidepanel/contexts/fileContext';
 import { useTextareaLayout } from './hooks/use-textarea-layout';
 
 import { SendButton } from 'src/components/app/smart-textarea/components/send-button';
 import { FileList } from '@/components/app/files/components/file-list';
 import { FileUploadButton } from './components/file-upload-button';
-
-import css from './styles.module.css';
 import LanguageDropdown from '@/sidepanel/components/LanguageDropdown.tsx';
 import { useEvent } from '@/libs/use/use-event.ts';
-import { wait } from '@/libs/coxy-utils.ts';
+import { SummarizePageButton } from '@/components/app/smart-textarea/components/summarize-page-button';
+
+import css from './styles.module.css';
 
 type SmartTextareaProps = Omit<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -142,6 +143,8 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
               <FileUploadButton isDisabled={isDisabled} />
 
               <LanguageDropdown />
+
+              <SummarizePageButton />
             </div>
 
             <div className={css.rightButtonWrapper}>

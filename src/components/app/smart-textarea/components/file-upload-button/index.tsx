@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 
 import { ACCEPTS } from '@/components/app/files/constants.ts';
 
-import { useFileContext } from 'src/contexts/fileContext';
+import { useFileContext } from '@/sidepanel/contexts/fileContext';
 import { TooltipDefault } from 'src/components/ui/tooltip';
 import IconPlus from 'src/images/plus.svg?react';
 

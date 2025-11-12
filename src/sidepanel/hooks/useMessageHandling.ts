@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Chat, ChatMessage } from '@/types';
 import { sendChatMessage } from '@/utils/api.ts';
-import { useLanguage } from '../contexts/languageContext';
+import { useLanguage } from '@/sidepanel/contexts/languageContext.tsx';
 import { getSystemPrompt } from '../locales/prompts';
 import { addToastError } from '@/libs/toast-messages.ts';
 

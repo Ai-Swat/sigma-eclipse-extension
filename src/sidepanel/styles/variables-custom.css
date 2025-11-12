@@ -51,7 +51,7 @@
   --box-shadow-popular-plan: 0 0 0 2px transparent, inset 0 0 0 2px rgba(255, 255, 255, 0.25);
 }
 
-:root.theme-white {
+:root.theme-light {
   --install-pwa-bg: #0a131e;
   --install-pwa-border: #0a131e;
   --install-pwa-box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.25);

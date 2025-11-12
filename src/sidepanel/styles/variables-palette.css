@@ -242,7 +242,7 @@
   --support-text-area-layer: #38383bff;
 }
 
-:root.theme-white {
+:root.theme-light {
   --background-neutral-global-primary: #e9ebedff;
   --background-neutral-global-secondary: #ffffffff;
   --background-neutral-global-tertiary: #ffffffff;

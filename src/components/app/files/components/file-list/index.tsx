@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { PhotoProvider } from 'react-photo-view';
 import cn from 'clsx';
-import { useThemeContext } from 'src/contexts/themeContext';
+import { useThemeContext } from '@/sidepanel/contexts/themeContext';
 import { FileItem } from '@/components/app/files/components/file-item';
-import { UploadedFile } from 'src/contexts/fileContext';
+import { UploadedFile } from '@/sidepanel/contexts/fileContext';
 import styles from './styles.module.css';
 
 interface Props {

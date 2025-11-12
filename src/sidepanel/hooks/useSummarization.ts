@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { MessageType } from '@/types';
-import { useLanguage } from '../contexts/languageContext';
+import { useLanguage } from '@/sidepanel/contexts/languageContext.tsx';
 import { addToastError } from '@/libs/toast-messages.ts';
 
 interface UseSummarizationProps {

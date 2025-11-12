@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { SupportedLanguage, getSummarizationPrompt, getBrowserLanguage } from '../locales/prompts';
+import {
+  SupportedLanguage,
+  getSummarizationPrompt,
+  getBrowserLanguage,
+} from '../locales/prompts.ts';
 
 const STORAGE_KEY = 'app_language';
 
