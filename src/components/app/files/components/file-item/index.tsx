@@ -6,7 +6,7 @@ import IconFile from 'src/images/file.svg?react';
 import { getTextPreview } from 'src/utils/file-text-extractor';
 import styles from './styles.module.css';
 
-const FileIconType = ({ type }: { type: string }) => {
+export const FileIconType = ({ type }: { type: string }) => {
   return (
     <div
       className={cn(styles.fileIconWrapper, {
