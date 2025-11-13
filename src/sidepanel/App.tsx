@@ -16,6 +16,7 @@ const AppContent: React.FC = () => {
     selectChat,
     deleteChat,
     addMessageToChat,
+    deleteAllChats,
     updateMessageInChat,
   } = useChatContext();
 
@@ -70,6 +71,7 @@ const AppContent: React.FC = () => {
         <ChatHistory
           chats={chats}
           activeChatId={activeChat?.id || null}
+          onDeleteAllChats={deleteAllChats}
           onSelectChat={selectChat}
           onDeleteChat={deleteChat}
           onNewChat={createNewChat}

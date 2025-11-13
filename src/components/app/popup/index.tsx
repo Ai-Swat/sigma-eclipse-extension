@@ -5,12 +5,17 @@ import { BaseButton } from '@/sidepanel/components/ui';
 
 interface Props {
   itemName: string;
-  threadId?: string;
   onCancel: () => void;
   onDelete: (id?: string) => void;
 }
 
-export const Popup: React.FC<Props> = ({ itemName, threadId, onCancel, onDelete }) => {
+export const Popup: React.FC<Props> = ({ itemName, onCancel, onDelete }) => {
+
+  const handleConfirm = () => {
+    onDelete();
+    onCancel()
+  }
+
   return (
     <div className={styles.overlay}>
       <div className={styles.popup}>
@@ -31,7 +36,7 @@ export const Popup: React.FC<Props> = ({ itemName, threadId, onCancel, onDelete 
           <BaseButton size={'lg'} onClick={onCancel} color={'grey'}>
             Cancel
           </BaseButton>
-          <BaseButton size={'lg'} color={'red'} onClick={() => onDelete(threadId)}>
+          <BaseButton size={'lg'} color={'red'} onClick={handleConfirm}>
             Delete
           </BaseButton>
         </div>

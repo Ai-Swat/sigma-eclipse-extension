@@ -14,21 +14,21 @@ interface ChatHistoryProps {
   onDeleteChat: (chatId: string) => void;
   onNewChat: () => void;
   onClose: () => void;
+  onDeleteAllChats: () => void;
 }
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({
   chats,
-  activeChatId,
   onSelectChat,
   onDeleteChat,
-  onNewChat,
+  onDeleteAllChats,
   onClose,
 }) => {
-
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const [activeChat, setActiveChat] = useState<Chat | null>(null)
+  const [activeChat, setActiveChat] = useState<Chat | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const historyChats = chats.filter(el => el.messages.length > 0);
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
@@ -44,10 +44,10 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     onClose();
   };
 
-  const handleDeleteChat = (e:React.MouseEvent<HTMLDivElement>, chat: Chat) => {
+  const handleDeleteChat = (e: React.MouseEvent<HTMLDivElement>, chat: Chat) => {
     e.stopPropagation();
-    setActiveChat(chat)
-    setShowPopup(true)
+    setActiveChat(chat);
+    setShowPopup(true);
   };
 
   useEffect(() => {
@@ -60,12 +60,13 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const deleteAllHistory = (e:  React.MouseEvent<HTMLDivElement>) => {
+  const deleteAllHistory = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    if (historyChats.length === 0) return;
+    setActiveChat(null);
     setMenuOpen(false);
-    setShowPopup(true)
-    setActiveChat(null)
-  }
+    setShowPopup(true);
+  };
 
   return (
     <>
@@ -86,10 +87,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
 
                 {menuOpen && (
                   <div className={styles.dropdownMenu}>
-                    <div
-                      className={styles.dropdownItem}
-                      onClick={(e) => deleteAllHistory(e)}
-                    >
+                    <div className={styles.dropdownItem} onClick={e => deleteAllHistory(e)}>
                       <DeleteIcon className={styles.dropdownIcon} />
                       Clear history
                     </div>
@@ -97,21 +95,21 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
                 )}
               </div>
 
-              <BaseButton
-                color={'transparent'}
-                size={'sm'}
-                onClick={onClose}
-              >
+              <BaseButton color={'transparent'} size={'sm'} onClick={onClose}>
                 <ClearIcon />
               </BaseButton>
             </div>
           </div>
 
           <div className={styles.chatList}>
-            {chats.length === 0 ? (
-              <div className={styles.emptyState}>No chats yet. Start a new conversation!</div>
+            {historyChats.length === 0 ? (
+              <div className={styles.emptyState}>
+                No chats yet.
+                <br />
+                Start a new conversation!
+              </div>
             ) : (
-              chats.filter(el => el.messages.length > 0).map(chat => (
+              historyChats.map(chat => (
                 <div
                   key={chat.id}
                   className={`${styles.chatItem}`}
@@ -122,11 +120,8 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
                     <span className={styles.chatDate}>{formatDate(chat.updatedAt)}</span>
                   </div>
 
-                  <div onClick={(e) => handleDeleteChat(e, chat)}>
-                    <BaseButton
-                      color={'transparent'}
-                      size={'xs'}
-                    >
+                  <div onClick={e => handleDeleteChat(e, chat)}>
+                    <BaseButton color={'transparent'} size={'xs'}>
                       <DeleteIcon className={styles.deleteIcon} />
                     </BaseButton>
                   </div>
@@ -137,12 +132,12 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
         </div>
       </div>
       {showPopup && (
-      <Popup
-        itemName={activeChat ? activeChat.title : 'all history'}
-        onCancel={() => setShowPopup(false)}
-        onDelete={() => onDeleteChat(activeChat?.id || '')}>
-
-      </Popup>)}
+        <Popup
+          itemName={activeChat ? activeChat.title : 'All history'}
+          onCancel={() => setShowPopup(false)}
+          onDelete={activeChat ? () => onDeleteChat(activeChat?.id) : onDeleteAllChats}
+        ></Popup>
+      )}
     </>
   );
 };

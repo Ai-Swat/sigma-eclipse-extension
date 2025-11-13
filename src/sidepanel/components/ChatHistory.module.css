@@ -88,11 +88,13 @@
 }
 
 .emptyState {
-  padding: 40px 20px;
-  text-align: center;
+  padding: 30px 20px;
+  font-size: 16px;
   color: var(--text-neutral-tertiary);
-  font-size: 14px;
-  line-height: 1.5;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -.24px;
+  text-align: center;
 }
 
 /* Chat Item */
@@ -104,6 +106,7 @@
   cursor: pointer;
   border-bottom: 1px solid var(--stroke-neutral-alfa-disabled);
   position: relative;
+  gap: 8px;
 }
 
 .chatItem:first-child {
@@ -188,6 +191,7 @@
   box-shadow: -6px 50px 14px #31304000, -4px 32px 13px #31304003, -2px 18px 11px #31304008, -1px 8px 8px #3130400a, 0 2px 4px #31304008, 0 0 #3130400d;
   width: 145px;
   padding: 4px;
+  z-index: 10001;
 }
 
 .dropdownItem {
