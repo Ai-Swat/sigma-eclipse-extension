@@ -40,6 +40,13 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
     }
   }, [messages, isLoading, shouldAutoScroll]);
 
+  // ⬇️ Обязательный автоскролл при появлении нового сообщения
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages.length]);
+
   // Empty state
   if (messages.length === 0 && !isLoading) {
     return (
