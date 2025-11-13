@@ -13,7 +13,7 @@
   box-shadow: 0 3px 7px 0 #00000005, 0 13px 13px 0 #00000005, 0 29px 17px 0 #00000003, 0 51px 20px 0 #00000000, 0 80px 22px 0 #00000000;;
   border-radius: 36px;
   overflow: hidden;
-  animation: 0.3s ease-out 0s 1 normal none running _fadeInUp_mo56z_1;
+  animation: fadeInUp 0.2s ease-out forwards;;
   border: 1px solid var(--stroke-neutral-alfa-tertiary);
   background: var(--background-neutral-global-secondary);
   padding: 12px;
@@ -79,24 +79,6 @@
   transition: background 0.2s;
 }
 
-.cancel {
-  background: #f2f2f2;
-  color: #333;
-}
-
-.cancel:hover {
-  background: #e4e4e4;
-}
-
-.delete {
-  background: #f44336;
-  color: #fff;
-}
-
-.delete:hover {
-  background: #e53935;
-}
-
 .closeBtn {
   cursor: pointer;
   stroke: var(--icon-neutral-secondary);
@@ -107,14 +89,13 @@
   stroke: var(--icon-neutral-tertiary);
 }
 
-@keyframes fadeIn {
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
-
