@@ -112,6 +112,12 @@
   max-width: 399px;
 }
 
+@media (max-width: 768px) {
+  .chat-message.user {
+    max-width: 100%;
+  }
+}
+
 .chat-message.assistant {
   align-self: flex-start;
 }
