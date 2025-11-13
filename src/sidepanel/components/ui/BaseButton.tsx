@@ -4,10 +4,11 @@ import styles from './BaseButton.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: 'primary' | 'transparent';
-  size?: 'default' | 'sm';
+  color?: 'primary' | 'transparent' | 'grey' | 'red';
+  size?: 'default' | 'sm' | 'xs' | 'lg';
   label?: string;
   onClick?: () => void;
+  isActive?: boolean;
 }
 
 export default function BaseButton({
@@ -16,10 +17,13 @@ export default function BaseButton({
   className,
   size = 'default',
   onClick,
+  isActive,
   label,
   ...otherProps
 }: ButtonProps) {
-  const cn = clsx(styles.button, styles[color], styles[size], className);
+  const cn = clsx(styles.button, styles[color], styles[size], className, {
+    [styles.isActive]: isActive,
+  });
 
   return (
     <button

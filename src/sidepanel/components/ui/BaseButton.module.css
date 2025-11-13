@@ -14,6 +14,24 @@
   background: var(--background-brand-primary);
 }
 
+.grey {
+  background-color: var(--background-neutral-secondary);
+  color: var(--text-neutral-primary);
+}
+
+.grey:hover {
+  background-color: var(--background-neutral-tertiary);
+}
+
+.red {
+  background-color: var(--background-error-primary);
+  color: var(--text-neutral-primary-on-color);
+}
+
+.red:hover {
+  background-color: var(--background-error-primary-hover);
+}
+
 .transparent {
   background: transparent;
   color: var(--text-neutral-tertiary);
@@ -24,6 +42,10 @@
 }
 
 .transparent:hover {
+  background: var(--background-neutral-secondary);
+}
+
+.transparent.isActive {
   background: var(--background-neutral-secondary);
 }
 
@@ -39,4 +61,18 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
+}
+
+.xs {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.lg {
+  height: 44px;
+  font-size: 16px;
+  padding: 10px 12px;
+  width: 100%;
+  border-radius: 999px;
 }

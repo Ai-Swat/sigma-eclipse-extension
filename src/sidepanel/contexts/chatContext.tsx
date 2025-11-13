@@ -15,6 +15,7 @@ interface ChatContextType {
   createNewChat: () => string; // Returns the new chat ID
   selectChat: (chatId: string) => void;
   deleteChat: (chatId: string) => void;
+  deleteAllChats: () => void;
   addMessageToActiveChat: (message: ChatMessage) => void;
   addMessageToChat: (chatId: string, message: ChatMessage) => void; // Add message to specific chat
   updateMessageInActiveChat: (messageId: string, content: string, isAborted?: boolean) => void;
@@ -117,6 +118,14 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     [activeChatId]
   );
 
+  const deleteAllChats = useCallback(() => {
+    setChats(() => {
+      const newChat = createChat();
+      setActiveChatId(newChat.id);
+      return [newChat];
+    });
+  }, []);
+
   const addMessageToChat = useCallback((chatId: string, message: ChatMessage) => {
     setChats(prev => {
       return prev.map(chat => {
@@ -202,6 +211,7 @@ export function ChatContextProvider({ children }: PropsWithChildren) {
     createNewChat,
     selectChat,
     deleteChat,
+    deleteAllChats,
     addMessageToActiveChat,
     addMessageToChat,
     updateMessageInActiveChat,
