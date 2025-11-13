@@ -8,7 +8,7 @@ import DotsIcon from '@/images/dots.svg?react';
 interface DropdownMenuProps {
   className?: string;
   onDelete: (e: React.MouseEvent) => void;
-  deleteTitle: string
+  deleteTitle: string;
 }
 
 const DropdownMenu: React.FC<DropdownMenuProps> = ({ className, onDelete, deleteTitle }) => {
@@ -34,13 +34,13 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ className, onDelete, delete
   }, [open]);
 
   const handleDelete = (e: React.MouseEvent) => {
-    toggleMenu(e)
-    onDelete(e)
-  }
+    toggleMenu(e);
+    onDelete(e);
+  };
 
   return (
     <div className={cn(styles.menuWrapper, className)} ref={menuRef}>
-      <div onClick={(e) => toggleMenu(e)}>
+      <div onClick={e => toggleMenu(e)}>
         <BaseButton color="transparent" size="sm" isActive={open}>
           <DotsIcon />
         </BaseButton>
@@ -48,7 +48,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ className, onDelete, delete
 
       {open && (
         <>
-          <div className={styles.overlay} onClick={(e) => toggleMenu(e)} />
+          <div className={styles.overlay} onClick={e => toggleMenu(e)} />
 
           <div className={styles.dropdownMenu}>
             <div className={styles.dropdownItem} onClick={e => handleDelete(e)}>

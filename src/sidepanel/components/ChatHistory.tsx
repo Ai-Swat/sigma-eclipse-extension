@@ -60,10 +60,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
           <div className={styles.header}>
             <div className={styles.title}>History</div>
             <div className={styles.headerButtonsWrapper} ref={menuRef}>
-              <DropdownMenu
-                onDelete={deleteAllHistory}
-                deleteTitle={'Clear history'}
-              />
+              <DropdownMenu onDelete={deleteAllHistory} deleteTitle={'Clear history'} />
 
               <BaseButton color={'transparent'} size={'sm'} onClick={onClose}>
                 <ClearIcon />
@@ -90,7 +87,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
                   </div>
 
                   <DropdownMenu
-                    onDelete={()=> handleDeleteChat(chat)}
+                    onDelete={() => handleDeleteChat(chat)}
                     deleteTitle={'Delete chat'}
                   />
                 </div>
