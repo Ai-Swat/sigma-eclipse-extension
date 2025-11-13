@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Chat } from '@/types';
 import styles from './ChatHistory.module.css';
 import { BaseButton } from '@/sidepanel/components/ui';
 import ClearIcon from '@/images/clear-icon.svg?react';
-import DeleteIcon from '@/images/delete.svg?react';
-import DotsIcon from '@/images/dots.svg?react';
 import { Popup } from '@/components/app/popup';
+import DropdownMenu from '@/sidepanel/components/ui/DropdownMenu.tsx';
 
 interface ChatHistoryProps {
   chats: Chat[];
@@ -24,7 +23,6 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   onDeleteAllChats,
   onClose,
 }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
   const [showPopup, setShowPopup] = useState(false);
@@ -44,27 +42,14 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     onClose();
   };
 
-  const handleDeleteChat = (e: React.MouseEvent<HTMLDivElement>, chat: Chat) => {
-    e.stopPropagation();
+  const handleDeleteChat = (chat: Chat) => {
     setActiveChat(chat);
     setShowPopup(true);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const deleteAllHistory = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const deleteAllHistory = () => {
     if (historyChats.length === 0) return;
     setActiveChat(null);
-    setMenuOpen(false);
     setShowPopup(true);
   };
 
@@ -75,32 +60,16 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
           <div className={styles.header}>
             <div className={styles.title}>History</div>
             <div className={styles.headerButtonsWrapper} ref={menuRef}>
-              <div className={styles.menuWrapper}>
-                <BaseButton
-                  color="transparent"
-                  size="sm"
-                  onClick={() => setMenuOpen(prev => !prev)}
-                  isActive={menuOpen}
-                >
-                  <DotsIcon />
-                </BaseButton>
-
-                {menuOpen && (
-                  <div className={styles.dropdownMenu}>
-                    <div className={styles.dropdownItem} onClick={e => deleteAllHistory(e)}>
-                      <DeleteIcon className={styles.dropdownIcon} />
-                      Clear history
-                    </div>
-                  </div>
-                )}
-              </div>
+              <DropdownMenu
+                onDelete={deleteAllHistory}
+                deleteTitle={'Clear history'}
+              />
 
               <BaseButton color={'transparent'} size={'sm'} onClick={onClose}>
                 <ClearIcon />
               </BaseButton>
             </div>
           </div>
-
           <div className={styles.chatList}>
             {historyChats.length === 0 ? (
               <div className={styles.emptyState}>
@@ -120,11 +89,10 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
                     <span className={styles.chatDate}>{formatDate(chat.updatedAt)}</span>
                   </div>
 
-                  <div onClick={e => handleDeleteChat(e, chat)}>
-                    <BaseButton color={'transparent'} size={'xs'}>
-                      <DeleteIcon className={styles.deleteIcon} />
-                    </BaseButton>
-                  </div>
+                  <DropdownMenu
+                    onDelete={()=> handleDeleteChat(chat)}
+                    deleteTitle={'Delete chat'}
+                  />
                 </div>
               ))
             )}
