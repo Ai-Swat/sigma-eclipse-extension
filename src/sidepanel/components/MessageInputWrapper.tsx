@@ -4,13 +4,14 @@ import { FileContextProvider, useFileContext } from '@/sidepanel/contexts/fileCo
 import { PageContextProvider, usePageContext } from '@/sidepanel/contexts/pageContext.tsx';
 import { TabInfoHeader } from '@/components/app/tab-info-block';
 import styles from './MessageInputWrapper.module.css';
+import { ScrollDownButton } from '@/components/app/scroll-down-button';
 
 interface MessageMetadata {
   hasAttachedFiles?: boolean;
   attachedFilesPreview?: string[];
   displayContent?: string;
   hasPageContext?: boolean;
-  pageContextPreview?: { title: string; url: string };
+  pageContextPreview?: { title: string; url: string; favicon?: string };
 }
 
 interface MessageInputWrapperProps {
@@ -69,6 +70,7 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
         metadata.pageContextPreview = {
           title: pageContext.title,
           url: pageContext.url,
+          favicon: pageContext.favicon,
         };
 
         // Detach context after sending
@@ -115,6 +117,8 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
 const MessageInputWrapper: React.FC<MessageInputWrapperProps> = props => {
   return (
     <div className={styles.wrapper}>
+      <ScrollDownButton />
+
       <PageContextProvider>
         <FileContextProvider>
           <MessageInputInner {...props} />

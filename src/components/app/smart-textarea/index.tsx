@@ -19,6 +19,7 @@ import { FileUploadButton } from './components/file-upload-button';
 import LanguageDropdown from '@/sidepanel/components/LanguageDropdown.tsx';
 import { useEvent } from '@/libs/use/use-event.ts';
 import { SummarizePageButton } from '@/components/app/smart-textarea/components/summarize-page-button';
+import { TEXTAREA_ID } from '@/sidepanel/App.tsx';
 
 import css from './styles.module.css';
 
@@ -133,6 +134,7 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
                 tabIndex={0}
                 rows={1}
                 autoFocus={true}
+                id={TEXTAREA_ID}
                 name="textarea-dropdown"
                 {...otherProps}
               />

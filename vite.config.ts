@@ -76,16 +76,6 @@ export default defineConfig({
   plugins: [react(), svgr(), chromeExtension()],
   base: './',
   build: {
-    cssCodeSplit: false,
-    minify: 'terser',
-    cssMinify: true,
-    terserOptions: {
-      compress: {
-        dead_code: false,
-        // drop_console: true,
-      },
-      sourceMap: false,
-    },
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
@@ -124,6 +114,7 @@ export default defineConfig({
     },
     // Target for Chrome extension
     target: 'esnext',
+    minify: 'esbuild',
     sourcemap: true,
     // Prevent code splitting for all entry points
     modulePreload: false,

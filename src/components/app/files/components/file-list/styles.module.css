@@ -9,9 +9,6 @@
   padding-top: 1px;
   padding-left: 6px;
   padding-right: 6px;
-}
-
-.list.isInputLayout {
   --top-fade: 6px;
   --bottom-fade: 6px;
   -webkit-mask: linear-gradient(
@@ -22,26 +19,10 @@
   );
 }
 
-.list.isUserMessage {
-  padding: 0;
-  margin: 0 0 12px 0;
-  gap: 8px;
-  height: unset;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-
 .scrollWrapper {
   overflow: scroll;
   width: 100%;
   display: flex;
-}
-
-.scrollWrapper.isUserMessage {
-  width: 100% !important;
-  padding: 0;
-  margin: 0;
 }
 
 .imageWrap {

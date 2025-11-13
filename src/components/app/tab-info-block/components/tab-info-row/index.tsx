@@ -13,7 +13,7 @@ function TabInfoRowComponent({
 }) {
   return (
     <div className={cn(styles.wrapperRow, className)}>
-      {favicon && <img src={favicon} alt="favicon" className={styles.favicon} />}
+      {favicon && <img src={favicon} alt="favicon" className="favicon-styles" />}
       <span className={styles.title}>{title}</span>
     </div>
   );

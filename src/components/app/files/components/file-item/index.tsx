@@ -42,7 +42,7 @@ export const FileIconType = ({ type }: { type: string }) => {
   );
 };
 
-const FileDoc = ({ file, isUserMessage }: { file: UploadedFile; isUserMessage?: boolean }) => {
+const FileDoc = ({ file }: { file: UploadedFile }) => {
   const name = file?.name || 'unknown';
   const typeFileName = name?.split('.')?.at(-1);
   const type = typeFileName || 'unknown';
@@ -58,11 +58,7 @@ const FileDoc = ({ file, isUserMessage }: { file: UploadedFile; isUserMessage?: 
   const isExtracting = file.isExtracting;
 
   return (
-    <div
-      className={cn(styles.fileDoc, {
-        [styles.isUserMessage]: isUserMessage,
-      })}
-    >
+    <div className={styles.fileDoc}>
       {isExtracting ? (
         <div className={styles.fileLoader}>
           <Loader size={24} />
@@ -81,10 +77,9 @@ const FileDoc = ({ file, isUserMessage }: { file: UploadedFile; isUserMessage?: 
 interface Props {
   file: UploadedFile;
   onRemove?: (idOrIndex: string | number) => void;
-  isUserMessage?: boolean;
 }
 
-export const FileItem = ({ file, onRemove, isUserMessage }: Props) => {
+export const FileItem = ({ file, onRemove }: Props) => {
   const { id } = file;
   const fileIdToUse = id;
   const hasRemoveHandler = typeof onRemove === 'function' && fileIdToUse;
@@ -97,7 +92,7 @@ export const FileItem = ({ file, onRemove, isUserMessage }: Props) => {
         </div>
       )}
 
-      <FileDoc isUserMessage={isUserMessage} file={file} />
+      <FileDoc file={file} />
     </div>
   );
 };

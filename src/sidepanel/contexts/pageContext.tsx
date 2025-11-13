@@ -12,7 +12,6 @@ interface PageContextState {
   pageContext: PageContextType | null;
   isAttached: boolean;
   isLoading: boolean;
-  favicon: string | null;
 }
 
 interface PageContextContextType extends PageContextState {
@@ -28,7 +27,6 @@ export function PageContextProvider({ children }: PropsWithChildren) {
     pageContext: null,
     isAttached: false,
     isLoading: false,
-    favicon: null,
   });
 
   // Get favicon URL from a page URL
@@ -60,7 +58,6 @@ export function PageContextProvider({ children }: PropsWithChildren) {
         setState(prev => ({
           ...prev,
           pageContext: null,
-          favicon: null,
           isLoading: false,
         }));
         return;
@@ -99,8 +96,7 @@ export function PageContextProvider({ children }: PropsWithChildren) {
         const favicon = tab.favIconUrl || getFaviconUrl(response.url);
         setState(prev => ({
           ...prev,
-          pageContext: response,
-          favicon,
+          pageContext: { ...response, favicon },
           isLoading: false,
         }));
       } else {

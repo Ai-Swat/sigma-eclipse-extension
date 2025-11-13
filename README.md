@@ -259,8 +259,7 @@ This extension requires the following permissions:
 - PDF document reading with PDF.js
 - DOCX support via Mammoth.js
 - Excel spreadsheet processing (XLSX)
-- Image upload and preview with drag & drop
-- Photo viewer integration (react-photo-view)
+- File uploading
 
 ### ✅ Advanced Translation Features
 - Context menu integration

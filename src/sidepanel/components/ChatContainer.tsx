@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { ChatMessage as ChatMessageType } from '../../types';
+import React, { useEffect, useRef, useState } from 'react';
+import { ChatMessage as ChatMessageType } from '@/types';
 import ChatMessage from './ChatMessage';
+import { SEARCH_SCROLL_CONTAINER } from '@/components/app/scroll-down-button';
 import styles from './ChatContainer.module.css';
 
 interface ChatContainerProps {
@@ -12,17 +13,41 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    }
+  // Флаг: юзер внизу → автоскроллим; нет → не трогаем
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+
+  // Проверяем, находится ли пользователь у низа
+  const handleScroll = () => {
+    if (!containerRef.current) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // допуск 10px
+    setShouldAutoScroll(isAtBottom);
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
+    const el = containerRef.current;
+    if (!el) return;
 
-  // Empty state - show when no messages
+    el.addEventListener('scroll', handleScroll);
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (shouldAutoScroll && containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages, isLoading, shouldAutoScroll]);
+
+  // ⬇️ Обязательный автоскролл при появлении нового сообщения
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages.length]);
+
+  // Empty state
   if (messages.length === 0 && !isLoading) {
     return (
       <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
@@ -34,12 +59,15 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
   }
 
   return (
-    <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
+    <div
+      className="chat-messages-container customScrollBarVertical"
+      id={SEARCH_SCROLL_CONTAINER}
+      ref={containerRef}
+    >
       <div className="chat-messages-list">
         {messages.map(message => (
-          <ChatMessage key={message.id} message={message} />
+          <ChatMessage key={message.id} message={message} isLoading={isLoading} />
         ))}
-        {/* Don't show loader during streaming - empty assistant message is already visible */}
         <div ref={messagesEndRef} />
       </div>
     </div>

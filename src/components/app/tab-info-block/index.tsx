@@ -6,8 +6,7 @@ import PlusIcon from 'src/images/plus.svg?react';
 import styles from './styles.module.css';
 
 function TabInfoHeaderComponent() {
-  const { pageContext, isAttached, isLoading, favicon, attachContext, detachContext } =
-    usePageContext();
+  const { pageContext, isAttached, isLoading, attachContext, detachContext } = usePageContext();
 
   // Don't show indicator if no page context available
   if (!pageContext) {
@@ -32,7 +31,9 @@ function TabInfoHeaderComponent() {
 
   return (
     <div className={clsx(styles.wrapper, 'opacity-animation')} onClick={handleToggleAttach}>
-      {pageContext && favicon && <TabInfoRow favicon={favicon} title={pageContext?.title} />}
+      {pageContext && pageContext.favicon && (
+        <TabInfoRow favicon={pageContext.favicon} title={pageContext?.title} />
+      )}
 
       <button className={styles.button} disabled={isLoading}>
         {isAttached ? (
