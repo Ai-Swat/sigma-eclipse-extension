@@ -38,6 +38,13 @@ const AppContent: React.FC = () => {
     if (activeChat && activeChat.messages.length === 0) {
       return;
     }
+
+    const emptyChat = chats.find(chat => chat.messages.length === 0);
+    if (emptyChat) {
+      selectChat(emptyChat.id);
+      return;
+    }
+
     createNewChat();
   };
 
