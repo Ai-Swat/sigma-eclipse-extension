@@ -30,7 +30,7 @@
     "@loadable/component": "^5.16.7",
     "@radix-ui/react-tooltip": "^1.2.8",
     "clsx": "^2.1.1",
-    "lottie-react": "^2.4.1",
+    "lottie-web-light": "^1.1.0",
     "mammoth": "^1.11.0",
     "openai": "^6.8.1",
     "pdfjs-dist": "^5.4.394",

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChatContextProvider, useChatContext } from '@/sidepanel/contexts/chatContext';
 import { LanguageProvider } from '@/sidepanel/contexts/languageContext.tsx';
 import { Header, ChatContainer, MessageInputWrapper } from './components';
 import ChatHistory from './components/ChatHistory';
 import { useMessageHandling } from './hooks/useMessageHandling';
 import { AppToaster } from 'src/components/app/app-toaster';
+
+export const TEXTAREA_ID = 'TEXTAREA_ID';
 
 const AppContent: React.FC = () => {
   const {
@@ -29,6 +31,8 @@ const AppContent: React.FC = () => {
   });
 
   const handleNewThread = () => {
+    const textarea = document.getElementById(TEXTAREA_ID);
+    textarea?.focus();
     // Don't create new chat if current chat is empty
     if (activeChat && activeChat.messages.length === 0) {
       return;
@@ -39,6 +43,11 @@ const AppContent: React.FC = () => {
   const handleHistory = () => {
     setIsHistoryOpen(true);
   };
+
+  useEffect(() => {
+    const textarea = document.getElementById(TEXTAREA_ID);
+    textarea?.focus();
+  }, [activeChat?.id]);
 
   return (
     <>
