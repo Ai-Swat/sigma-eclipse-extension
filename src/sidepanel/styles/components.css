@@ -109,6 +109,7 @@
 
 .chat-message.user {
   align-self: flex-end;
+  max-width: 399px;
 }
 
 .chat-message.assistant {
@@ -141,6 +142,15 @@
 .chat-message-buttons {
   display: flex;
   margin-top: 8px;
+}
+
+.favicon-styles {
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+  border-radius: 100px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
 }
 
 /* Message Input Styles */
@@ -283,13 +293,13 @@
 
 /* Summarization Banner Styles */
 .summarization-banner {
-  width: calc(100% + 14px);
-  margin-left: -8px;
+  width: calc(100% + 12px);
+  margin-left: -6px;
   margin-top: -2px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 6px;
+  padding: 6px 8px;
   background: var(--background-neutral-global-tertiary);
   border-radius: 12px;
   color: var(--text-neutral-primary);

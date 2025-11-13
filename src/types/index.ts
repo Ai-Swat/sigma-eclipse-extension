@@ -20,6 +20,7 @@ export interface PageContext {
   title: string;
   content: string;
   selectedText?: string;
+  favicon?: string;
 }
 
 // Chat Message - single message in a chat
@@ -37,9 +38,10 @@ export interface ChatMessage {
   displayContent?: string; // User's message without attached files text (for display only)
   // Metadata for page context
   hasPageContext?: boolean;
-  pageContextPreview?: { title: string; url: string }; // Page title and URL to show in banner
+  pageContextPreview?: { title: string; url: string; favicon?: string }; // Page title and URL to show in banner
   // Flag for aborted generation
   isAborted?: boolean;
+  favicon?: string;
 }
 
 // Chat - dialog entity

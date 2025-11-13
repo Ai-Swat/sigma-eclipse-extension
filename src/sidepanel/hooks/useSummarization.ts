@@ -8,7 +8,7 @@ interface UseSummarizationProps {
   handleSendMessage: (
     content: string,
     targetChatId?: string,
-    metadata?: { isSummarization?: boolean; summarizationPreview?: string }
+    metadata?: { isSummarization?: boolean; summarizationPreview?: string; favicon?: string }
   ) => Promise<void>;
 }
 
@@ -96,7 +96,8 @@ export const useSummarization = ({ createNewChat, handleSendMessage }: UseSummar
       );
 
       // Create preview for the banner - always show URL for full page summarization
-      const preview = tab.url || 'Page content';
+      const preview = tab.title || 'Page content';
+      const favicon = tab.favIconUrl;
 
       // Create a new chat and get its ID
       console.log('🆕 Creating new chat for summarization...');
@@ -108,6 +109,7 @@ export const useSummarization = ({ createNewChat, handleSendMessage }: UseSummar
       await handleSendMessage(prompt, newChatId, {
         isSummarization: true,
         summarizationPreview: preview,
+        favicon,
       });
     } catch (error) {
       console.error('❌ Error during summarization:', error);

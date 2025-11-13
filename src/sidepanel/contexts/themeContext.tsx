@@ -4,8 +4,6 @@ type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
-  setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -13,23 +11,18 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function ThemeContextProvider({ children }: PropsWithChildren) {
   const [theme, setTheme] = useState<Theme>('light');
 
+  // Load theme from system preference
   useEffect(() => {
-    // Load theme from storage or system preference
-    const loadTheme = async () => {
-      try {
-        const data = await chrome.storage.local.get('theme');
-        if (data.theme) {
-          setTheme(data.theme);
-        } else {
-          // Check system preference
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          setTheme(prefersDark ? 'dark' : 'light');
-        }
-      } catch (error) {
-        console.error('Failed to load theme:', error);
-      }
+    const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+    const initialTheme = darkThemeMq.matches ? 'dark' : 'light';
+    setTheme(initialTheme);
+
+    const mqListener = (e: MediaQueryListEventMap['change']) => {
+      setTheme(e.matches ? 'dark' : 'light');
     };
-    loadTheme();
+
+    darkThemeMq.addEventListener('change', mqListener);
+    return () => darkThemeMq.removeEventListener('change', mqListener);
   }, []);
 
   useEffect(() => {
@@ -41,15 +34,7 @@ export function ThemeContextProvider({ children }: PropsWithChildren) {
     chrome.storage.local.set({ theme });
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
-  };
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ theme }}>{children}</ThemeContext.Provider>;
 }
 
 export function useThemeContext() {

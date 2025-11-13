@@ -10,7 +10,7 @@ interface MessageMetadata {
   attachedFilesPreview?: string[];
   displayContent?: string;
   hasPageContext?: boolean;
-  pageContextPreview?: { title: string; url: string };
+  pageContextPreview?: { title: string; url: string; favicon?: string };
 }
 
 interface MessageInputWrapperProps {
@@ -69,6 +69,7 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
         metadata.pageContextPreview = {
           title: pageContext.title,
           url: pageContext.url,
+          favicon: pageContext.favicon,
         };
 
         // Detach context after sending

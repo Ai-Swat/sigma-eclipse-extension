@@ -2,7 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
-import { ChatMessage as ChatMessageType } from '../../types';
+import { ChatMessage as ChatMessageType } from '@/types';
 import { FileIconType } from '@/components/app/files/components/file-item';
 import { GlobalLoader } from '@/components/app/global-loader';
 import CopyButton from '@/components/app/copy-button';
@@ -11,32 +11,16 @@ interface ChatMessageProps {
   message: ChatMessageType;
 }
 
-const SummarizationBanner: React.FC<{ preview: string }> = ({ preview }) => {
+const SummarizationBanner: React.FC<{ preview: string; favicon?: string }> = ({
+  preview,
+  favicon,
+}) => {
   return (
     <div className="summarization-banner">
-      <svg
-        className="summarization-banner-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-      >
-        <path
-          d="M3 2C3 1.44772 3.44772 1 4 1H9L13 5V14C13 14.5523 12.5523 15 12 15H4C3.44772 15 3 14.5523 3 14V2Z"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M9 1V4C9 4.55228 9.44772 5 10 5H13"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinejoin="round"
-        />
-        <path d="M5 8H11M5 11H9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-      </svg>
-      <span className="summarization-banner-text">Summarize: {preview}</span>
+      {favicon && <img src={favicon} alt={preview} className="favicon-styles" />}
+      <span className="summarization-banner-text">
+        <span style={{ fontWeight: 500 }}>Summarize:</span> {preview}
+      </span>
     </div>
   );
 };
@@ -57,35 +41,15 @@ const FileAttachmentBanner: React.FC<{ files: string[] }> = ({ files }) => {
   );
 };
 
-const PageContextBanner: React.FC<{ pageContext: { title: string; url: string } }> = ({
-  pageContext,
-}) => {
-  const hostname = new URL(pageContext.url).hostname;
-
+const PageContextBanner: React.FC<{
+  pageContext: { title: string; url: string; favicon?: string };
+}> = ({ pageContext }) => {
   return (
     <div className="summarization-banner page-context-banner">
-      <svg
-        className="summarization-banner-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-      >
-        <path
-          d="M8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1Z"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        />
-        <path
-          d="M1.5 8H14.5M8 1C9.5 3 10 5.5 10 8C10 10.5 9.5 13 8 15M8 1C6.5 3 6 5.5 6 8C6 10.5 6.5 13 8 15"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        />
-      </svg>
-      <span className="summarization-banner-text">
-        {pageContext.title} ({hostname})
-      </span>
+      {pageContext.favicon && (
+        <img src={pageContext.favicon} alt={pageContext.title} className="favicon-styles" />
+      )}
+      <span className="summarization-banner-text">{pageContext.title}</span>
     </div>
   );
 };
@@ -123,7 +87,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       <div className={messageClasses}>
         <div className="chat-message-content">
           {shouldShowSummarizationBanner && (
-            <SummarizationBanner preview={message.summarizationPreview || ''} />
+            <SummarizationBanner
+              preview={message.summarizationPreview || ''}
+              favicon={message.favicon}
+            />
           )}
           {shouldShowPageContextBanner && (
             <PageContextBanner pageContext={message.pageContextPreview!} />
