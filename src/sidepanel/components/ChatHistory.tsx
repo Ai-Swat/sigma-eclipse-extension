@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Chat } from '@/types';
 import styles from './ChatHistory.module.css';
+import { BaseButton } from '@/sidepanel/components/ui';
+import ClearIcon from '@/images/clear-icon.svg?react';
+import DeleteIcon from '@/images/delete.svg?react';
+import DotsIcon from '@/images/dots.svg?react';
 
 interface ChatHistoryProps {
   chats: Chat[];
@@ -19,20 +23,17 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
   onNewChat,
   onClose,
 }) => {
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
-
-    return date.toLocaleDateString();
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   const handleSelectChat = (chatId: string) => {
@@ -40,32 +41,62 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     onClose();
   };
 
-  const handleDeleteChat = (e: React.MouseEvent, chatId: string) => {
-    e.stopPropagation();
+  const handleDeleteChat = (chatId: string) => {
     if (confirm('Delete this chat?')) {
       onDeleteChat(chatId);
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.sidebar} onClick={e => e.stopPropagation()}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Chat History</h2>
-          <button className={styles.closeButton} onClick={onClose}>
-            ✕
-          </button>
-        </div>
+          <div className={styles.title}>History</div>
+          <div className={styles.headerButtonsWrapper} ref={menuRef}>
+            <div className={styles.menuWrapper}>
+            <BaseButton
+              color="transparent"
+              size="sm"
+              onClick={() => setMenuOpen(prev => !prev)}
+              isActive={menuOpen}
+            >
+              <DotsIcon />
+            </BaseButton>
 
-        <button
-          className={styles.newChatButton}
-          onClick={() => {
-            onNewChat();
-            onClose();
-          }}
-        >
-          + New Chat
-        </button>
+            {menuOpen && (
+              <div className={styles.dropdownMenu}>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={() => {
+                    setMenuOpen(false);
+                  }}
+                >
+                  <DeleteIcon className={styles.dropdownIcon} />
+                  Clear history
+                </div>
+              </div>
+            )}
+            </div>
+
+            <BaseButton
+              color={'transparent'}
+              size={'sm'}
+              onClick={onClose}
+            >
+              <ClearIcon />
+            </BaseButton>
+          </div>
+        </div>
 
         <div className={styles.chatList}>
           {chats.length === 0 ? (
@@ -74,23 +105,21 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
             chats.map(chat => (
               <div
                 key={chat.id}
-                className={`${styles.chatItem} ${chat.id === activeChatId ? styles.active : ''}`}
+                className={`${styles.chatItem}`}
                 onClick={() => handleSelectChat(chat.id)}
               >
                 <div className={styles.chatItemContent}>
                   <div className={styles.chatTitle}>{chat.title}</div>
-                  <div className={styles.chatMeta}>
-                    <span className={styles.chatDate}>{formatDate(chat.updatedAt)}</span>
-                    <span className={styles.chatMessages}>{chat.messages.length} messages</span>
-                  </div>
+                  <span className={styles.chatDate}>{formatDate(chat.updatedAt)}</span>
                 </div>
-                <button
-                  className={styles.deleteButton}
-                  onClick={e => handleDeleteChat(e, chat.id)}
-                  title="Delete chat"
-                >
-                  🗑️
-                </button>
+
+                  <BaseButton
+                    color={'transparent'}
+                    size={'xs'}
+                    onClick={() => handleDeleteChat(chat.id)}
+                  >
+                    <DeleteIcon className={styles.deleteIcon} />
+                  </BaseButton>
               </div>
             ))
           )}

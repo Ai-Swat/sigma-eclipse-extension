@@ -24,7 +24,7 @@
 /* Sidebar */
 .sidebar {
   width: 320px;
-  max-width: 90vw;
+  max-width: 80vw;
   height: 100%;
   background: var(--background-neutral-global-secondary);
   box-shadow: var(--box-shadow-1);
@@ -47,69 +47,37 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--stroke-neutral-alfa-tertiary);
-  min-height: var(--desktop-header-height);
+  padding: 24px 16px;
+}
+
+.headerButtonsWrapper {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -.2px;
   color: var(--text-neutral-primary);
-  letter-spacing: -0.16px;
+  font-weight: 500;
 }
 
 .closeButton {
-  display: flex;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--stroke-neutral-alfa-tertiary);
-  justify-content: center;
-  align-items: center;
-  border-radius: 999px;
-  background: var(--background-neutral-secondary);
-  cursor: pointer;
-  user-select: none;
-  box-shadow: var(--box-shadow-1);
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
-  font-size: 18px;
-  color: var(--icon-neutral-primary);
-}
-
-.closeButton:hover {
-  background: var(--circle-button-hover);
-}
-
-.closeButton:active {
-  background: var(--background-neutral-tertiary);
-}
-
-/* New Chat Button */
-.newChatButton {
-  margin: 16px 20px 12px;
-  padding: 12px 16px;
-  background: var(--background-brand-primary);
-  color: var(--text-neutral-primary-on-color);
   border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
+  background: transparent;
+  outline: none;
+  display: flex;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: var(--box-shadow-1);
 }
 
-.newChatButton:hover {
-  background: var(--background-brand-primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--background-brand-primary-subdued);
+.closeButton > svg {
+  stroke: var(--icon-neutral-disabled);
 }
 
-.newChatButton:active {
-  transform: translateY(0);
+.closeButton:hover >svg {
+  stroke: var(--icon-neutral-tertiary);
 }
 
 /* Chat List */
@@ -133,22 +101,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  margin-bottom: 4px;
-  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-  background: var(--background-neutral-secondary);
+  border-bottom: 1px solid var(--stroke-neutral-alfa-disabled);
+  position: relative;
 }
 
-.chatItem:hover {
-  background: var(--background-neutral-tertiary);
-  border-color: var(--stroke-neutral-alfa-secondary);
-}
-
-.chatItem.active {
-  background: var(--background-brand-primary-subdued);
-  border-color: var(--stroke-colored-brand);
+.chatItem:first-child {
+  padding: 8px 12px 16px;
 }
 
 .chatItemContent {
@@ -157,14 +116,14 @@
 }
 
 .chatTitle {
-  font-size: 14px;
-  font-weight: 500;
   color: var(--text-neutral-primary);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -.16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 4px;
-  letter-spacing: -0.14px;
 }
 
 .chatItem.active .chatTitle {
@@ -181,6 +140,11 @@
 .chatDate,
 .chatMessages {
   white-space: nowrap;
+  color: var(--text-neutral-disabled);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: -.13px;
 }
 
 /* Delete Button */
@@ -204,12 +168,55 @@
   opacity: 1;
 }
 
-.deleteButton:hover {
-  background: var(--background-error-primary-subdued);
-  color: var(--icon-colored-error);
-  transform: scale(1.05);
+.deleteIcon {
+  stroke: none !important;
+  fill: var(--text-neutral-tertiary);
 }
 
-.deleteButton:active {
-  transform: scale(0.95);
+.menuWrapper {
+  position: relative;
+  display: inline-block;
 }
+
+.dropdownMenu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  border: 1px solid var(--stroke-neutral-alfa-tertiary);
+  background: var(--background-neutral-global-secondary);
+  border-radius: 14px;
+  box-shadow: -6px 50px 14px #31304000, -4px 32px 13px #31304003, -2px 18px 11px #31304008, -1px 8px 8px #3130400a, 0 2px 4px #31304008, 0 0 #3130400d;
+  width: 145px;
+  padding: 4px;
+}
+
+.dropdownItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  height: 38px;
+  padding: 6px 10px;
+  gap: 8px;
+  color: var(--text-neutral-primary);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -.16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background: var(--background-neutral-secondary);
+}
+
+.dropdownIcon {
+  width: 16px;
+  height: 16px;
+  fill: var(--icon-neutral-disabled)
+}
+

@@ -27,6 +27,10 @@
   background: var(--background-neutral-secondary);
 }
 
+.transparent.isActive {
+  background: var(--background-neutral-secondary);
+}
+
 .default {
   height: 44px;
 }
@@ -38,5 +42,11 @@
 .sm {
   width: 32px;
   height: 32px;
+  border-radius: 8px;
+}
+
+.xs {
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
 }
