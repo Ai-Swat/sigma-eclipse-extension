@@ -3,8 +3,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { ChatMessage as ChatMessageType } from '../../types';
-import { Loader } from 'src/components/ui/loader';
 import { FileIconType } from '@/components/app/files/components/file-item';
+import { GlobalLoader } from '@/components/app/global-loader';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -50,9 +50,7 @@ const FileAttachmentBanner: React.FC<{ files: string[] }> = ({ files }) => {
       <FileIconType type={type} />
       <div className="file-attachment-banner-text-container">
         <div className="summarization-banner-text file-attachment-banner-text">{fileText}</div>
-        { type &&
-          <div className="file-attachment-banner-text-type">{type}</div>
-        }
+        {type && <div className="file-attachment-banner-text-type">{type}</div>}
       </div>
     </div>
   );
@@ -114,12 +112,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const messageClasses = `chat-message ${message.role}${message.isAborted ? ' aborted' : ''}`;
 
   return (
-    <div className='chat-message-container'>
-      {shouldShowFileBanner &&
+    <div className="chat-message-container">
+      {shouldShowFileBanner && (
         <div className="file-attachment-banner-container">
           <FileAttachmentBanner files={message.attachedFilesPreview || []} />
         </div>
-      }
+      )}
       <div className={messageClasses}>
         <div className="chat-message-content">
           {shouldShowSummarizationBanner && (
@@ -134,9 +132,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             </ReactMarkdown>
           )}
           {isStreamingEmpty ? (
-            <div className="loading-indicator">
-              <Loader size={24} color="primary" />
-            </div>
+            <GlobalLoader />
           ) : !shouldShowFileBanner && !shouldShowPageContextBanner ? (
             <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
               {message.content}
