@@ -50,26 +50,26 @@ export async function showTranslationPopup(): Promise<void> {
   popup.className = 'sigma-translate-popup';
 
   popup.innerHTML = `
-    <div class="sigma-translate-popup-header">
-      <div class="sigma-translate-popup-title">Translation</div>
-      <button class="sigma-translate-popup-close">×</button>
-    </div>
-    
-    <div class="sigma-translate-section">
-      <div class="sigma-translate-section-title">Original Text</div>
-      <div class="sigma-translate-text-box">${escapeHtml(currentSelectedText)}</div>
-    </div>
-    
-    <div class="sigma-translate-section">
-      <div class="sigma-translate-section-title">Translation (${targetLanguageName})</div>
-      <div class="sigma-translate-text-box" id="sigma-translation-result">
-        <div class="sigma-translate-loading">
-          <div style="text-align: center;">
-            <div class="sigma-translate-spinner"></div>
-            <div>Translating...</div>
-          </div>
+    <div class="sigma-translate-popup-container">
+        <div class="sigma-translate-popup-header">
+            <div class="sigma-translate-popup-title">Translation</div>
+            <button class="sigma-translate-popup-close">×</button>
         </div>
-      </div>
+    
+        <div class="sigma-translate-section">
+            <div class="sigma-translate-section-title">Original Text</div>
+            <div class="sigma-translate-text-box">${escapeHtml(currentSelectedText)}</div>
+        </div>
+    
+        <div class="sigma-translate-section">
+            <div class="sigma-translate-section-title">Translation (${targetLanguageName})</div>
+            <div class="sigma-translate-text-box" id="sigma-translation-result">
+                <div class="sigma-translate-loading">
+                    <div class="sigma-translate-spinner"></div>
+                    <div>Translating...</div>
+                </div>
+            </div>
+        </div>
     </div>
   `;
 
@@ -107,11 +107,11 @@ export async function showTranslationPopup(): Promise<void> {
       const errorMessage = error instanceof Error ? error.message : 'Translation failed';
 
       if (errorMessage.includes('reload the page')) {
-        resultBox.innerHTML = `<div class="sigma-translate-error">⚠️ Extension was updated. Please <strong>reload the page</strong> (F5) to use translation.</div>`;
+        resultBox.innerHTML = `<div class="sigma-translate-error"><span>⚠️</span>️️ Extension was updated. Please <strong>reload the page</strong> (F5) to use translation.</div>`;
       } else if (errorMessage.includes('LlamaCpp')) {
-        resultBox.innerHTML = `<div class="sigma-translate-error">❌ Translation failed. Please make sure LlamaCpp is running on port 10345.</div>`;
+        resultBox.innerHTML = `<div class="sigma-translate-error"><span>❌</span>️️ Translation failed. Please make sure LlamaCpp is running on port 10345.</div>`;
       } else {
-        resultBox.innerHTML = `<div class="sigma-translate-error">❌ ${escapeHtml(errorMessage)}</div>`;
+        resultBox.innerHTML = `<div class="sigma-translate-error"><span>❌</span>️️ ${escapeHtml(errorMessage)}</div>`;
       }
     }
   }

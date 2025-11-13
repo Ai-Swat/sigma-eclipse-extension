@@ -14,7 +14,6 @@ export function injectTranslationStyles(): void {
       position: absolute;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 0;
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -41,7 +40,8 @@ export function injectTranslationStyles(): void {
       transform: scale(1.1);
       box-shadow:
         0 8px 18px rgba(0, 0, 0, 0.12),
-        0 4px 8px rgba(0, 0, 0, 0.08);
+        0 4px 8px rgba(0, 0, 0, 0.08),
+        0 0 12px rgba(118, 75, 162, 0.3);
     }
 
     .sigma-translate-bubble svg {
@@ -68,44 +68,69 @@ export function injectTranslationStyles(): void {
 
     .sigma-translate-popup-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
       z-index: 9999998;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      backdrop-filter: blur(4px);
-      animation: sigma-fade-in 0.3s ease forwards;
+      backdrop-filter: blur(5px);
+      animation: sigma-overlay-fade 0.35s ease forwards;
+    }
+
+    @keyframes sigma-overlay-fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .sigma-translate-popup {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      max-width: 600px;
+      background: #fff;
+      border-radius: 18px;
+      padding: 28px;
+      max-width: 640px;
       width: 100%;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.25),
+        0 6px 12px rgba(0, 0, 0, 0.1);
       z-index: 9999999;
-      font-family: -apple-system, system-ui, Helvetica, Arial;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       opacity: 0;
-      transform: translateY(10px);
-      animation: sigma-popup-in 0.35s ease forwards;
+      transform: translateY(12px) scale(0.98);
+      animation: sigma-popup-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .sigma-translate-popup:hover {
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.28),
+        0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sigma-translate-popup-container {
+      overflow-y: auto;
+      max-height: 80vh;
+    }
+    
+    .sigma-translate-popup-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    .sigma-translate-popup-container::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+    .sigma-translate-popup-container::-webkit-scrollbar-thumb:hover {
+      background: #aaa;
     }
 
     @keyframes sigma-popup-in {
-      0% {
+      from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(12px) scale(0.98);
       }
-      100% {
+      to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
@@ -120,16 +145,15 @@ export function injectTranslationStyles(): void {
       font-size: 20px;
       font-weight: 600;
       color: #1a1a1a;
+      letter-spacing: -0.2px;
     }
 
     .sigma-translate-popup-close {
-      background: #f5f5f5;
       border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+      width: 34px;
+      height: 34px;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 24px;
       color: #666;
       display: flex;
       align-items: center;
@@ -138,20 +162,18 @@ export function injectTranslationStyles(): void {
     }
 
     .sigma-translate-popup-close:hover {
-      background: #e5e5e5;
-      color: #333;
-      transform: rotate(90deg);
+      color: #222;
     }
 
     .sigma-translate-section {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .sigma-translate-section-title {
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
-      color: #666;
+      color: #777;
       margin-bottom: 8px;
       letter-spacing: 0.5px;
     }
@@ -163,25 +185,27 @@ export function injectTranslationStyles(): void {
       font-size: 15px;
       line-height: 1.6;
       color: #333;
-      border: 1px solid #e0e0e0;
+      transition: background 0.25s ease, border-color 0.25s ease;
     }
 
     .sigma-translate-loading {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px;
       color: #666;
+      font-size: 15px;
     }
 
     .sigma-translate-spinner {
       border: 3px solid #f3f3f3;
-      border-top: 3px solid #667eea;
+      border-top: 3px solid #148eff;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 24px;
+      height: 24px;
       animation: sigma-spin 1s linear infinite;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
+      margin-right: 8px;
     }
 
     @keyframes sigma-spin {
@@ -189,12 +213,8 @@ export function injectTranslationStyles(): void {
       100% { transform: rotate(360deg); }
     }
 
-    .sigma-translate-error {
-      background: #fee;
-      color: #c33;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
+    .sigma-translate-error span {
+      margin-right: 6px;
     }
   `;
 

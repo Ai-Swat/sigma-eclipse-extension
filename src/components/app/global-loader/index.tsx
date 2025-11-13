@@ -1,7 +1,7 @@
-import Lottie from 'lottie-react'
-import Animation from './bagoodex-global-loader.json'
-import styles from './styles.module.css'
-import cn from 'clsx'
+import Lottie from 'lottie-react';
+import Animation from './bagoodex-global-loader.json';
+import styles from './styles.module.css';
+import cn from 'clsx';
 
 export function GlobalLoader({ text }: { text?: string }) {
   return (
@@ -15,5 +15,5 @@ export function GlobalLoader({ text }: { text?: string }) {
 
       <div>{text || 'Thinking...'}</div>
     </div>
-  )
+  );
 }
