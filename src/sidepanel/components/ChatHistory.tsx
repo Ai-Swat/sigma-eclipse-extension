@@ -5,6 +5,7 @@ import { BaseButton } from '@/sidepanel/components/ui';
 import ClearIcon from '@/images/clear-icon.svg?react';
 import DeleteIcon from '@/images/delete.svg?react';
 import DotsIcon from '@/images/dots.svg?react';
+import { Popup } from '@/components/app/popup';
 
 interface ChatHistoryProps {
   chats: Chat[];
@@ -26,6 +27,8 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
 
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [activeChat, setActiveChat] = useState<Chat | null>(null)
+  const [showPopup, setShowPopup] = useState(false);
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
@@ -41,10 +44,10 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     onClose();
   };
 
-  const handleDeleteChat = (chatId: string) => {
-    if (confirm('Delete this chat?')) {
-      onDeleteChat(chatId);
-    }
+  const handleDeleteChat = (e:React.MouseEvent<HTMLDivElement>, chat: Chat) => {
+    e.stopPropagation();
+    setActiveChat(chat)
+    setShowPopup(true)
   };
 
   useEffect(() => {
@@ -57,75 +60,90 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const deleteAllHistory = (e:  React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setMenuOpen(false);
+    setShowPopup(true)
+    setActiveChat(null)
+  }
+
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.sidebar} onClick={e => e.stopPropagation()}>
-        <div className={styles.header}>
-          <div className={styles.title}>History</div>
-          <div className={styles.headerButtonsWrapper} ref={menuRef}>
-            <div className={styles.menuWrapper}>
-            <BaseButton
-              color="transparent"
-              size="sm"
-              onClick={() => setMenuOpen(prev => !prev)}
-              isActive={menuOpen}
-            >
-              <DotsIcon />
-            </BaseButton>
-
-            {menuOpen && (
-              <div className={styles.dropdownMenu}>
-                <div
-                  className={styles.dropdownItem}
-                  onClick={() => {
-                    setMenuOpen(false);
-                  }}
+    <>
+      <div className={styles.overlay} onClick={onClose}>
+        <div className={styles.sidebar} onClick={e => e.stopPropagation()}>
+          <div className={styles.header}>
+            <div className={styles.title}>History</div>
+            <div className={styles.headerButtonsWrapper} ref={menuRef}>
+              <div className={styles.menuWrapper}>
+                <BaseButton
+                  color="transparent"
+                  size="sm"
+                  onClick={() => setMenuOpen(prev => !prev)}
+                  isActive={menuOpen}
                 >
-                  <DeleteIcon className={styles.dropdownIcon} />
-                  Clear history
-                </div>
-              </div>
-            )}
-            </div>
+                  <DotsIcon />
+                </BaseButton>
 
-            <BaseButton
-              color={'transparent'}
-              size={'sm'}
-              onClick={onClose}
-            >
-              <ClearIcon />
-            </BaseButton>
+                {menuOpen && (
+                  <div className={styles.dropdownMenu}>
+                    <div
+                      className={styles.dropdownItem}
+                      onClick={(e) => deleteAllHistory(e)}
+                    >
+                      <DeleteIcon className={styles.dropdownIcon} />
+                      Clear history
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <BaseButton
+                color={'transparent'}
+                size={'sm'}
+                onClick={onClose}
+              >
+                <ClearIcon />
+              </BaseButton>
+            </div>
+          </div>
+
+          <div className={styles.chatList}>
+            {chats.length === 0 ? (
+              <div className={styles.emptyState}>No chats yet. Start a new conversation!</div>
+            ) : (
+              chats.filter(el => el.messages.length > 0).map(chat => (
+                <div
+                  key={chat.id}
+                  className={`${styles.chatItem}`}
+                  onClick={() => handleSelectChat(chat.id)}
+                >
+                  <div className={styles.chatItemContent}>
+                    <div className={styles.chatTitle}>{chat.title}</div>
+                    <span className={styles.chatDate}>{formatDate(chat.updatedAt)}</span>
+                  </div>
+
+                  <div onClick={(e) => handleDeleteChat(e, chat)}>
+                    <BaseButton
+                      color={'transparent'}
+                      size={'xs'}
+                    >
+                      <DeleteIcon className={styles.deleteIcon} />
+                    </BaseButton>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
-
-        <div className={styles.chatList}>
-          {chats.length === 0 ? (
-            <div className={styles.emptyState}>No chats yet. Start a new conversation!</div>
-          ) : (
-            chats.map(chat => (
-              <div
-                key={chat.id}
-                className={`${styles.chatItem}`}
-                onClick={() => handleSelectChat(chat.id)}
-              >
-                <div className={styles.chatItemContent}>
-                  <div className={styles.chatTitle}>{chat.title}</div>
-                  <span className={styles.chatDate}>{formatDate(chat.updatedAt)}</span>
-                </div>
-
-                  <BaseButton
-                    color={'transparent'}
-                    size={'xs'}
-                    onClick={() => handleDeleteChat(chat.id)}
-                  >
-                    <DeleteIcon className={styles.deleteIcon} />
-                  </BaseButton>
-              </div>
-            ))
-          )}
-        </div>
       </div>
-    </div>
+      {showPopup && (
+      <Popup
+        itemName={activeChat ? activeChat.title : 'all history'}
+        onCancel={() => setShowPopup(false)}
+        onDelete={() => onDeleteChat(activeChat?.id || '')}>
+
+      </Popup>)}
+    </>
   );
 };
 

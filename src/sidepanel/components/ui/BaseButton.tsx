@@ -4,8 +4,8 @@ import styles from './BaseButton.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: 'primary' | 'transparent';
-  size?: 'default' | 'sm' | 'xs';
+  color?: 'primary' | 'transparent' | 'grey' | 'red';
+  size?: 'default' | 'sm' | 'xs' | 'lg';
   label?: string;
   onClick?: () => void;
   isActive?: boolean;
@@ -17,7 +17,7 @@ export default function BaseButton({
   className,
   size = 'default',
   onClick,
-                                     isActive,
+  isActive,
   label,
   ...otherProps
 }: ButtonProps) {
