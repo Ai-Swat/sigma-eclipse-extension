@@ -59,7 +59,7 @@
 .title {
   font-size: 20px;
   line-height: 24px;
-  letter-spacing: -.2px;
+  letter-spacing: -0.2px;
   color: var(--text-neutral-primary);
   font-weight: 500;
 }
@@ -76,7 +76,7 @@
   stroke: var(--icon-neutral-disabled);
 }
 
-.closeButton:hover >svg {
+.closeButton:hover > svg {
   stroke: var(--icon-neutral-tertiary);
 }
 
@@ -93,7 +93,7 @@
   color: var(--text-neutral-tertiary);
   font-weight: 500;
   line-height: 24px;
-  letter-spacing: -.24px;
+  letter-spacing: -0.24px;
   text-align: center;
 }
 
@@ -123,7 +123,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: -.16px;
+  letter-spacing: -0.16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -147,7 +147,7 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 19px;
-  letter-spacing: -.13px;
+  letter-spacing: -0.13px;
 }
 
 /* Delete Button */
@@ -188,7 +188,13 @@
   border: 1px solid var(--stroke-neutral-alfa-tertiary);
   background: var(--background-neutral-global-secondary);
   border-radius: 14px;
-  box-shadow: -6px 50px 14px #31304000, -4px 32px 13px #31304003, -2px 18px 11px #31304008, -1px 8px 8px #3130400a, 0 2px 4px #31304008, 0 0 #3130400d;
+  box-shadow:
+    -6px 50px 14px #31304000,
+    -4px 32px 13px #31304003,
+    -2px 18px 11px #31304008,
+    -1px 8px 8px #3130400a,
+    0 2px 4px #31304008,
+    0 0 #3130400d;
   width: 145px;
   padding: 4px;
   z-index: 10001;
@@ -207,7 +213,7 @@
   color: var(--text-neutral-primary);
   font-size: 16px;
   font-weight: 400;
-  letter-spacing: -.16px;
+  letter-spacing: -0.16px;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -221,6 +227,5 @@
 .dropdownIcon {
   width: 16px;
   height: 16px;
-  fill: var(--icon-neutral-disabled)
+  fill: var(--icon-neutral-disabled);
 }
-

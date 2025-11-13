@@ -10,10 +10,15 @@
 
 .popup {
   width: 344px;
-  box-shadow: 0 3px 7px 0 #00000005, 0 13px 13px 0 #00000005, 0 29px 17px 0 #00000003, 0 51px 20px 0 #00000000, 0 80px 22px 0 #00000000;;
+  box-shadow:
+    0 3px 7px 0 #00000005,
+    0 13px 13px 0 #00000005,
+    0 29px 17px 0 #00000003,
+    0 51px 20px 0 #00000000,
+    0 80px 22px 0 #00000000;
   border-radius: 36px;
   overflow: hidden;
-  animation: fadeInUp 0.2s ease-out forwards;;
+  animation: fadeInUp 0.2s ease-out forwards;
   border: 1px solid var(--stroke-neutral-alfa-tertiary);
   background: var(--background-neutral-global-secondary);
   padding: 12px;

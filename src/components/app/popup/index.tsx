@@ -10,11 +10,10 @@ interface Props {
 }
 
 export const Popup: React.FC<Props> = ({ itemName, onCancel, onDelete }) => {
-
   const handleConfirm = () => {
     onDelete();
-    onCancel()
-  }
+    onCancel();
+  };
 
   return (
     <div className={styles.overlay}>

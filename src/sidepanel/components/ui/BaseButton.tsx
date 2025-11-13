@@ -22,7 +22,7 @@ export default function BaseButton({
   ...otherProps
 }: ButtonProps) {
   const cn = clsx(styles.button, styles[color], styles[size], className, {
-    [styles.isActive] : isActive
+    [styles.isActive]: isActive,
   });
 
   return (
