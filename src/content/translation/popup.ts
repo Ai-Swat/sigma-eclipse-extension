@@ -41,6 +41,8 @@ export async function showTranslationPopup(): Promise<void> {
 
   const targetLanguageName = LANGUAGE_NAMES[targetLanguage] || 'English';
 
+  document.body.classList.add('sigma-no-scroll');
+
   // Create popup overlay
   const overlay = document.createElement('div');
   overlay.className = 'sigma-translate-popup-overlay';
@@ -125,6 +127,7 @@ export function removeTranslationPopup(): void {
     translationPopup.remove();
     translationPopup = null;
   }
+  document.body.classList.remove('sigma-no-scroll');
 }
 
 /**

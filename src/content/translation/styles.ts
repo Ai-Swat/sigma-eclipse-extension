@@ -10,6 +10,10 @@ export function injectTranslationStyles(): void {
   const style = document.createElement('style');
   style.id = 'sigma-translation-styles';
   style.textContent = `
+    body.sigma-no-scroll {
+      overflow: hidden !important;
+    }
+
     .sigma-translate-bubble {
       position: absolute;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -85,7 +89,8 @@ export function injectTranslationStyles(): void {
     }
 
     .sigma-translate-popup {
-      background: #fff;
+      background: #ffffff;
+      color: #000000;
       border-radius: 18px;
       padding: 28px;
       max-width: 640px;
@@ -149,11 +154,12 @@ export function injectTranslationStyles(): void {
     }
 
     .sigma-translate-popup-close {
+      background: transparent;
       border: none;
       width: 34px;
       height: 34px;
       cursor: pointer;
-      font-size: 24px;
+      font-size: 28px;
       color: #666;
       display: flex;
       align-items: center;
@@ -173,19 +179,18 @@ export function injectTranslationStyles(): void {
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
-      color: #777;
+      color: #4d576aff;
       margin-bottom: 8px;
       letter-spacing: 0.5px;
     }
 
     .sigma-translate-text-box {
-      background: #f8f9fa;
       border-radius: 12px;
       padding: 16px;
       font-size: 15px;
       line-height: 1.6;
-      color: #333;
-      transition: background 0.25s ease, border-color 0.25s ease;
+      background: #f6f6f6ff;
+      color: #000000;
     }
 
     .sigma-translate-loading {
@@ -193,16 +198,16 @@ export function injectTranslationStyles(): void {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: #666;
+      color: #3c3e41ff;
       font-size: 15px;
     }
 
     .sigma-translate-spinner {
-      border: 3px solid #f3f3f3;
+      border: 3px solid #4d576a12;
       border-top: 3px solid #148eff;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      width: 32px;
+      height: 32px;
       animation: sigma-spin 1s linear infinite;
       margin-bottom: 8px;
       margin-right: 8px;
