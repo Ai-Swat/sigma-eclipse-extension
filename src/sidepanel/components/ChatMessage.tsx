@@ -5,6 +5,7 @@ import rehypeHighlight from 'rehype-highlight';
 import { ChatMessage as ChatMessageType } from '../../types';
 import { FileIconType } from '@/components/app/files/components/file-item';
 import { GlobalLoader } from '@/components/app/global-loader';
+import CopyButton from '@/components/app/copy-button';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -110,6 +111,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 
   // Add aborted class if message was aborted
   const messageClasses = `chat-message ${message.role}${message.isAborted ? ' aborted' : ''}`;
+  const isAssistant = message.role === 'assistant';
 
   return (
     <div className="chat-message-container">
@@ -140,6 +142,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           ) : null}
         </div>
       </div>
+
+      {isAssistant && (
+        <div className="chat-message-buttons">
+          <CopyButton text={message.content} />
+        </div>
+      )}
     </div>
   );
 };

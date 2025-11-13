@@ -138,6 +138,11 @@
   border-color: var(--stroke-neutral-alfa-secondary);
 }
 
+.chat-message-buttons {
+  display: flex;
+  margin-top: 8px;
+}
+
 /* Message Input Styles */
 .message-input-container {
   display: flex;
