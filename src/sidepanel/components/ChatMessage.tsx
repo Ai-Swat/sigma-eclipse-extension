@@ -9,6 +9,7 @@ import CopyButton from '@/components/app/copy-button';
 
 interface ChatMessageProps {
   message: ChatMessageType;
+  isLoading: boolean;
 }
 
 const SummarizationBanner: React.FC<{ preview: string; favicon?: string }> = ({
@@ -54,7 +55,7 @@ const PageContextBanner: React.FC<{
   );
 };
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
+const ChatMessage: React.FC<ChatMessageProps> = ({ message, isLoading }) => {
   // Show loader in empty assistant message (streaming starting)
   const isStreamingEmpty = message.role === 'assistant' && message.content === '';
 
@@ -102,7 +103,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           )}
           {isStreamingEmpty ? (
             <GlobalLoader />
-          ) : !shouldShowFileBanner && !shouldShowPageContextBanner ? (
+          ) : !shouldShowFileBanner &&
+            !shouldShowPageContextBanner &&
+            !shouldShowSummarizationBanner ? (
             <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
               {message.content}
             </ReactMarkdown>
@@ -110,8 +113,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         </div>
       </div>
 
-      {isAssistant && (
-        <div className="chat-message-buttons">
+      {isAssistant && !isLoading && (
+        <div className="chat-message-buttons fade-in">
           <CopyButton text={message.content} />
         </div>
       )}

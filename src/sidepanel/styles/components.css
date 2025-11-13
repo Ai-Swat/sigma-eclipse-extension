@@ -123,6 +123,9 @@
   font-size: 16px;
   line-height: 24px;
   color: var(--text-neutral-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .chat-message.user .chat-message-content {
@@ -306,7 +309,6 @@
   font-size: 15px;
   height: 34px;
   transition: all 0.2s ease;
-  margin-bottom: 6px;
 }
 
 .summarization-banner-icon {

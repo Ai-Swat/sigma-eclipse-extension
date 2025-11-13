@@ -37,7 +37,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
     <div className="chat-messages-container customScrollBarVertical" ref={containerRef}>
       <div className="chat-messages-list">
         {messages.map(message => (
-          <ChatMessage key={message.id} message={message} />
+          <ChatMessage key={message.id} message={message} isLoading={isLoading} />
         ))}
         {/* Don't show loader during streaming - empty assistant message is already visible */}
         <div ref={messagesEndRef} />
