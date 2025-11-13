@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ChatMessage as ChatMessageType } from '../../types';
+import { ChatMessage as ChatMessageType } from '@/types';
 import ChatMessage from './ChatMessage';
 import styles from './ChatContainer.module.css';
 
