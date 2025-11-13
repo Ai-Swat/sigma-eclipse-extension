@@ -1,0 +1,12 @@
+.scrollButton {
+  position: absolute;
+  z-index: 10;
+  width: 42px;
+  height: 42px;
+  top: calc(-42px - 24px);
+  left: calc(50% - (42px / 2));
+}
+
+.arrowIcon {
+  transform: rotate(-90deg);
+}

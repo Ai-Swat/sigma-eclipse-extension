@@ -4,6 +4,7 @@ import { FileContextProvider, useFileContext } from '@/sidepanel/contexts/fileCo
 import { PageContextProvider, usePageContext } from '@/sidepanel/contexts/pageContext.tsx';
 import { TabInfoHeader } from '@/components/app/tab-info-block';
 import styles from './MessageInputWrapper.module.css';
+import { ScrollDownButton } from '@/components/app/scroll-down-button';
 
 interface MessageMetadata {
   hasAttachedFiles?: boolean;
@@ -116,6 +117,8 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
 const MessageInputWrapper: React.FC<MessageInputWrapperProps> = props => {
   return (
     <div className={styles.wrapper}>
+      <ScrollDownButton />
+
       <PageContextProvider>
         <FileContextProvider>
           <MessageInputInner {...props} />
