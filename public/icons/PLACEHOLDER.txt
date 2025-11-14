@@ -1,4 +1,0 @@
-Icons will be generated during build process or can be added manually.
-The icon.svg file can be converted to PNG at sizes 16x16, 48x48, and 128x128.
-
-For now, the extension will work but may show default Chrome icon until proper icons are added.
