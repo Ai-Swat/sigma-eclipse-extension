@@ -9,7 +9,9 @@
     "storage",
     "scripting",
     "sidePanel",
-    "contextMenus"
+    "contextMenus",
+    "nativeMessaging",
+    "alarms"
   ],
   "host_permissions": [
     "<all_urls>"

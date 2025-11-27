@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ChatContextProvider, useChatContext } from '@/sidepanel/contexts/chatContext';
 import { LanguageProvider } from '@/sidepanel/contexts/languageContext.tsx';
+import { ModelContextProvider } from '@/sidepanel/contexts/modelContext';
 import { Header, ChatContainer, MessageInputWrapper } from './components';
 import ChatHistory from './components/ChatHistory';
+import InstallAppPrompt from './components/InstallAppPrompt';
 import { useMessageHandling } from './hooks/useMessageHandling';
 import { AppToaster } from 'src/components/app/app-toaster';
 
@@ -86,6 +88,7 @@ const AppContent: React.FC = () => {
         />
       )}
 
+      <InstallAppPrompt />
       <AppToaster />
     </>
   );
@@ -94,9 +97,11 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <LanguageProvider>
-      <ChatContextProvider>
-        <AppContent />
-      </ChatContextProvider>
+      <ModelContextProvider>
+        <ChatContextProvider>
+          <AppContent />
+        </ChatContextProvider>
+      </ModelContextProvider>
     </LanguageProvider>
   );
 };
