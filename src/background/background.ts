@@ -38,11 +38,11 @@ async function checkAndBroadcastStatus() {
     // First check if host is available
     const hostCheck = await sigmaEclipseClient.checkHostAvailable();
     const newHostAvailable = hostCheck.available;
-    
+
     // If host is not available, broadcast that and skip other checks
     if (!newHostAvailable) {
       const hostChanged = cachedStatus.hostAvailable !== newHostAvailable;
-      
+
       cachedStatus = {
         ...cachedStatus,
         hostAvailable: newHostAvailable,
@@ -52,28 +52,30 @@ async function checkAndBroadcastStatus() {
         downloadProgress: null,
         lastCheck: Date.now(),
       };
-      
+
       if (hostChanged || cachedStatus.hostAvailable === null) {
         console.log('[Background] Host not available:', hostCheck.error);
-        
-        chrome.runtime.sendMessage({
-          type: 'STATUS_UPDATE',
-          data: {
-            hostAvailable: false,
-            hostError: hostCheck.error,
-            appRunning: false,
-            modelRunning: false,
-            isDownloading: false,
-            downloadProgress: null,
-            hostChanged: true,
-          },
-        }).catch(() => {
-          // No listeners, ignore
-        });
+
+        chrome.runtime
+          .sendMessage({
+            type: 'STATUS_UPDATE',
+            data: {
+              hostAvailable: false,
+              hostError: hostCheck.error,
+              appRunning: false,
+              modelRunning: false,
+              isDownloading: false,
+              downloadProgress: null,
+              hostChanged: true,
+            },
+          })
+          .catch(() => {
+            // No listeners, ignore
+          });
       }
       return;
     }
-    
+
     // Host is available, check other statuses
     const [appStatus, modelStatus, downloadStatus] = await Promise.all([
       sigmaEclipseClient.getAppStatus().catch(() => ({ is_running: false })),
@@ -105,30 +107,32 @@ async function checkAndBroadcastStatus() {
 
     // Broadcast status change to all extension pages
     if (hostChanged || appChanged || modelChanged || downloadChanged || progressChanged) {
-      console.log('[Background] Status changed:', { 
+      console.log('[Background] Status changed:', {
         hostAvailable: newHostAvailable,
-        appRunning: newAppRunning, 
+        appRunning: newAppRunning,
         modelRunning: newModelRunning,
         isDownloading: newIsDownloading,
         downloadProgress: newDownloadProgress,
       });
-      
-      chrome.runtime.sendMessage({
-        type: 'STATUS_UPDATE',
-        data: {
-          hostAvailable: newHostAvailable,
-          appRunning: newAppRunning,
-          modelRunning: newModelRunning,
-          isDownloading: newIsDownloading,
-          downloadProgress: newDownloadProgress,
-          hostChanged,
-          appChanged,
-          modelChanged,
-          downloadChanged,
-        },
-      }).catch(() => {
-        // No listeners, ignore
-      });
+
+      chrome.runtime
+        .sendMessage({
+          type: 'STATUS_UPDATE',
+          data: {
+            hostAvailable: newHostAvailable,
+            appRunning: newAppRunning,
+            modelRunning: newModelRunning,
+            isDownloading: newIsDownloading,
+            downloadProgress: newDownloadProgress,
+            hostChanged,
+            appChanged,
+            modelChanged,
+            downloadChanged,
+          },
+        })
+        .catch(() => {
+          // No listeners, ignore
+        });
     }
   } catch (err) {
     console.warn('[Background] Status check failed:', err);
@@ -206,7 +210,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           sendResponse({ success: true, data });
         } catch (error) {
           console.error('Model start error:', error);
-          sendResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+          sendResponse({
+            success: false,
+            error: error instanceof Error ? error.message : 'Unknown error',
+          });
         }
       })();
       return true;

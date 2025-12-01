@@ -110,7 +110,13 @@ export function ModelContextProvider({ children }: PropsWithChildren) {
     if (hostInstalled !== false) {
       await Promise.all([refreshAppStatus(), refreshModelStatus(), refreshDownloadStatus()]);
     }
-  }, [refreshHostStatus, refreshAppStatus, refreshModelStatus, refreshDownloadStatus, hostInstalled]);
+  }, [
+    refreshHostStatus,
+    refreshAppStatus,
+    refreshModelStatus,
+    refreshDownloadStatus,
+    hostInstalled,
+  ]);
 
   // Check status on mount
   useEffect(() => {
@@ -126,15 +132,15 @@ export function ModelContextProvider({ children }: PropsWithChildren) {
 
   // Listen for status updates from background
   useEffect(() => {
-    const handleMessage = (message: { 
-      type: string; 
-      data?: { 
+    const handleMessage = (message: {
+      type: string;
+      data?: {
         hostAvailable?: boolean;
-        appRunning: boolean; 
+        appRunning: boolean;
         modelRunning: boolean;
         isDownloading: boolean;
         downloadProgress: number | null;
-      } 
+      };
     }) => {
       if (message.type === 'STATUS_UPDATE' && message.data) {
         // Update host status

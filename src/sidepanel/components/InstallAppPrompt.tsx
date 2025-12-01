@@ -1,7 +1,10 @@
 import { useModelContext } from '@/sidepanel/contexts/modelContext';
+import { BaseButton } from '@/sidepanel/components/ui';
+import ImageLogo from '@/images/logo2.png';
 import styles from './InstallAppPrompt.module.css';
 
-const DOWNLOAD_URL = 'https://github.com/user/sigma-eclipse/releases'; // TODO: Update with actual URL
+// TODO: Update with actual URL
+const DOWNLOAD_URL = 'https://github.com/user/sigma-eclipse/releases';
 
 export default function InstallAppPrompt() {
   const { hostInstalled, refreshStatus } = useModelContext();
@@ -16,49 +19,28 @@ export default function InstallAppPrompt() {
   };
 
   const handleRetry = () => {
-    refreshStatus();
+    void refreshStatus();
   };
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <div className={styles.icon}>
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path 
-              d="M12 2L2 7L12 12L22 7L12 2Z" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            />
-            <path 
-              d="M2 17L12 22L22 17" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            />
-            <path 
-              d="M2 12L12 17L22 12" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            />
-          </svg>
+          <img alt="Sigma Eclipse Logo" width={72} height={72} src={ImageLogo} />
         </div>
-        
+
         <h2 className={styles.title}>Sigma Eclipse Required</h2>
-        
+
         <p className={styles.description}>
-          To use the local LLM features, you need to install the Sigma Eclipse desktop application. 
+          To use the local LLM features, you need to install the Sigma Eclipse desktop application.
+          <br />
           This app manages the AI model and runs locally on your computer.
         </p>
-        
+
         <div className={styles.features}>
           <div className={styles.feature}>
             <span className={styles.featureIcon}>🔒</span>
-            <span>100% Private - runs locally</span>
+            <span>100% Private – runs locally</span>
           </div>
           <div className={styles.feature}>
             <span className={styles.featureIcon}>⚡</span>
@@ -69,16 +51,16 @@ export default function InstallAppPrompt() {
             <span>No internet required after setup</span>
           </div>
         </div>
-        
+
         <div className={styles.actions}>
-          <button className={styles.downloadButton} onClick={handleDownload}>
+          <BaseButton className={styles.button} size="lg" color="gradient" onClick={handleDownload}>
             Download Sigma Eclipse
-          </button>
-          <button className={styles.retryButton} onClick={handleRetry}>
-            I've installed it - Retry
-          </button>
+          </BaseButton>
+          <BaseButton className={styles.button} size="lg" color="transparent" onClick={handleRetry}>
+            I&#39;ve installed it – Retry
+          </BaseButton>
         </div>
-        
+
         <p className={styles.hint}>
           After installing, make sure to run the app at least once to complete setup.
         </p>
@@ -86,4 +68,3 @@ export default function InstallAppPrompt() {
     </div>
   );
 }
-

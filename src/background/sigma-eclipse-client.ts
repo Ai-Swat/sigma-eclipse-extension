@@ -60,7 +60,7 @@ class SigmaEclipseClient {
     }
 
     console.log('[SigmaEclipseClient] Connecting to native host:', HOST_NAME);
-    
+
     try {
       this.port = chrome.runtime.connectNative(HOST_NAME);
     } catch (err) {
@@ -70,44 +70,49 @@ class SigmaEclipseClient {
       return;
     }
 
-    this.port.onMessage.addListener((message: { id: string; success: boolean; data: unknown; error?: string }) => {
-      console.log('[SigmaEclipseClient] Received from host:', message);
-      
-      // Successfully received message means host is available
-      this._hostAvailable = true;
-      this._lastHostError = null;
-      
-      const resolver = this.pending.get(message.id);
-      if (resolver) {
-        this.pending.delete(message.id);
-        if (message.success) {
-          resolver.resolve(message.data);
-        } else {
-          resolver.reject(new Error(message.error || 'Unknown error'));
+    this.port.onMessage.addListener(
+      (message: { id: string; success: boolean; data: unknown; error?: string }) => {
+        console.log('[SigmaEclipseClient] Received from host:', message);
+
+        // Successfully received message means host is available
+        this._hostAvailable = true;
+        this._lastHostError = null;
+
+        const resolver = this.pending.get(message.id);
+        if (resolver) {
+          this.pending.delete(message.id);
+          if (message.success) {
+            resolver.resolve(message.data);
+          } else {
+            resolver.reject(new Error(message.error || 'Unknown error'));
+          }
         }
       }
-    });
+    );
 
     this.port.onDisconnect.addListener(() => {
       console.log('[SigmaEclipseClient] Disconnected from native host');
       const error = chrome.runtime.lastError?.message || 'Disconnected';
-      
+
       // Check if host is not installed
-      if (error.includes('not found') || error.includes('Specified native messaging host not found')) {
+      if (
+        error.includes('not found') ||
+        error.includes('Specified native messaging host not found')
+      ) {
         this._hostAvailable = false;
         this._lastHostError = 'Native messaging host not found. Please install Sigma Eclipse app.';
       } else {
         this._lastHostError = error;
       }
-      
+
       console.error('[SigmaEclipseClient] Disconnect error:', error);
-      
+
       // Reject all pending requests
       for (const [id, resolver] of this.pending) {
         resolver.reject(new Error(error));
         this.pending.delete(id);
       }
-      
+
       this.port = null;
     });
 
@@ -126,18 +131,20 @@ class SigmaEclipseClient {
       return { available: true, error: null };
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      
+
       // Check for specific "not found" errors
-      if (errorMessage.includes('not found') || 
-          errorMessage.includes('Specified native messaging host not found') ||
-          errorMessage.includes('Failed to connect')) {
+      if (
+        errorMessage.includes('not found') ||
+        errorMessage.includes('Specified native messaging host not found') ||
+        errorMessage.includes('Failed to connect')
+      ) {
         this._hostAvailable = false;
         this._lastHostError = 'Native messaging host not found. Please install Sigma Eclipse app.';
       } else {
         // Other errors might be temporary
         this._lastHostError = errorMessage;
       }
-      
+
       return { available: this._hostAvailable ?? false, error: this._lastHostError };
     }
   }
@@ -162,11 +169,11 @@ class SigmaEclipseClient {
     const message = { id, command, params };
 
     return new Promise<T>((resolve, reject) => {
-      this.pending.set(id, { 
-        resolve: resolve as (value: unknown) => void, 
-        reject 
+      this.pending.set(id, {
+        resolve: resolve as (value: unknown) => void,
+        reject,
       });
-      
+
       console.log('[SigmaEclipseClient] Sending to host:', message);
       this.port!.postMessage(message);
 
@@ -210,7 +217,7 @@ class SigmaEclipseClient {
    */
   async ensureAppRunning(maxWaitMs: number = 30000, pollIntervalMs: number = 1000): Promise<void> {
     const appStatus = await this.getAppStatus();
-    
+
     if (appStatus.is_running) {
       console.log('[SigmaEclipseClient] App already running');
       return;
@@ -223,7 +230,7 @@ class SigmaEclipseClient {
     const startTime = Date.now();
     while (Date.now() - startTime < maxWaitMs) {
       await new Promise(resolve => setTimeout(resolve, pollIntervalMs));
-      
+
       try {
         const status = await this.getAppStatus();
         if (status.is_running) {
@@ -241,4 +248,3 @@ class SigmaEclipseClient {
 
 // Singleton instance
 export const sigmaEclipseClient = new SigmaEclipseClient();
-

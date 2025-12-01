@@ -40,14 +40,18 @@ function getAppStatusColor(status: AppStatus): string {
   }
 }
 
-function getModelStatusText(status: ModelStatus, isDownloading: boolean, downloadProgress: number | null): string {
+function getModelStatusText(
+  status: ModelStatus,
+  isDownloading: boolean,
+  downloadProgress: number | null
+): string {
   if (isDownloading) {
     if (downloadProgress !== null) {
       return `Downloading ${Math.round(downloadProgress)}%`;
     }
     return 'Downloading...';
   }
-  
+
   switch (status) {
     case 'running':
       return 'LLM Running';
@@ -68,7 +72,7 @@ function getModelStatusColor(status: ModelStatus, isDownloading: boolean): strin
   if (isDownloading) {
     return 'var(--text-info-primary, #3b82f6)';
   }
-  
+
   switch (status) {
     case 'running':
       return 'var(--text-success-primary, #22c55e)';
@@ -85,7 +89,15 @@ function getModelStatusColor(status: ModelStatus, isDownloading: boolean): strin
 }
 
 export default function Header({ onNewThread, onHistory }: HeaderProps) {
-  const { modelStatus, appStatus, isDownloading, downloadProgress, isLoading, startModel, stopModel } = useModelContext();
+  const {
+    modelStatus,
+    appStatus,
+    isDownloading,
+    downloadProgress,
+    isLoading,
+    startModel,
+    stopModel,
+  } = useModelContext();
 
   const handleModelToggle = () => {
     if (modelStatus === 'running') {
@@ -96,7 +108,12 @@ export default function Header({ onNewThread, onHistory }: HeaderProps) {
   };
 
   // Disable button when downloading, loading, or in transitional states
-  const isButtonDisabled = isDownloading || isLoading || modelStatus === 'starting' || modelStatus === 'stopping' || appStatus === 'launching';
+  const isButtonDisabled =
+    isDownloading ||
+    isLoading ||
+    modelStatus === 'starting' ||
+    modelStatus === 'stopping' ||
+    appStatus === 'launching';
   const buttonText = modelStatus === 'running' ? 'Stop' : 'Start';
   const buttonColor = modelStatus === 'running' ? 'red' : 'grey';
 
@@ -129,7 +146,15 @@ export default function Header({ onNewThread, onHistory }: HeaderProps) {
             </span>
           </div>
 
-          <TooltipDefault text={isDownloading ? 'Model is downloading...' : (modelStatus === 'running' ? 'Stop LLM' : 'Start LLM')}>
+          <TooltipDefault
+            text={
+              isDownloading
+                ? 'Model is downloading...'
+                : modelStatus === 'running'
+                  ? 'Stop LLM'
+                  : 'Start LLM'
+            }
+          >
             <div className="relative">
               <BaseButton
                 color={buttonColor}
