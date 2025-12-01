@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { SupportedLanguage, LANGUAGE_NAMES } from '../locales/prompts';
+import { SupportedLanguage, LANGUAGE_NAMES, LANGUAGE_FULL_NAMES } from '../locales/prompts';
 import { useLanguage } from '@/sidepanel/contexts/languageContext.tsx';
 import { BaseButton } from '@/sidepanel/components/ui';
 import { TooltipDefault } from '@/components/ui/tooltip';
@@ -95,7 +95,7 @@ export default function LanguageDropdown({ onClose }: LanguageDropdownProps) {
                 className={`${styles.languageItem} ${lang === language ? styles.active : ''}`}
                 onClick={() => handleSelectLanguage(lang)}
               >
-                <span className={styles.languageItemCode}>{LANGUAGE_NAMES[lang]}</span>
+                <span className={styles.languageItemCode}>{LANGUAGE_FULL_NAMES[lang]}</span>
               </button>
             ))}
           </div>
