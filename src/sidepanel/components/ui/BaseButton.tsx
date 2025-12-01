@@ -4,7 +4,7 @@ import styles from './BaseButton.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: 'primary' | 'transparent' | 'grey' | 'red';
+  color?: 'primary' | 'transparent' | 'grey' | 'red' | 'gradient' | 'black';
   size?: 'default' | 'sm' | 'xs' | 'lg';
   label?: string;
   onClick?: () => void;

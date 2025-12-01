@@ -3,7 +3,6 @@ import { SupportedLanguage, LANGUAGE_NAMES } from '../locales/prompts';
 import { useLanguage } from '@/sidepanel/contexts/languageContext.tsx';
 import { BaseButton } from '@/sidepanel/components/ui';
 import { TooltipDefault } from '@/components/ui/tooltip';
-import GlobeIcon from 'src/images/globe.svg?react';
 import styles from './LanguageDropdown.module.css';
 
 interface LanguageDropdownProps {
@@ -30,6 +29,7 @@ export default function LanguageDropdown({ onClose }: LanguageDropdownProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const selectedLang = language || 'en';
 
   // Filter languages based on search query
   const filteredLanguages = ALL_LANGUAGES.filter(lang => {
@@ -81,7 +81,7 @@ export default function LanguageDropdown({ onClose }: LanguageDropdownProps) {
             size={'sm'}
             onClick={handleToggle}
           >
-            <GlobeIcon width={18} height={18} />
+            <span className={styles.language}>{selectedLang?.toUpperCase()}</span>
           </BaseButton>
         </div>
       </TooltipDefault>

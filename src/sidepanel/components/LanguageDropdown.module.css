@@ -2,6 +2,11 @@
   position: relative;
 }
 
+.language {
+  font-size: 13px;
+  font-weight: 500;
+}
+
 .triggerButton {
   display: flex;
   width: 36px;
