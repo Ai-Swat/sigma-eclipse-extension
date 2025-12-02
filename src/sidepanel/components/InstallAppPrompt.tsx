@@ -1,6 +1,9 @@
 import { useModelContext } from '@/sidepanel/contexts/modelContext';
 import { BaseButton } from '@/sidepanel/components/ui';
 import ImageLogo from '@/images/logo2.png';
+import MonitorIcon from '@/images/monitor-03.svg?react';
+import WifiIcon from '@/images/wifi-off.svg?react';
+import GiftIcon from '@/images/gift-01.svg?react';
 import styles from './InstallAppPrompt.module.css';
 
 // TODO: Update with actual URL
@@ -32,23 +35,29 @@ export default function InstallAppPrompt() {
         <h2 className={styles.title}>Sigma Eclipse Required</h2>
 
         <p className={styles.description}>
-          To use the local LLM features, you need to install the Sigma Eclipse desktop application.
+          Chase the full power of AI
           <br />
-          This app manages the AI model and runs locally on your computer.
+          on your computer absolutely free
         </p>
 
         <div className={styles.features}>
           <div className={styles.feature}>
-            <span className={styles.featureIcon}>🔒</span>
-            <span>100% Private – runs locally</span>
+            <span className={styles.featureIcon}>
+              <WifiIcon width={18} height={18} />
+            </span>
+            <span>Zero Data Transfer</span>
           </div>
           <div className={styles.feature}>
-            <span className={styles.featureIcon}>⚡</span>
-            <span>Fast inference with GPU support</span>
+            <span className={styles.featureIcon}>
+              <MonitorIcon width={18} height={18} />
+            </span>
+            <span>Cloudless computing</span>
           </div>
           <div className={styles.feature}>
-            <span className={styles.featureIcon}>🌐</span>
-            <span>No internet required after setup</span>
+            <span className={styles.featureIcon}>
+              <GiftIcon width={18} height={18} />
+            </span>
+            <span>Totally free</span>
           </div>
         </div>
 
@@ -61,9 +70,7 @@ export default function InstallAppPrompt() {
           </BaseButton>
         </div>
 
-        <p className={styles.hint}>
-          After installing, make sure to run the app at least once to complete setup.
-        </p>
+        <p className={styles.hint}>After installing, make sure to run the app to complete setup.</p>
       </div>
     </div>
   );
