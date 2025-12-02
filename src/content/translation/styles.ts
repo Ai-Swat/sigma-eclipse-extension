@@ -201,6 +201,28 @@ export function injectTranslationStyles(): void {
       color: #3c3e41ff;
       font-size: 15px;
     }
+    
+    .sigma-language-selector {
+      margin-left: 8px;
+      font-size: 14px;
+      line-height: 1.2;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+      vertical-align: middle;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .sigma-language-selector:hover {
+      border-color: #999;
+    }
+
+    .sigma-language-selector:focus {
+      outline: none;
+      border-color: #4a8df6;
+      box-shadow: 0 0 0 2px rgba(74, 141, 246, 0.2);
+    }
 
     .sigma-translate-spinner {
       border: 3px solid #4d576a12;

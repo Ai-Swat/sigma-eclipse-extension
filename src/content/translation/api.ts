@@ -78,5 +78,4 @@ export const LANGUAGE_NAMES: Record<string, string> = {
   ko: 'Korean',
   nl: 'Dutch',
   zh: 'Chinese',
-  ru: 'Russian',
 };
