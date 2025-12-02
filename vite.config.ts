@@ -119,6 +119,10 @@ export default defineConfig({
     // Prevent code splitting for all entry points
     modulePreload: false,
   },
+  // TODO для удаления логов из продакшен билда
+  // esbuild: {
+  // drop: ['console'],
+  // },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
