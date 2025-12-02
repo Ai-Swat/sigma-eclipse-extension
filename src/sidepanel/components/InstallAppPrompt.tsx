@@ -70,7 +70,11 @@ export default function InstallAppPrompt() {
           </BaseButton>
         </div>
 
-        <p className={styles.hint}>After installing, make sure to run the app to complete setup.</p>
+        <p className={styles.hint}>
+          After installing, make sure to run the app
+          <br />
+          to complete setup.
+        </p>
       </div>
     </div>
   );
