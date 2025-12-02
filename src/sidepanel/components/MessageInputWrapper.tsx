@@ -3,8 +3,9 @@ import SmartTextarea from 'src/components/app/smart-textarea';
 import { FileContextProvider, useFileContext } from '@/sidepanel/contexts/fileContext';
 import { PageContextProvider, usePageContext } from '@/sidepanel/contexts/pageContext.tsx';
 import { TabInfoHeader } from '@/components/app/tab-info-block';
-import styles from './MessageInputWrapper.module.css';
 import { ScrollDownButton } from '@/components/app/scroll-down-button';
+import { SubmitRequest } from '@/components/app/smart-textarea/components/submit-request';
+import styles from './MessageInputWrapper.module.css';
 
 interface MessageMetadata {
   hasAttachedFiles?: boolean;
@@ -97,6 +98,8 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
 
   return (
     <>
+      <SubmitRequest />
+
       <TabInfoHeader />
       <SmartTextarea
         value={message}

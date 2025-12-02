@@ -1,0 +1,63 @@
+.wrapper {
+  display: flex;
+  padding: 16px 18px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 24px;
+  border: 1.25px solid var(--stroke-neutral-alfa-tertiary);
+  background: var(--background-neutral-global-secondary);
+  margin-bottom: 8px;
+  box-shadow:
+    0 3px 7px 0 #00000005,
+    0 13px 13px 0 #00000005,
+    0 29px 17px 0 #00000003,
+    0 51px 20px 0 #00000000,
+    0 80px 22px 0 #00000000;
+  user-select: none;
+  position: absolute;
+  bottom: 100%;
+  width: calc(100% - 32px);
+  z-index: 1000;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.text > div:first-child {
+  color: var(--text-neutral-primary);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.18px;
+}
+
+.text > div:last-child {
+  color: var(--text-neutral-secondary);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.15px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.button {
+  width: 100%;
+  height: 38px !important;
+  border-radius: 12px !important;
+  font-size: 15px;
+  font-weight: 500;
+}
