@@ -3,7 +3,7 @@
 }
 
 .wrapper.primary {
-  color: var(--icon-colored-brand) !important;
+  color: var(--background-brand-primary) !important;
 }
 
 .wrapper svg {

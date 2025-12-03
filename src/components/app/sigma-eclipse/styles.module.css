@@ -1,0 +1,113 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: relative;
+}
+
+.header {
+  cursor: pointer;
+  display: flex;
+  height: 34px;
+  padding: 10px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 12px;
+  color: var(--text-neutral-tertiary);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.14px;
+  border: 1px solid var(--stroke-neutral-alfa-disabled);
+  background: var(--background-neutral-global-secondary);
+}
+
+.iconArrow {
+  transition: all 0.3s;
+  transform: rotate(180deg);
+}
+
+.iconRotate {
+  transform: rotate(0deg);
+}
+
+.title {
+  pointer-events: none;
+}
+
+.card {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  min-width: 185px;
+  width: fit-content;
+  padding: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke-neutral-alfa-tertiary);
+  background: var(--background-neutral-global-secondary);
+  box-shadow: -3px 4px 35px 0 rgba(0, 0, 0, 0.06);
+}
+
+.topRow {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardTitle {
+  color: var(--text-neutral-primary);
+  font-feature-settings: 'ss03' on;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: -0.14px;
+  pointer-events: none;
+}
+
+.statusBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--stroke-neutral-alfa-tertiary);
+}
+
+.statusLabel {
+  color: var(--text-neutral-tertiary);
+  font-feature-settings: 'ss03' on;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: -0.14px;
+  pointer-events: none;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-feature-settings: 'ss03' on;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 130%;
+  letter-spacing: -0.14px;
+  pointer-events: none;
+  position: relative;
+  color: var(--text-neutral-tertiary);
+}
+
+.statusText {
+  text-transform: capitalize;
+}
