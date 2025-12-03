@@ -10,21 +10,16 @@
 
 .primary {
   background-color: var(--background-brand-primary);
-}
-
-.gradient {
-  background: linear-gradient(135deg, var(--background-brand-primary) 0%, #8b5cf6 100%);
   color: var(--text-neutral-primary-on-color);
   font-weight: 600;
-  transition: opacity 0.3s ease;
 }
 
-.gradient:hover {
-  opacity: 0.8;
+.primary:hover {
+  background-color: var(--background-brand-primary-hover);
 }
 
-.gradient:active {
-  opacity: 0.9;
+.primary:active {
+  background-color: var(--background-brand-primary-active);
 }
 
 .grey {

@@ -1,6 +1,6 @@
 import { useModelContext } from '@/sidepanel/contexts/modelContext';
 import { BaseButton } from '@/sidepanel/components/ui';
-import ImageLogo from '@/images/logo2.png';
+import ImageLogo from '@/images/logo-sigma-eclipse.png';
 import MonitorIcon from '@/images/monitor-03.svg?react';
 import WifiIcon from '@/images/wifi-off.svg?react';
 import GiftIcon from '@/images/gift-01.svg?react';
@@ -62,7 +62,7 @@ export default function InstallAppPrompt() {
         </div>
 
         <div className={styles.actions}>
-          <BaseButton className={styles.button} size="lg" color="gradient" onClick={handleDownload}>
+          <BaseButton className={styles.button} size="lg" color="primary" onClick={handleDownload}>
             Download Sigma Eclipse LLM
           </BaseButton>
           <BaseButton className={styles.button} size="lg" color="transparent" onClick={handleRetry}>
