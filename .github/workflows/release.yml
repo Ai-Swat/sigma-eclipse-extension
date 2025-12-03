@@ -1,0 +1,79 @@
+name: Build and Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Create PEM key file
+        run: echo "${{ secrets.EXTENSION_PEM_KEY }}" > extension.pem
+
+      - name: Install crx3
+        run: npm install -g crx3
+
+      - name: Package extension as CRX
+        run: |
+          crx3 dist -k extension.pem -o sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.crx
+
+      - name: Create ZIP archive
+        run: |
+          cd dist
+          zip -r ../sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.zip .
+
+      - name: Remove PEM key file
+        run: rm -f extension.pem
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release v${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## Sigma Eclipse Extension v${{ steps.get_version.outputs.VERSION }}
+            
+            ### Installation
+            
+            **For Chrome Web Store submission:**
+            - Download the `.zip` file
+            
+            **For direct installation (Developer Mode):**
+            - Download the `.crx` file, or
+            - Download and extract the `.zip` file, then load as unpacked extension
+            
+            ### Files
+            - `sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.crx` - Signed extension package
+            - `sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.zip` - Extension source (for Web Store)
+          files: |
+            sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.crx
+            sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
