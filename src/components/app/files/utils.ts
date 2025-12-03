@@ -27,10 +27,10 @@ export const handleCheckFile = (file: File): boolean => {
 };
 
 export const downloadFile = (blob: Blob, query?: string) => {
-  // Получаем имя файла из заголовка
+  // Get filename from header
   let filename = `Sigma — ` + query;
 
-  // Создаем ссылку и инициируем загрузку
+  // Create link and initiate download
   const url = window.URL.createObjectURL(blob);
 
   const extension = getExtensionFromMime(blob.type);

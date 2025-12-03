@@ -19,7 +19,7 @@ export const ScrollDownButton = () => {
 
   const [canScroll, setCanScroll] = useState(false);
 
-  // мемоизируем debounced-функцию, чтобы не пересоздавалась каждый ререндер
+  // memoize debounced function to prevent recreation on every rerender
   const checkCanScroll = useMemo(
     () =>
       debounce(() => {
@@ -49,10 +49,10 @@ export const ScrollDownButton = () => {
       scrollContainer.removeEventListener('scroll', checkCanScroll);
       window.removeEventListener('resize', checkCanScroll);
     };
-    // обновляем при смене последнего элемента
+    // update when last element changes
   }, [lastItemId, checkCanScroll]);
 
-  // мемоизируем обработчик
+  // memoize handler
   const scrollDown = useCallback(() => {
     const scrollContainer = document.getElementById(SEARCH_SCROLL_CONTAINER);
 

@@ -88,7 +88,7 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
       onChange(e.target.value);
     });
 
-    // для управления высотой margin-bottom последнего фоллоуапа
+    // for managing margin-bottom height of the last followup
     useEffect(() => {
       const el = wrapperInputRef.current;
       if (!el) return;

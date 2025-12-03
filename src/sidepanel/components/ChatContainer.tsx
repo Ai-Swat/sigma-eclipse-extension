@@ -13,16 +13,16 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Флаг: юзер внизу → автоскроллим; нет → не трогаем
+  // Flag: user at bottom → autoscroll; otherwise → don't touch
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
 
-  // Проверяем, находится ли пользователь у низа
+  // Check if user is at the bottom
   const handleScroll = () => {
     if (!containerRef.current) return;
 
     const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
 
-    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // допуск 10px
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // 10px tolerance
     setShouldAutoScroll(isAtBottom);
   };
 
@@ -40,7 +40,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ messages, isLoading }) =>
     }
   }, [messages, isLoading, shouldAutoScroll]);
 
-  // ⬇️ Обязательный автоскролл при появлении нового сообщения
+  // ⬇️ Mandatory autoscroll when new message appears
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;

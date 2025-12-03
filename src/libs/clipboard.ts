@@ -8,8 +8,8 @@ export function copyToClipboard(str: string, cb: (status: boolean) => void) {
     try {
       const textarea = document.createElement('textarea');
       textarea.value = str;
-      textarea.style.position = 'fixed'; // предотвратить скролл
-      textarea.style.opacity = '0'; // не видно на странице
+      textarea.style.position = 'fixed'; // prevent scroll
+      textarea.style.opacity = '0'; // invisible on page
       document.body.appendChild(textarea);
       textarea.focus();
       textarea.select();

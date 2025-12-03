@@ -33,7 +33,7 @@ export function Loader({
 
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
         <defs>
-          {/* градиентный хвостик */}
+          {/* gradient tail */}
           <linearGradient
             id={`loaderGradient-${color}${id}`}
             x1="50%"
@@ -49,7 +49,7 @@ export function Loader({
         </defs>
 
         <g>
-          {/* фон */}
+          {/* background */}
           <circle
             strokeDasharray="0"
             r="40"
@@ -61,7 +61,7 @@ export function Loader({
             className={withBg ? styles.bgStroke : styles.bgStrokeTransparent}
           />
 
-          {/* вращающийся хвостик */}
+          {/* spinning tail */}
           <circle
             strokeDasharray="200"
             r="40"

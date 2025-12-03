@@ -38,7 +38,7 @@ export const SendButton = memo(
         event.stopPropagation();
         if (!isActive || disabled) return;
         onClick?.();
-        setIsStopButtonClicked(false); // кнопка STOP отображается. ✅
+        setIsStopButtonClicked(false); // STOP button is shown. ✅
       },
       [isActive, disabled, onClick]
     );
@@ -46,19 +46,19 @@ export const SendButton = memo(
     const [isStopButtonClicked, setIsStopButtonClicked] = useState(false);
     const [isContinuedFollowup, setIsContinuedFollowup] = useState(false);
 
-    // Если сменился followup_id или created_at,
-    // кнопка STOP снова может появиться. ✅
+    // If followup_id or created_at changed,
+    // STOP button can appear again. ✅
     useEffect(() => {
       requestAnimationFrame(() => {
         setIsStopButtonClicked(false);
       });
     }, [followup_id, created_at]);
 
-    // Разбор условий:
-    // STOP не отображается, если isEnd = true. ✅
-    // STOP не отображается, если !isStartSearch && isLimitExceeded. ✅
-    // STOP не отображается, если isWaitingUserClarification = true и введен запрос пользователя. ✅
-    // В остальных случаях → isShow = true → кнопка STOP отображается. ✅
+    // Conditions breakdown:
+    // STOP is hidden if isEnd = true. ✅
+    // STOP is hidden if !isStartSearch && isLimitExceeded. ✅
+    // STOP is hidden if isWaitingUserClarification = true and user query is entered. ✅
+    // In all other cases → isShow = true → STOP button is shown. ✅
     useEffect(() => {
       if (!followup_id) return;
 
@@ -112,7 +112,7 @@ export const SendButton = memo(
   (prevProps, nextProps) => {
     let shouldRerender = false;
 
-    // Список ключевых пропсов для сравнения
+    // List of key props for comparison
     const keys: (keyof typeof prevProps)[] = [
       'onClick',
       'isActive',
@@ -133,8 +133,8 @@ export const SendButton = memo(
       }
     });
 
-    // true — пропсы равны, ререндер не нужен
-    // false — пропсы изменились, ререндер нужен
+    // true — props are equal, no rerender needed
+    // false — props changed, rerender needed
     return !shouldRerender;
   }
 );

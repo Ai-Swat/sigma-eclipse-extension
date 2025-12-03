@@ -1,11 +1,11 @@
 # UI Components Library
 
-Простые UI компоненты для расширения.
+Simple UI components for the extension.
 
-## Базовые компоненты
+## Base Components
 
 ### BaseButton
-Универсальная кнопка с различными стилями.
+Universal button with various styles.
 
 ```tsx
 import { BaseButton } from './ui';
@@ -22,7 +22,7 @@ import { BaseButton } from './ui';
 ```
 
 ### CircleButton
-Круглая кнопка для иконок.
+Circular button for icons.
 
 ```tsx
 import { CircleButton } from './ui';
@@ -33,7 +33,7 @@ import { CircleButton } from './ui';
 ```
 
 ### Textarea
-Текстовое поле с поддержкой Enter для отправки.
+Text field with Enter key support for submission.
 
 ```tsx
 import { Textarea } from './ui';
@@ -48,7 +48,7 @@ import { Textarea } from './ui';
 ```
 
 ### TextInput
-Однострочное текстовое поле.
+Single-line text field.
 
 ```tsx
 import { TextInput } from './ui';
@@ -64,7 +64,7 @@ import { TextInput } from './ui';
 ```
 
 ### CheckboxToggle
-Переключатель (toggle switch).
+Toggle switch.
 
 ```tsx
 import { CheckboxToggle } from './ui';
@@ -79,7 +79,7 @@ import { CheckboxToggle } from './ui';
 ```
 
 ### Loader
-Анимированный индикатор загрузки.
+Animated loading indicator.
 
 ```tsx
 import { Loader } from './ui';
@@ -92,7 +92,7 @@ import { Loader } from './ui';
 ```
 
 ### ProgressBar
-Прогресс-бар с таймером.
+Progress bar with timer.
 
 ```tsx
 import { ProgressBar } from './ui';
@@ -105,18 +105,18 @@ import { ProgressBar } from './ui';
 ```
 
 ### Space
-Компонент для добавления отступов.
+Component for adding spacing.
 
 ```tsx
 import { Space } from './ui';
 
-<Space size={20} /> // вертикальный отступ
-<Space size={20} horizontal /> // горизонтальный отступ
+<Space size={20} /> // vertical spacing
+<Space size={20} horizontal /> // horizontal spacing
 ```
 
-## Использование
+## Usage
 
-Все компоненты экспортируются из `./ui/index.ts`:
+All components are exported from `./ui/index.ts`:
 
 ```tsx
 import {
@@ -131,8 +131,7 @@ import {
 } from './ui';
 ```
 
-## Стили
+## Styles
 
-Компоненты используют CSS модули из `src/components/ui/*/styles.module.css`.
-Убедитесь, что все стили правильно подключены в вашем проекте.
-
+Components use CSS modules from `src/components/ui/*/styles.module.css`.
+Make sure all styles are properly imported in your project.

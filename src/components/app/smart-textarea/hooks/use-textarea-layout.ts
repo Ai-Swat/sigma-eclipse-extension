@@ -9,7 +9,7 @@ export const useTextareaLayout = () => {
     el.style.height = 'auto';
     el.style.height = el.scrollHeight + 'px';
 
-    // Управление градиентом (фиксированное значение для расширения)
+    // Gradient management (fixed value for expansion)
     const maxHeight = 140;
     if (el.scrollHeight > maxHeight) {
       setIsGradientShow(true);
