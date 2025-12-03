@@ -1,4 +1,4 @@
-// Content script for Sigma Private - runs on all web pages
+// Content script for Sigma Eclipse - runs on all web pages
 
 import { getPageContext } from './page-context';
 import { injectTranslationStyles } from './translation/styles';
@@ -7,10 +7,10 @@ import { updateTranslationResult } from './translation/popup';
 
 // Prevent multiple injections
 if ((window as any).__SIGMA_PRIVATE_CONTENT_SCRIPT_LOADED__) {
-  console.log('⚠️ Sigma Private content script already loaded, skipping');
+  console.log('⚠️ Sigma Eclipse content script already loaded, skipping');
 } else {
   (window as any).__SIGMA_PRIVATE_CONTENT_SCRIPT_LOADED__ = true;
-  console.log('✅ Sigma Private content script loaded');
+  console.log('✅ Sigma Eclipse content script loaded');
 }
 
 // ============================================================================

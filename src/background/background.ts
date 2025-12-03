@@ -1,4 +1,4 @@
-// Background service worker for Sigma Private extension
+// Background service worker for Sigma Eclipse extension
 
 import { MessageType } from './types';
 import { handleChatRequest } from './handlers/chat-handler';
@@ -7,7 +7,7 @@ import { handleTranslation } from './handlers/translation-handler';
 import { handleInstallation, handleContextMenuClick } from './handlers/menu-handler';
 import { sigmaEclipseClient } from './sigma-eclipse-client';
 
-console.log('Sigma Private background service worker initialized');
+console.log('Sigma Eclipse background service worker initialized');
 
 // ============== Background Status Monitoring ==============
 

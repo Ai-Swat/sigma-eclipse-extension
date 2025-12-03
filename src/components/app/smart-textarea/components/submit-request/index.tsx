@@ -33,7 +33,7 @@ export function SubmitRequest({
   return (
     <div className={cn(styles.wrapper, 'fade-in')}>
       <div className={styles.text}>
-        <div>It seems the Sigma Eclipse App isn’t running.</div>
+        <div>It seems the Sigma Eclipse LLM App isn’t running.</div>
         <div>Should I start it for you?</div>
       </div>
       <div className={styles.buttons}>

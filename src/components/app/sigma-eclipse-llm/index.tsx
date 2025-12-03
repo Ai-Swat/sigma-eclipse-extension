@@ -58,7 +58,7 @@ function getModelStatusColor(status: ModelStatus, isDownloading: boolean): strin
   }
 }
 
-export default function SigmaEclipse() {
+export default function SigmaEclipseLLM() {
   const {
     modelStatus,
     appStatus,
@@ -100,7 +100,7 @@ export default function SigmaEclipse() {
         {isDownloading && <Loader strokeWidth={11} size={14} color={'white'} />}
         {!isDownloading && <DotIcon />}
 
-        <span className={styles.title}>Sigma Eclipse</span>
+        <span className={styles.title}>Sigma Eclipse LLM</span>
 
         <ArrowIcon
           className={clsx(styles.iconArrow, {
@@ -112,7 +112,7 @@ export default function SigmaEclipse() {
       {open && (
         <div className={clsx(styles.card, 'fade-in')}>
           <div className={styles.topRow}>
-            <span className={styles.cardTitle}>Sigma Eclipse</span>
+            <span className={styles.cardTitle}>Sigma Eclipse LLM</span>
 
             <CheckboxToggle
               disabled={isButtonDisabled}

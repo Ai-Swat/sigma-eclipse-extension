@@ -289,17 +289,6 @@
   width: 100%;
 }
 
-.background-gradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: var(--background-gradient-extension);
-  user-select: none;
-  z-index: 1;
-}
-
 /* Summarization Banner Styles */
 .summarization-banner {
   width: calc(100% + 12px);

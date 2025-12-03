@@ -10,6 +10,7 @@
   display: flex;
   height: 34px;
   padding: 10px 12px;
+  width: 189px;
   justify-content: center;
   align-items: center;
   gap: 6px;
@@ -40,8 +41,6 @@
   top: calc(100% + 4px);
   left: 0;
   display: flex;
-  min-width: 185px;
-  width: fit-content;
   padding: 12px;
   flex-direction: column;
   align-items: flex-start;
@@ -50,6 +49,8 @@
   border: 1px solid var(--stroke-neutral-alfa-tertiary);
   background: var(--background-neutral-global-secondary);
   box-shadow: -3px 4px 35px 0 rgba(0, 0, 0, 0.06);
+  min-width: 200px;
+  width: fit-content;
 }
 
 .topRow {
@@ -57,6 +58,8 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  white-space: nowrap;
 }
 
 .cardTitle {

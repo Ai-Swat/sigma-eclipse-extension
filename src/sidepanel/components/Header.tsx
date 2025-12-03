@@ -2,7 +2,7 @@ import HistoryIcon from 'src/images/history-icon-extension.svg?react';
 import PlusIcon from 'src/images/plus.svg?react';
 import { BaseButton } from '@/sidepanel/components/ui';
 import { TooltipDefault } from '@/components/ui/tooltip';
-import SigmaEclipse from '@/components/app/sigma-eclipse';
+import SigmaEclipseLLM from 'src/components/app/sigma-eclipse-llm';
 import styles from './Header.module.css';
 
 interface HeaderProps {
@@ -15,7 +15,7 @@ export default function Header({ onNewThread, onHistory }: HeaderProps) {
     <div className={styles.headerStyles}>
       <header className={styles.headerInner}>
         {/* App & Model Status and Control */}
-        <SigmaEclipse />
+        <SigmaEclipseLLM />
 
         {/* Spacer */}
         <div className={styles.spacer} />

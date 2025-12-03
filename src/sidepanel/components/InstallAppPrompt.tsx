@@ -32,7 +32,7 @@ export default function InstallAppPrompt() {
           <img alt="Sigma Eclipse Logo" width={72} height={72} src={ImageLogo} />
         </div>
 
-        <h2 className={styles.title}>Sigma Eclipse Required</h2>
+        <h2 className={styles.title}>Sigma Eclipse LLM Required</h2>
 
         <p className={styles.description}>
           Chase the full power of AI
@@ -63,7 +63,7 @@ export default function InstallAppPrompt() {
 
         <div className={styles.actions}>
           <BaseButton className={styles.button} size="lg" color="gradient" onClick={handleDownload}>
-            Download Sigma Eclipse
+            Download Sigma Eclipse LLM
           </BaseButton>
           <BaseButton className={styles.button} size="lg" color="transparent" onClick={handleRetry}>
             I&#39;ve installed it – Retry

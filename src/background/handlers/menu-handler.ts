@@ -6,7 +6,7 @@ export function setupContextMenus(): void {
   // Add context menu items
   chrome.contextMenus.create({
     id: 'openSidePanel',
-    title: 'Open Sigma Private Sidebar',
+    title: 'Open Sigma Eclipse Sidebar',
     contexts: ['all'],
   });
 
@@ -50,7 +50,7 @@ export function handleContextMenuClick(
 
 export function handleInstallation(details: chrome.runtime.InstalledDetails): void {
   if (details.reason === 'install') {
-    console.log('Sigma Private extension installed');
+    console.log('Sigma Eclipse extension installed');
     // Open options page or welcome page
     chrome.storage.local.set({
       settings: {
@@ -60,7 +60,7 @@ export function handleInstallation(details: chrome.runtime.InstalledDetails): vo
       },
     });
   } else if (details.reason === 'update') {
-    console.log('Sigma Private extension updated');
+    console.log('Sigma Eclipse extension updated');
   }
 
   setupContextMenus();
