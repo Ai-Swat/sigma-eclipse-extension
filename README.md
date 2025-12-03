@@ -5,7 +5,7 @@
 <h1 align="center">Sigma Eclipse Browser Extension</h1>
 
 <p align="center">
-  <strong>🌐 AI-Powered Chrome Extension for Sigma Browser Ecosystem</strong>
+  <strong>🌐 AI-Powered Browser Extension for Sigma Browser Ecosystem</strong>
 </p>
 
 <p align="center">
@@ -32,7 +32,7 @@
 
 ## 🌟 Overview
 
-**Sigma Eclipse Browser Extension** is a powerful Chrome extension that brings AI capabilities directly into your browser. It's part of the **Sigma Eclipse** ecosystem and designed to work seamlessly with [Sigma Browser](https://sigmabrowser.com) and [Sigma Eclipse LLM](https://github.com/Ai-Swat/sigma-eclipse-llm) desktop application.
+**Sigma Eclipse Browser Extension** is a powerful browser extension that brings AI capabilities directly into your browser. It's part of the **Sigma Eclipse** ecosystem and designed to work seamlessly with [Sigma Browser](https://sigmabrowser.com) and [Sigma Eclipse LLM](https://github.com/Ai-Swat/sigma-eclipse-llm) desktop application.
 
 The extension connects to a local AI API running on your machine via Sigma Eclipse LLM, ensuring **complete privacy** — your data never leaves your computer.
 
@@ -89,15 +89,6 @@ This extension is part of the broader **Sigma** ecosystem:
 - **XLSX** — Excel spreadsheet processing
 - **Images** — Drag & drop with built-in viewer
 
-### 🎤 Voice Input
-- Hands-free dictation support
-- Speech-to-text integration
-
-### 🎨 Modern UI
-- Beautiful, responsive interface
-- Light/dark theme support
-- Chrome Side Panel integration
-- Smooth animations
 
 ## 🚀 Installation
 
@@ -227,7 +218,7 @@ sigma-eclipse-extension/
 - **100% Local Processing** — AI runs on your machine via Sigma Eclipse LLM
 - **No Cloud Dependencies** — Your data never leaves your computer
 - **No Tracking** — We don't collect any usage data
-- **Secure Storage** — Settings stored locally in Chrome's secure storage
+- **Secure Storage** — Settings stored locally in Chromium's secure storage
 
 ## 📋 Permissions
 
