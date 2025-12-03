@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import cn from 'clsx';
 import { BaseButton } from '@/sidepanel/components/ui';
 import { useModelContext } from '@/sidepanel/contexts/modelContext.tsx';
 import styles from './styles.module.css';
 
-export function SubmitRequest() {
+export function SubmitRequest({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: (status: boolean) => void;
+}) {
   const { modelStatus, startModel } = useModelContext();
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleStart = () => {
     void startModel();
@@ -19,13 +23,10 @@ export function SubmitRequest() {
   };
 
   useEffect(() => {
-    if (['stopped', 'error'].includes(modelStatus)) {
-      setIsOpen(true);
-    }
-    if (['running', 'starting'].includes(modelStatus)) {
+    if (modelStatus === 'running') {
       setIsOpen(false);
     }
-  }, [modelStatus]);
+  }, [modelStatus, setIsOpen]);
 
   if (!isOpen) return null;
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SmartTextarea from 'src/components/app/smart-textarea';
 import { FileContextProvider, useFileContext } from '@/sidepanel/contexts/fileContext';
 import { PageContextProvider, usePageContext } from '@/sidepanel/contexts/pageContext.tsx';
+import { useModelContext } from '@/sidepanel/contexts/modelContext.tsx';
 import { TabInfoHeader } from '@/components/app/tab-info-block';
 import { ScrollDownButton } from '@/components/app/scroll-down-button';
 import { SubmitRequest } from '@/components/app/smart-textarea/components/submit-request';
@@ -30,10 +31,19 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
   onStopGeneration,
 }) => {
   const [message, setMessage] = useState('');
+  const [isShowSubmitRequest, setIsShowSubmitRequest] = useState(false);
+  const isActiveSendButton = message.trim().length > 0 && !disabled;
+
   const { uploadedFiles, clearFiles } = useFileContext();
   const { pageContext, isAttached, detachContext } = usePageContext();
+  const { modelStatus } = useModelContext();
 
   const handleSend = () => {
+    if (modelStatus !== 'running') {
+      setIsShowSubmitRequest(true);
+      return;
+    }
+
     if (message.trim() && !disabled) {
       let fullContent = message;
       const metadata: MessageMetadata = {
@@ -94,11 +104,9 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
     setMessage('');
   };
 
-  const isActiveSendButton = message.trim().length > 0 && !disabled;
-
   return (
     <>
-      <SubmitRequest />
+      <SubmitRequest isOpen={isShowSubmitRequest} setIsOpen={setIsShowSubmitRequest} />
 
       <TabInfoHeader />
       <SmartTextarea
