@@ -1,134 +1,131 @@
-# ⚙️ Sigma Private
+<p align="center">
+  <img src="public/icons/icon-128.png" alt="Sigma Eclipse Logo" width="128" height="128">
+</p>
 
-AI-powered Chrome extension with intelligent chat, page context awareness, and translation capabilities.
+<h1 align="center">Sigma Eclipse Browser Extension</h1>
 
-## Features
+<p align="center">
+  <strong>🌐 AI-Powered Chrome Extension for Sigma Browser Ecosystem</strong>
+</p>
 
-- 💬 **AI Chat Interface** - ChatGPT-like conversational interface with streaming responses
-- 📄 **Page Context Integration** - Analyze and interact with current webpage content
-- 🌐 **Translation** - Quick translation with bubble UI and context menu integration
-- 📁 **File Processing** - Support for PDF, DOCX, XLSX and other document formats
-- 🎤 **Voice Input** - Dictation support for hands-free interaction
-- 🖼️ **Image Handling** - Drag & drop images with photo viewer
-- 🎨 **Modern UI** - Beautiful, responsive interface with light/dark theme support
-- 🌍 **Multi-language** - Localization support with language dropdown
-- 💾 **Chat History** - Persistent conversation history with search
-- 🔒 **Privacy-Focused** - Your data stays secure
+<p align="center">
+  <a href="https://sigmabrowser.com">
+    <img src="https://img.shields.io/badge/Sigma-Browser-7C3AED?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Sigma Browser">
+  </a>
+  <a href="https://github.com/Ai-Swat/sigma-eclipse-llm">
+    <img src="https://img.shields.io/badge/Sigma-Eclipse_LLM-10B981?style=for-the-badge&logo=github&logoColor=white" alt="Sigma Eclipse LLM">
+  </a>
+  <img src="https://img.shields.io/badge/Manifest-V3-3B82F6?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Manifest V3">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 18">
+</p>
 
-## Tech Stack
+<p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-ecosystem">Ecosystem</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-usage">Usage</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-license">License</a>
+</p>
 
-- **React 18** - Modern UI library with hooks and Context API
-- **TypeScript** - Type-safe development
-- **Chrome Extension Manifest V3** - Latest extension API with Side Panel
-- **Vite 5** - Lightning fast build tool ⚡
-- **CSS Modules** - Scoped styling
-- **React Markdown** - Rich text rendering with syntax highlighting
-- **PDF.js** - PDF document processing
-- **Mammoth.js** - DOCX file handling
-- **XLSX** - Excel spreadsheet support
-- **React Photo View** - Image gallery and viewer
-- **OpenAI SDK** - AI chat integration
+---
 
-## Project Structure
+## 🌟 Overview
+
+**Sigma Eclipse Browser Extension** is a powerful Chrome extension that brings AI capabilities directly into your browser. It's part of the **Sigma Eclipse** ecosystem and designed to work seamlessly with [Sigma Browser](https://sigmabrowser.com) and [Sigma Eclipse LLM](https://github.com/Ai-Swat/sigma-eclipse-llm) desktop application.
+
+The extension connects to a local AI API running on your machine via Sigma Eclipse LLM, ensuring **complete privacy** — your data never leaves your computer.
+
+## 🔗 Ecosystem
+
+This extension is part of the broader **Sigma** ecosystem:
+
+| Component | Description | Link |
+|-----------|-------------|------|
+| **Sigma Browser** | AI-first private agentic browser | [sigmabrowser.com](https://sigmabrowser.com) |
+| **Sigma Eclipse LLM** | Desktop app for running local LLMs via llama.cpp | [GitHub](https://github.com/Ai-Swat/sigma-eclipse-llm) |
+| **Sigma Eclipse Extension** | This browser extension | You are here! |
+
+### How It Works
 
 ```
-sigma-private/
-├── manifest.json          # Extension manifest (v3)
-├── package.json          # Node dependencies
-├── tsconfig.json         # TypeScript config
-├── vite.config.ts        # Vite bundler config ⚡
-├── src/
-│   ├── sidepanel/        # Side Panel React UI
-│   │   ├── index.tsx     # Entry point
-│   │   ├── App.tsx       # Main app component
-│   │   ├── sidepanel.html # HTML template
-│   │   ├── components/   # React components
-│   │   │   ├── Header.tsx
-│   │   │   ├── ChatContainer.tsx
-│   │   │   ├── ChatHistory.tsx
-│   │   │   ├── ChatMessage.tsx
-│   │   │   ├── MessageInputWrapper.tsx
-│   │   │   ├── LanguageDropdown.tsx
-│   │   │   ├── PageContextIndicator.tsx
-│   │   │   └── new-components/
-│   │   │       └── app/  # Advanced UI components
-│   │   ├── contexts/     # React contexts
-│   │   │   ├── dictateContext.tsx
-│   │   │   ├── fileContext.tsx
-│   │   │   ├── languageContext.tsx
-│   │   │   └── pageContext.tsx
-│   │   ├── hooks/        # Custom React hooks
-│   │   │   ├── useMessageHandling.ts
-│   │   │   └── useSummarization.ts
-│   │   ├── locales/      # Internationalization
-│   │   │   └── prompts.ts
-│   │   ├── store/        # State management
-│   │   │   └── settings.ts
-│   │   └── styles/       # Global styles
-│   ├── components/       # Shared components
-│   │   ├── app/          # App-level components
-│   │   │   ├── authentication-components/
-│   │   │   ├── drag-n-drop-wrapper/
-│   │   │   ├── photo-view-item/
-│   │   │   └── smart-textarea/
-│   │   └── ui/           # Base UI components
-│   │       ├── base-button/
-│   │       ├── checkbox-toggle/
-│   │       ├── loader/
-│   │       └── tooltip/
-│   ├── background/       # Background service worker
-│   │   ├── background.ts
-│   │   ├── types.ts
-│   │   └── handlers/     # Message handlers
-│   │       ├── chat-handler.ts
-│   │       ├── context-handler.ts
-│   │       ├── menu-handler.ts
-│   │       └── translation-handler.ts
-│   ├── content/          # Content scripts
-│   │   ├── content.ts
-│   │   ├── page-context.ts
-│   │   └── translation/  # Translation UI
-│   │       ├── api.ts
-│   │       ├── bubble.ts
-│   │       ├── popup.ts
-│   │       └── event-handlers.ts
-│   ├── contexts/         # Global contexts
-│   │   ├── chatContext.tsx
-│   │   ├── dictateContext.tsx
-│   │   ├── fileContext.tsx
-│   │   └── themeContext.tsx
-│   ├── types/            # TypeScript definitions
-│   ├── utils/            # Utility functions
-│   │   ├── api.ts
-│   │   └── file-text-extractor.ts
-│   └── libs/             # Helper libraries
-├── public/
-│   └── icons/            # Extension icons
-└── dist/                 # Build output (generated)
+┌─────────────────────────────────────────────────────────────────┐
+│                        Your Computer                            │
+│                                                                 │
+│  ┌─────────────────┐         ┌─────────────────────────────┐   │
+│  │  Browser        │   API   │  Sigma Eclipse LLM          │   │
+│  │  Extension      │◄───────►│  (Local AI Server)          │   │
+│  │                 │         │                             │   │
+│  │  • Chat UI      │         │  • llama.cpp backend        │   │
+│  │  • Translation  │         │  • Local model inference    │   │
+│  │  • Summarize    │         │  • No cloud required        │   │
+│  └─────────────────┘         └─────────────────────────────┘   │
+│                                                                 │
+│                    🔒 Everything stays local                    │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-## Installation
+## ✨ Features
 
-### Development Setup
+### 💬 AI Chat Interface
+- ChatGPT-like conversational interface with streaming responses
+- Powered by local LLM through Sigma Eclipse
+- Markdown rendering with syntax highlighting
+- Persistent chat history with search
 
-1. **Install dependencies:**
+### 📄 Page Context Integration
+- Analyze and interact with current webpage content
+- One-click page summarization
+- Smart context extraction
+
+### 🌐 Translation
+- Quick translation with elegant bubble UI
+- Right-click context menu integration
+- Multi-language support
+
+### 📁 File Processing
+- **PDF** — Full document parsing with PDF.js
+- **DOCX** — Word document support via Mammoth.js
+- **XLSX** — Excel spreadsheet processing
+- **Images** — Drag & drop with built-in viewer
+
+### 🎤 Voice Input
+- Hands-free dictation support
+- Speech-to-text integration
+
+### 🎨 Modern UI
+- Beautiful, responsive interface
+- Light/dark theme support
+- Chrome Side Panel integration
+- Smooth animations
+
+## 🚀 Installation
+
+### Prerequisites
+
+1. **Sigma Eclipse LLM** must be installed and running on your machine
+   - Download from [Sigma Eclipse LLM Releases](https://github.com/Ai-Swat/sigma-eclipse-llm/releases)
+   - Follow the setup instructions to run local AI
+
+### Install from Source
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Ai-Swat/sigma-eclipse-extension.git
+   cd sigma-eclipse-extension
+   ```
+
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Build the extension:**
+3. **Build the extension:**
    ```bash
    npm run build
    ```
 
-3. **Load in Chrome:**
-   - Open Chrome and navigate to `chrome://extensions/`
-   - Enable "Developer mode" (toggle in top-right)
-   - Click "Load unpacked"
-   - Select the `dist` folder from this project
-   - Click the extension icon in toolbar to open the side panel
-
-### Development Mode (with auto-rebuild)
+### Development Mode
 
 ```bash
 npm run dev
@@ -136,198 +133,136 @@ npm run dev
 
 This will watch for file changes and automatically rebuild.
 
-## Configuration
-
-### API Setup
-
-To enable AI chat functionality:
-
-1. Click the extension icon
-2. Click the settings gear icon (⚙️)
-3. Enter your AI API key (OpenAI, Anthropic, etc.)
-4. Select your preferred model
-
-### Supported AI Providers
-
-- OpenAI (GPT-4, GPT-3.5-turbo)
-- Anthropic Claude
-- Custom API endpoints
-
-## Usage
+## 📖 Usage
 
 ### Chat Mode
 
-1. Click the extension icon in the Chrome toolbar to open the side panel
-2. Type your message in the smart textarea (with autocomplete support)
-3. Press Enter or click the send button
+1. Click the extension icon to open the side panel
+2. Type your message in the smart textarea
+3. Press Enter or click send
 4. Use voice input by clicking the microphone icon
+
+### Page Context
+
+1. Navigate to any webpage
+2. Open the side panel
+3. Enable page context to include current page in your conversation
+4. Use "Summarize" for quick webpage analysis
+
+### Translation
+
+**Context Menu:**
+1. Select text on any webpage
+2. Right-click → "Translate with Sigma"
+3. Translation appears in an overlay
+
+**Inline Bubble:**
+1. Select text on any webpage
+2. Click the translation bubble that appears
+3. Get instant translation
 
 ### File Upload
 
 1. Drag and drop files into the chat area
-2. Or click the attach button to select files
-3. Supported formats: PDF, DOCX, XLSX, images
-4. Files are automatically processed and added to context
+2. Or click the attach button
+3. Supported: PDF, DOCX, XLSX, images
 
-### Page Context Mode
+## 🛠 Tech Stack
 
-1. Navigate to any webpage
-2. Open the side panel
-3. Click the page context indicator to enable
-4. The current page content will be included in your chat context
-5. Use "Summarize page" feature for quick webpage analysis
+| Category | Technology |
+|----------|------------|
+| **UI Framework** | React 18 with Hooks & Context API |
+| **Language** | TypeScript 5 |
+| **Build Tool** | Vite 5 ⚡ |
+| **Extension API** | Chrome Manifest V3, Side Panel API |
+| **Styling** | CSS Modules |
+| **Markdown** | react-markdown + rehype-highlight |
+| **PDF Processing** | PDF.js |
+| **Document Parsing** | Mammoth.js (DOCX), XLSX |
+| **AI Integration** | OpenAI SDK (compatible with local API) |
+| **Animations** | Lottie |
+| **Tooltips** | Radix UI |
 
-### Translation Mode
+## 📁 Project Structure
 
-**Context Menu Translation:**
-1. Select text on any webpage
-2. Right-click and choose "Translate with Sigma"
-3. Translation appears in a popup overlay
-
-**Inline Translation:**
-1. Select text on any webpage
-2. A translation bubble will appear
-3. Click it for instant translation
-
-## Building for Production
-
-```bash
-npm run build
+```
+sigma-eclipse-extension/
+├── manifest.json           # Chrome Extension Manifest V3
+├── package.json            # Dependencies
+├── vite.config.ts          # Vite configuration
+├── src/
+│   ├── sidepanel/          # Side Panel React Application
+│   │   ├── App.tsx         # Main app component
+│   │   ├── components/     # UI components
+│   │   ├── contexts/       # React contexts
+│   │   ├── hooks/          # Custom hooks
+│   │   └── styles/         # Global styles
+│   ├── background/         # Service Worker
+│   │   ├── background.ts   # Main background script
+│   │   └── handlers/       # Message handlers
+│   ├── content/            # Content Scripts
+│   │   ├── content.ts      # Main content script
+│   │   └── translation/    # Translation UI
+│   ├── components/         # Shared components
+│   ├── libs/               # Utility libraries
+│   └── types/              # TypeScript definitions
+├── public/
+│   └── icons/              # Extension icons
+└── dist/                   # Build output
 ```
 
-The production-ready extension will be in the `dist/` folder.
+## 🔧 Scripts
 
-## Scripts
+| Command | Description |
+|---------|-------------|
+| `npm run build` | Build for production |
+| `npm run dev` | Development mode with watch |
+| `npm run preview` | Preview production build |
+| `npm run clean` | Clean build artifacts |
+| `npm run lint` | Lint TypeScript/React code |
+| `npm run format` | Format code with Prettier |
 
-- `npm run build` - Build for production
-- `npm run dev` - Development mode with watch
-- `npm run preview` - Preview production build
-- `npm run clean` - Clean build artifacts
-- `npm run lint` - Lint TypeScript/React code
-- `npm run format` - Format code with Prettier
+## 🔒 Privacy
 
-## Permissions
+- **100% Local Processing** — AI runs on your machine via Sigma Eclipse LLM
+- **No Cloud Dependencies** — Your data never leaves your computer
+- **No Tracking** — We don't collect any usage data
+- **Secure Storage** — Settings stored locally in Chrome's secure storage
 
-This extension requires the following permissions:
+## 📋 Permissions
 
-- `activeTab` - Access current tab information
-- `tabs` - Manage browser tabs
-- `storage` - Store chat history, settings, and file data
-- `scripting` - Inject content scripts for translation and page context
-- `sidePanel` - Display chat interface in Chrome side panel
-- `contextMenus` - Add translation option to right-click menu
-- `<all_urls>` - Access page content for context and translation
+| Permission | Purpose |
+|------------|---------|
+| `activeTab` | Access current tab information |
+| `tabs` | Manage browser tabs |
+| `storage` | Store chat history and settings |
+| `scripting` | Inject content scripts |
+| `sidePanel` | Display chat in Chrome side panel |
+| `contextMenus` | Add translation to right-click menu |
+| `nativeMessaging` | Communicate with Sigma Eclipse LLM |
 
-## Privacy
+## 📄 License
 
-- All data is stored locally in Chrome's storage
-- API keys are stored securely
-- No data is sent to third parties except your configured AI provider
+This project is licensed under the **PolyForm Noncommercial License 1.0.0**.
 
-## Implemented Features ✅
+**TL;DR:** Free for personal, educational, and non-commercial use. Contact us for commercial licensing.
 
-- ✅ AI API integration (OpenAI SDK)
-- ✅ Translation service with bubble UI and context menu
-- ✅ Multi-language support with localization
-- ✅ Theme customization (light/dark mode)
-- ✅ Markdown rendering for AI responses
-- ✅ Code syntax highlighting (rehype-highlight)
-- ✅ Voice input support (dictation)
-- ✅ File upload and processing (PDF, DOCX, XLSX, images)
-- ✅ Drag & drop interface
-- ✅ Chat history with persistence
-- ✅ Page context extraction and summarization
-- ✅ Side Panel UI integration
+See the [LICENSE](LICENSE) file for full details.
 
-## Features in Development
+## 🙏 Acknowledgments
 
-- [ ] Settings/options page
-- [ ] Export/import chat history
-- [ ] Keyboard shortcuts configuration
-- [ ] Authentication and referral system
-- [ ] PWA support (install-pwa-button component exists)
+- [Sigma Browser](https://sigmabrowser.com) — The AI-first private agentic browser
+- [Sigma Eclipse LLM](https://github.com/Ai-Swat/sigma-eclipse-llm) — Local LLM runtime
+- [llama.cpp](https://github.com/ggerganov/llama.cpp) — The amazing LLM inference engine
+- [React](https://react.dev) — UI framework
+- [Vite](https://vitejs.dev) — Lightning fast build tool
 
-## Recent Updates
+---
 
-### ✅ Side Panel UI (Latest)
-- Migrated from popup to Chrome Side Panel API
-- Persistent sidebar experience
-- Better multi-tasking capabilities
-- Improved context awareness
+<p align="center">
+  <strong>Made with ❤️ by <a href="https://github.com/Ai-Swat">AI SWAT</a></strong>
+</p>
 
-### ✅ File Processing System
-- PDF document reading with PDF.js
-- DOCX support via Mammoth.js
-- Excel spreadsheet processing (XLSX)
-- File uploading
-
-### ✅ Advanced Translation Features
-- Context menu integration
-- Inline translation bubble UI
-- Multi-language support
-- Translation popup with animations
-
-### ✅ Voice & Input Enhancements
-- Voice dictation support
-- Smart textarea with autocomplete
-- Suggestion system
-- Markdown and code rendering
-
-### ✅ State Management & Contexts
-- React Context API for global state
-- Chat context management
-- File context handling
-- Theme context (light/dark mode)
-- Language context for localization
-
-### ✅ Vite Migration
-- Migrated from Webpack to Vite 5
-- 10-15x faster build times ⚡
-- Instant Hot Module Replacement
-- Simpler configuration
-
-## Architecture
-
-### Background Service Worker
-The extension uses a persistent background service worker that handles:
-- Chat message routing (`chat-handler.ts`)
-- Page context extraction (`context-handler.ts`)
-- Context menu management (`menu-handler.ts`)
-- Translation requests (`translation-handler.ts`)
-
-### Content Scripts
-Content scripts inject functionality into web pages:
-- Page context extraction (`page-context.ts`)
-- Translation UI (bubble, popup, event handlers)
-- Text selection monitoring
-
-### Side Panel Application
-React-based side panel with:
-- Component architecture using CSS Modules
-- Context API for state management
-- Custom hooks for message handling and summarization
-- Smart textarea with autocomplete suggestions
-- File upload with drag & drop support
-
-### Component Hierarchy
-```
-App.tsx
-├── Header (with language dropdown)
-├── ChatContainer
-│   ├── ChatHistory (message list)
-│   ├── ChatMessage (individual messages)
-│   └── MessageInputWrapper
-│       └── SmartTextarea (with voice input)
-├── PageContextIndicator
-└── DragNDropWrapper
-    └── PhotoViewItem (for images)
-```
-
-## License
-
-MIT
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
+<p align="center">
+  <a href="#sigma-eclipse-browser-extension">⬆ Back to Top</a>
+</p>

@@ -1,5 +1,5 @@
 {
-  "name": "sigma-private",
+  "name": "sigma-eclipse-extension",
   "version": "1.0.0",
   "description": "AI-powered chat assistant Chrome extension with page context and translation",
   "scripts": {
