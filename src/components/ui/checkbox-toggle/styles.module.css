@@ -1,0 +1,57 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--text-neutral-primary);
+  font-size: 13px;
+  outline: none;
+  user-select: none;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.wrapper > input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+
+.wrapper > .icon {
+  position: relative;
+  display: flex;
+  width: 36px;
+  height: 20px;
+  padding: 2px 2px 2px 18px;
+  border-radius: 100px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  background: var(--background-neutral-tertiary);
+}
+
+.wrapper:hover > .icon {
+  background: var(--background-neutral-disabled);
+}
+
+.wrapper input:checked + .icon {
+  display: block;
+  background: var(--background-brand-primary);
+}
+
+.wrapper .tumbler {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
+  transition: all 0.2s;
+  border-radius: 100px;
+  background: var(--background-neutral-global-secondary);
+  box-shadow: 0 2px 4px 0 rgba(39, 39, 39, 0.1);
+}
+
+.wrapper input:checked + .icon .tumbler {
+  left: 18px;
+}
