@@ -119,7 +119,7 @@ export default defineConfig({
     // Prevent code splitting for all entry points
     modulePreload: false,
   },
-  // TODO для удаления логов из продакшен билда
+  // TODO delete logs for production build
   // esbuild: {
   // drop: ['console'],
   // },
