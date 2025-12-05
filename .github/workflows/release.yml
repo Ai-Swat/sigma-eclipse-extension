@@ -33,14 +33,27 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Create PEM key file
-        run: echo "${{ secrets.EXTENSION_PEM_KEY }}" > extension.pem
+        env:
+          PEM_KEY: ${{ secrets.EXTENSION_PEM_KEY }}
+        run: |
+          printf '%s\n' "$PEM_KEY" > extension.pem
+          # Debug: show key format (first/last lines only)
+          echo "=== PEM key file check ==="
+          echo "First line: $(head -1 extension.pem)"
+          echo "Last line: $(tail -1 extension.pem)"
+          echo "Total lines: $(wc -l < extension.pem)"
 
       - name: Install crx3
         run: npm install -g crx3
 
       - name: Package extension as CRX
         run: |
-          crx3 dist -k extension.pem -o sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.crx
+          # Show the extension ID derived from the key (before packaging)
+          echo "=== Extension ID from PEM key ==="
+          openssl rsa -in extension.pem -pubout -outform DER 2>/dev/null | shasum -a 256 | head -c 32 | tr '0-9a-f' 'a-p'
+          echo ""
+          # Package with correct crx3 syntax (--keyPath or -p)
+          crx3 dist --keyPath extension.pem -o sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.crx
 
       - name: Create ZIP archive
         run: |

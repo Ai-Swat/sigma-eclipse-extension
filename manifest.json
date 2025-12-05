@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Sigma Eclipse",
-  "version": "1.0.3",
+  "version": "1.0.10",
   "description": "AI-powered chat assistant with page context and translation capabilities",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4sU963XInO1+RHiH8hDHZm2urooz6tj58rl2huzEc711y8ISwjHtXT/T3Qy4ScNAVysSydinf+mzeiwDM90wOL4cpQXVB6IWP9WU9ycFQ64EgA7aB1rueC/LyHWqKtlSWfDyG/YaYROuWl7XvdrQTAx7uwVSbWbfTM/EbLvllFSbckrZRua7JbgZOfC8t7TglNtBVhaLlIGdKiMbvb/+ZZHSxjJYtmt1Hw0IyhLONMd1su0ky8OnpZDjzSPPFSrPDQWRXkCEszfeuWa6CX5izARPgZY+eUn8Z5UfANZqGUsnkD8c44t/zLZ+TmgIIeU8YFvRrbtOtRvCIqJR3XNh3QIDAQAB",
   "permissions": [
