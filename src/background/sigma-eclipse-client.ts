@@ -39,16 +39,12 @@ type PendingResolver<T> = {
   reject: (error: Error) => void;
 };
 
-// Keep-alive interval in ms (ping every 10 seconds to prevent SW idle)
-const KEEPALIVE_INTERVAL_MS = 3000;
-
 class SigmaEclipseClient {
   private port: chrome.runtime.Port | null = null;
   private messageId = 0;
   private pending = new Map<string, PendingResolver<unknown>>();
   private _hostAvailable: boolean | null = null;
   private _lastHostError: string | null = null;
-  private keepAliveTimer: ReturnType<typeof setInterval> | null = null;
 
   get hostAvailable(): boolean | null {
     return this._hostAvailable;
@@ -76,13 +72,7 @@ class SigmaEclipseClient {
 
     this.port.onMessage.addListener(
       (message: { id: string; success: boolean; data: unknown; error?: string }) => {
-        const receiveTimestamp = Date.now();
-        console.log('[SigmaEclipseClient] Received from host at', new Date(receiveTimestamp).toISOString(), ':', message);
-
-        // Ignore ping responses (no id means it's a ping ack or internal message)
-        if (message.id === 'ping') {
-          return;
-        }
+        console.log('[SigmaEclipseClient] Received from host:', message);
 
         // Successfully received message means host is available
         this._hostAvailable = true;
@@ -101,11 +91,8 @@ class SigmaEclipseClient {
     );
 
     this.port.onDisconnect.addListener(() => {
-      console.log('[SigmaEclipseClient] Disconnected from native host at', new Date().toISOString());
+      console.log('[SigmaEclipseClient] Disconnected from native host');
       const error = chrome.runtime.lastError?.message || 'Disconnected';
-
-      // Stop keep-alive when disconnected
-      this.stopKeepAlive();
 
       // Check if host is not installed
       if (
@@ -129,46 +116,7 @@ class SigmaEclipseClient {
       this.port = null;
     });
 
-    // Start keep-alive pings to prevent SW idle
-    this.startKeepAlive();
-
-    console.log('[SigmaEclipseClient] Connected to native host at', new Date().toISOString());
-  }
-
-  /**
-   * Start keep-alive pings to prevent service worker from going idle.
-   * Chrome MV3 service workers go idle after ~30s of inactivity,
-   * which delays native messaging until the next wake-up slot.
-   */
-  private startKeepAlive(): void {
-    this.stopKeepAlive(); // Clear any existing timer
-
-    this.keepAliveTimer = setInterval(() => {
-      if (this.port) {
-        console.log('[SigmaEclipseClient] Sending keep-alive ping at', new Date().toISOString());
-        try {
-          this.port.postMessage({ id: 'ping', command: 'ping' });
-        } catch (err) {
-          console.warn('[SigmaEclipseClient] Keep-alive ping failed:', err);
-          this.stopKeepAlive();
-        }
-      } else {
-        this.stopKeepAlive();
-      }
-    }, KEEPALIVE_INTERVAL_MS);
-
-    console.log('[SigmaEclipseClient] Keep-alive started with interval', KEEPALIVE_INTERVAL_MS, 'ms');
-  }
-
-  /**
-   * Stop keep-alive pings
-   */
-  private stopKeepAlive(): void {
-    if (this.keepAliveTimer) {
-      clearInterval(this.keepAliveTimer);
-      this.keepAliveTimer = null;
-      console.log('[SigmaEclipseClient] Keep-alive stopped');
-    }
+    console.log('[SigmaEclipseClient] Connected to native host');
   }
 
   /**
@@ -202,7 +150,6 @@ class SigmaEclipseClient {
   }
 
   disconnect(): void {
-    this.stopKeepAlive();
     if (this.port) {
       this.port.disconnect();
       this.port = null;
@@ -219,20 +166,15 @@ class SigmaEclipseClient {
     }
 
     const id = String(++this.messageId);
-    const sendTimestamp = Date.now();
     const message = { id, command, params };
 
     return new Promise<T>((resolve, reject) => {
       this.pending.set(id, {
-        resolve: (value: unknown) => {
-          const receiveTimestamp = Date.now();
-          console.log(`[SigmaEclipseClient] Command '${command}' round-trip time: ${receiveTimestamp - sendTimestamp}ms`);
-          (resolve as (value: unknown) => void)(value);
-        },
+        resolve: resolve as (value: unknown) => void,
         reject,
       });
 
-      console.log('[SigmaEclipseClient] Sending to host at', new Date(sendTimestamp).toISOString(), ':', message);
+      console.log('[SigmaEclipseClient] Sending to host:', message);
       this.port!.postMessage(message);
 
       // Timeout after 30 seconds
