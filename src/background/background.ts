@@ -147,6 +147,7 @@ chrome.alarms.create(STATUS_CHECK_ALARM, {
 
 chrome.alarms.onAlarm.addListener(alarm => {
   if (alarm.name === STATUS_CHECK_ALARM) {
+    console.log('Checking status...');
     checkAndBroadcastStatus();
   }
 });
