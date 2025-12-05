@@ -36,11 +36,14 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
 
   const { uploadedFiles, clearFiles } = useFileContext();
   const { pageContext, isAttached, detachContext } = usePageContext();
-  const { modelStatus } = useModelContext();
+  const { modelStatus, isModelReady } = useModelContext();
 
   const handleSend = () => {
     if (modelStatus !== 'running') {
       setIsShowSubmitRequest(true);
+      return;
+    }
+    if (modelStatus === 'running' && !isModelReady) {
       return;
     }
 

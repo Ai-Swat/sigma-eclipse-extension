@@ -6,8 +6,7 @@ import WifiIcon from '@/images/wifi-off.svg?react';
 import GiftIcon from '@/images/gift-01.svg?react';
 import styles from './InstallAppPrompt.module.css';
 
-// TODO: Update with actual URL
-const DOWNLOAD_URL = 'https://github.com/user/sigma-eclipse/releases';
+const DOWNLOAD_URL = 'https://www.sigmabrowser.com/local-ai-chat';
 
 export default function InstallAppPrompt() {
   const { hostInstalled, refreshStatus } = useModelContext();

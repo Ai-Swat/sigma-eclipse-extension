@@ -20,7 +20,7 @@
 }
 
 .wrapper.black {
-  color: var(--icon-neutral-primary) !important;
+  color: var(--icon-neutral-primary-inverse) !important;
 }
 
 .bg {

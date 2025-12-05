@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import useClickOutside from '@/libs/use/use-click-outside.ts';
 import { ModelStatus, useModelContext } from '@/sidepanel/contexts/modelContext.tsx';
@@ -26,11 +26,10 @@ function getModelStatusText(
     case 'running':
       return 'Running';
     case 'stopped':
+    case 'stopping':
       return 'Stopped';
     case 'starting':
-      return 'Starting...';
-    case 'stopping':
-      return 'Stopping...';
+      return 'Starting';
     case 'error':
       return 'Error';
     default:
@@ -45,12 +44,11 @@ function getModelStatusColor(status: ModelStatus, isDownloading: boolean): strin
 
   switch (status) {
     case 'running':
+    case 'starting':
       return 'var(--text-colored-success)';
     case 'stopped':
-      return 'var(--text-neutral-tertiary)';
-    case 'starting':
     case 'stopping':
-      return 'var(--text-colored-success)';
+      return 'var(--text-neutral-tertiary)';
     case 'error':
       return 'var(--text-error-primary)';
     default:
@@ -65,6 +63,7 @@ export default function SigmaEclipseLLM() {
     isDownloading,
     downloadProgress,
     isLoading,
+    isModelReady,
     startModel,
     stopModel,
   } = useModelContext();
@@ -78,6 +77,7 @@ export default function SigmaEclipseLLM() {
   };
 
   const [open, setOpen] = useState(false);
+  const [isLoadingModelReady, setIsLoadingModelReady] = useState(false);
   const enabled = modelStatus === 'running';
   const status = getModelStatusText(modelStatus, isDownloading, downloadProgress);
   const color = getModelStatusColor(modelStatus, isDownloading);
@@ -86,6 +86,7 @@ export default function SigmaEclipseLLM() {
   const isButtonDisabled =
     isDownloading ||
     isLoading ||
+    isLoadingModelReady ||
     modelStatus === 'starting' ||
     modelStatus === 'stopping' ||
     appStatus === 'launching';
@@ -93,6 +94,15 @@ export default function SigmaEclipseLLM() {
   const closeDropdown = useCallback(() => setOpen(false), []);
   const ref = useRef<HTMLDivElement | null>(null);
   useClickOutside(ref, closeDropdown);
+
+  useEffect(() => {
+    if (modelStatus === 'running' && isModelReady) {
+      setIsLoadingModelReady(false);
+    }
+    if (modelStatus === 'running' && !isModelReady) {
+      setIsLoadingModelReady(true);
+    }
+  }, [isModelReady, modelStatus, setIsLoadingModelReady]);
 
   return (
     <div className={styles.wrapper} ref={ref}>
@@ -128,9 +138,10 @@ export default function SigmaEclipseLLM() {
 
             <div className={styles.statusRow} style={{ color: color }}>
               {isDownloading && <Loader strokeWidth={11} size={14} />}
-              {!isDownloading && <DotIcon />}
+              {isLoadingModelReady && <Loader strokeWidth={11} size={14} color="green" />}
+              {!isDownloading && !isLoadingModelReady && <DotIcon />}
 
-              <span className={styles.statusText}>{status}</span>
+              <span className={styles.statusText}>{isLoadingModelReady ? 'Starting' : status}</span>
             </div>
           </div>
         </div>

@@ -21,6 +21,7 @@ interface ModelContextType {
   startModel: () => Promise<void>;
   stopModel: () => Promise<void>;
   refreshStatus: () => Promise<void>;
+  isModelReady: boolean;
 }
 
 const ModelContext = createContext<ModelContextType | undefined>(undefined);
@@ -33,6 +34,7 @@ export function ModelContextProvider({ children }: PropsWithChildren) {
   const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModelReady, setIsModelReady] = useState(true);
 
   const refreshHostStatus = useCallback(async () => {
     try {
@@ -169,6 +171,22 @@ export function ModelContextProvider({ children }: PropsWithChildren) {
     return () => chrome.runtime.onMessage.removeListener(handleMessage);
   }, [appStatus, modelStatus]);
 
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (modelStatus !== 'running') {
+      setIsModelReady(false);
+    }
+
+    if (modelStatus === 'running') {
+      timer = setTimeout(() => {
+        setIsModelReady(true);
+      }, 4000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [modelStatus]);
+
   const startModel = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -237,6 +255,7 @@ export function ModelContextProvider({ children }: PropsWithChildren) {
     startModel,
     stopModel,
     refreshStatus,
+    isModelReady,
   };
 
   return <ModelContext.Provider value={value}>{children}</ModelContext.Provider>;

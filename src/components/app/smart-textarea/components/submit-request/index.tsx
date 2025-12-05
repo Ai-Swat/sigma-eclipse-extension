@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import cn from 'clsx';
-import { BaseButton } from '@/sidepanel/components/ui';
+import { BaseButton, Loader } from '@/sidepanel/components/ui';
 import { useModelContext } from '@/sidepanel/contexts/modelContext.tsx';
 import styles from './styles.module.css';
 
@@ -11,11 +11,11 @@ export function SubmitRequest({
   isOpen: boolean;
   setIsOpen: (status: boolean) => void;
 }) {
-  const { modelStatus, startModel } = useModelContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const { modelStatus, isModelReady, startModel } = useModelContext();
 
   const handleStart = () => {
     void startModel();
-    setIsOpen(false);
   };
 
   const handleCancel = () => {
@@ -23,10 +23,20 @@ export function SubmitRequest({
   };
 
   useEffect(() => {
-    if (modelStatus === 'running') {
-      setIsOpen(false);
+    if (isOpen) {
+      setIsLoading(false);
     }
-  }, [modelStatus, setIsOpen]);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (modelStatus === 'running' && isModelReady) {
+      setIsOpen(false);
+      setIsLoading(false);
+    }
+    if (modelStatus === 'running' && !isModelReady) {
+      setIsLoading(true);
+    }
+  }, [isModelReady, setIsOpen, modelStatus, setIsLoading]);
 
   if (!isOpen) return null;
 
@@ -38,7 +48,7 @@ export function SubmitRequest({
       </div>
       <div className={styles.buttons}>
         <BaseButton onClick={handleStart} color="black" className={styles.button}>
-          Submit
+          {isLoading ? <Loader color="black" size={20} /> : 'Submit'}
         </BaseButton>
         <BaseButton onClick={handleCancel} color="grey" className={styles.button}>
           Cancel
