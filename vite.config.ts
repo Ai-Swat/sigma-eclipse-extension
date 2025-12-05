@@ -119,9 +119,9 @@ export default defineConfig({
     // Prevent code splitting for all entry points
     modulePreload: false,
   },
-  // esbuild: {
-  //   drop: ['console'],
-  // },
+  esbuild: {
+    drop: ['console'],
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
