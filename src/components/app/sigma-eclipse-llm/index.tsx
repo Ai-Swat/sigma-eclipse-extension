@@ -68,6 +68,9 @@ export default function SigmaEclipseLLM() {
     stopModel,
   } = useModelContext();
 
+  console.log(modelStatus, 'modelStatus in SigmaEclipseLLM');
+  console.log(isModelReady, 'isModelReady in SigmaEclipseLLM');
+
   const handleModelToggle = () => {
     if (modelStatus === 'running') {
       void stopModel();

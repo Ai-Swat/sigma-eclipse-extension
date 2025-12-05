@@ -36,6 +36,9 @@ export function ModelContextProvider({ children }: PropsWithChildren) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModelReady, setIsModelReady] = useState(true);
 
+  console.log(modelStatus, 'modelStatus in ModelContextProvider');
+  console.log(isModelReady, 'isModelReady in ModelContextProvider');
+
   const refreshHostStatus = useCallback(async () => {
     try {
       const response = await chrome.runtime.sendMessage({
