@@ -48,11 +48,12 @@ jobs:
 
       - name: Package extension as CRX
         run: |
-          crx3 dist -k extension.pem -o sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.crx
-          # Show the extension ID derived from the key
+          # Show the extension ID derived from the key (before packaging)
           echo "=== Extension ID from PEM key ==="
           openssl rsa -in extension.pem -pubout -outform DER 2>/dev/null | shasum -a 256 | head -c 32 | tr '0-9a-f' 'a-p'
           echo ""
+          # Package with correct crx3 syntax (--keyPath or -p)
+          crx3 dist --keyPath extension.pem -o sigma-eclipse-extension-${{ steps.get_version.outputs.VERSION }}.crx
 
       - name: Create ZIP archive
         run: |
