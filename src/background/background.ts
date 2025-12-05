@@ -9,7 +9,44 @@ import { sigmaEclipseClient } from './sigma-eclipse-client';
 
 console.log('Sigma Eclipse background service worker initialized');
 
-// ============== Background Status Monitoring ==============
+// ============== Push Status Updates Subscription ==============
+
+// Subscribe to push status updates from native host
+sigmaEclipseClient.onStatusUpdate((status) => {
+  console.log('[Background] Received push status update:', status);
+  
+  // Update cached status
+  cachedStatus = {
+    hostAvailable: true, // If we receive push, host is available
+    appRunning: status.appRunning,
+    modelRunning: status.modelRunning,
+    isDownloading: status.isDownloading,
+    downloadProgress: status.downloadProgress,
+    lastCheck: Date.now(),
+  };
+
+  // Broadcast to all extension pages
+  chrome.runtime
+    .sendMessage({
+      type: 'STATUS_UPDATE',
+      data: {
+        hostAvailable: true,
+        appRunning: status.appRunning,
+        modelRunning: status.modelRunning,
+        isDownloading: status.isDownloading,
+        downloadProgress: status.downloadProgress,
+        isPush: true, // Mark as push update
+      },
+    })
+    .catch(() => {
+      // No listeners, ignore
+    });
+});
+
+// Connect to native host to start receiving push updates
+sigmaEclipseClient.connect();
+
+// ============== Background Status Monitoring (Fallback Polling) ==============
 
 interface CachedStatus {
   hostAvailable: boolean | null;
@@ -30,7 +67,7 @@ let cachedStatus: CachedStatus = {
 };
 
 const STATUS_CHECK_ALARM = 'sigma-status-check';
-const STATUS_CHECK_INTERVAL_MINUTES = 0.02; // Every 30 seconds
+const STATUS_CHECK_INTERVAL_MINUTES = 1; // Fallback polling every 1 minute (minimum for signed extensions)
 
 // Check status and broadcast changes
 async function checkAndBroadcastStatus() {
@@ -139,15 +176,15 @@ async function checkAndBroadcastStatus() {
   }
 }
 
-// Setup alarm for periodic status check
+// Setup alarm for periodic status check (fallback, primary updates come via push)
 chrome.alarms.create(STATUS_CHECK_ALARM, {
-  delayInMinutes: 0.02, // Start checking after 6 seconds
+  delayInMinutes: 0.1, // Start first fallback check after 6 seconds
   periodInMinutes: STATUS_CHECK_INTERVAL_MINUTES,
 });
 
 chrome.alarms.onAlarm.addListener(alarm => {
   if (alarm.name === STATUS_CHECK_ALARM) {
-    console.log('Checking status...');
+    console.log('[Background] Fallback status check (polling)...');
     checkAndBroadcastStatus();
   }
 });

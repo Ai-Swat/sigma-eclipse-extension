@@ -34,6 +34,16 @@ export interface LaunchAppResponse {
   message: string;
 }
 
+// Push status update from native host
+export interface StatusUpdate {
+  appRunning: boolean;
+  modelRunning: boolean;
+  isDownloading: boolean;
+  downloadProgress: number | null;
+}
+
+export type StatusUpdateCallback = (status: StatusUpdate) => void;
+
 type PendingResolver<T> = {
   resolve: (value: T) => void;
   reject: (error: Error) => void;
@@ -45,6 +55,7 @@ class SigmaEclipseClient {
   private pending = new Map<string, PendingResolver<unknown>>();
   private _hostAvailable: boolean | null = null;
   private _lastHostError: string | null = null;
+  private _statusUpdateCallback: StatusUpdateCallback | null = null;
 
   get hostAvailable(): boolean | null {
     return this._hostAvailable;
@@ -52,6 +63,13 @@ class SigmaEclipseClient {
 
   get lastHostError(): string | null {
     return this._lastHostError;
+  }
+
+  /**
+   * Subscribe to status updates pushed from native host
+   */
+  onStatusUpdate(callback: StatusUpdateCallback): void {
+    this._statusUpdateCallback = callback;
   }
 
   connect(): void {
@@ -71,20 +89,30 @@ class SigmaEclipseClient {
     }
 
     this.port.onMessage.addListener(
-      (message: { id: string; success: boolean; data: unknown; error?: string }) => {
+      (message: { id?: string; type?: string; success?: boolean; data?: unknown; error?: string }) => {
         console.log('[SigmaEclipseClient] Received from host:', message);
 
         // Successfully received message means host is available
         this._hostAvailable = true;
         this._lastHostError = null;
 
-        const resolver = this.pending.get(message.id);
-        if (resolver) {
-          this.pending.delete(message.id);
-          if (message.success) {
-            resolver.resolve(message.data);
-          } else {
-            resolver.reject(new Error(message.error || 'Unknown error'));
+        // Handle push status updates from host (no id, has type)
+        if (message.type === 'status_update' && this._statusUpdateCallback) {
+          console.log('[SigmaEclipseClient] Received push status update:', message.data);
+          this._statusUpdateCallback(message.data as StatusUpdate);
+          return;
+        }
+
+        // Handle request-response messages (has id)
+        if (message.id) {
+          const resolver = this.pending.get(message.id);
+          if (resolver) {
+            this.pending.delete(message.id);
+            if (message.success) {
+              resolver.resolve(message.data);
+            } else {
+              resolver.reject(new Error(message.error || 'Unknown error'));
+            }
           }
         }
       }
