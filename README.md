@@ -95,7 +95,7 @@ This extension is part of the broader **Sigma** ecosystem:
 ### Prerequisites
 
 1. **Sigma Eclipse LLM** must be installed and running on your machine
-   - Download from [Sigma Eclipse LLM Releases](https://github.com/Ai-Swat/sigma-eclipse-llm/releases)
+   - Download from [Sigma Eclipse LLM Releases](https://github.com/Ai-Swat/sigma-eclipse-llm/releases/latest)
    - Follow the setup instructions to run local AI
 
 ### Install from Source
