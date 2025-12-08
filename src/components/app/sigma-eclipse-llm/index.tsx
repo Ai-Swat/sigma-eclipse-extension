@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import useClickOutside from '@/libs/use/use-click-outside.ts';
 import { ModelStatus, useModelContext } from '@/sidepanel/contexts/modelContext.tsx';
@@ -68,9 +68,6 @@ export default function SigmaEclipseLLM() {
     stopModel,
   } = useModelContext();
 
-  console.log(modelStatus, 'modelStatus in SigmaEclipseLLM');
-  console.log(isModelReady, 'isModelReady in SigmaEclipseLLM');
-
   const handleModelToggle = () => {
     if (modelStatus === 'running') {
       void stopModel();
@@ -80,7 +77,7 @@ export default function SigmaEclipseLLM() {
   };
 
   const [open, setOpen] = useState(false);
-  const [isLoadingModelReady, setIsLoadingModelReady] = useState(false);
+  const isLoadingModelReady = modelStatus === 'running' && !isModelReady;
   const enabled = modelStatus === 'running';
   const status = getModelStatusText(modelStatus, isDownloading, downloadProgress);
   const color = getModelStatusColor(modelStatus, isDownloading);
@@ -97,15 +94,6 @@ export default function SigmaEclipseLLM() {
   const closeDropdown = useCallback(() => setOpen(false), []);
   const ref = useRef<HTMLDivElement | null>(null);
   useClickOutside(ref, closeDropdown);
-
-  useEffect(() => {
-    if (modelStatus === 'running' && isModelReady) {
-      setIsLoadingModelReady(false);
-    }
-    if (modelStatus === 'running' && !isModelReady) {
-      setIsLoadingModelReady(true);
-    }
-  }, [isModelReady, modelStatus, setIsLoadingModelReady]);
 
   return (
     <div className={styles.wrapper} ref={ref}>
