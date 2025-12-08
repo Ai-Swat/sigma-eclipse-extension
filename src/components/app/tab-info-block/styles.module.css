@@ -16,10 +16,12 @@
   background-color: var(--support-text-area-layer);
   border: 1px solid var(--stroke-neutral-alfa-tertiary);
   border-radius: 16px 16px 0 0;
-  margin-bottom: -24px;
-  width: 100%;
+  width: calc(100% - 32px);
   cursor: pointer;
-  position: relative;
+  position: absolute;
+  top: -38px;
+  left: 16px;
+  z-index: 100;
 }
 
 .button {
