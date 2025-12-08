@@ -123,6 +123,7 @@ const MessageInputInner: React.FC<MessageInputWrapperProps> = ({
         isMainPage={false}
         isGenerating={isGenerating}
         onStopGeneration={onStopGeneration}
+        setIsShowSubmitRequest={setIsShowSubmitRequest}
       />
     </>
   );

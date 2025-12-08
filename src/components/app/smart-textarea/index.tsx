@@ -45,6 +45,7 @@ type SmartTextareaProps = Omit<
   isAgentReplyRequested?: boolean;
   isGenerating?: boolean;
   onStopGeneration?: () => void;
+  setIsShowSubmitRequest?: (status: boolean) => void;
 };
 
 const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
@@ -64,6 +65,7 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
       isGenerating,
       onStopGeneration,
       className,
+      setIsShowSubmitRequest,
       ...otherProps
     },
     ref
@@ -172,6 +174,7 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
               <SummarizePageButton
                 setIsSummarizing={setIsSummarizing}
                 setHandleStopGeneration={setStopSummarization}
+                setIsShowSubmitRequest={setIsShowSubmitRequest}
               />
             </div>
 
