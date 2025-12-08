@@ -12,9 +12,9 @@ console.log('Sigma Eclipse background service worker initialized');
 // ============== Push Status Updates Subscription ==============
 
 // Subscribe to push status updates from native host
-sigmaEclipseClient.onStatusUpdate((status) => {
+sigmaEclipseClient.onStatusUpdate(status => {
   console.log('[Background] Received push status update:', status);
-  
+
   // Update cached status
   cachedStatus = {
     hostAvailable: true, // If we receive push, host is available

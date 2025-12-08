@@ -77,7 +77,12 @@ class SigmaEclipseClient {
       return;
     }
 
-    console.log('[SigmaEclipseClient] Connecting to native host:', HOST_NAME, 'at', new Date().toISOString());
+    console.log(
+      '[SigmaEclipseClient] Connecting to native host:',
+      HOST_NAME,
+      'at',
+      new Date().toISOString()
+    );
 
     try {
       this.port = chrome.runtime.connectNative(HOST_NAME);
@@ -89,7 +94,13 @@ class SigmaEclipseClient {
     }
 
     this.port.onMessage.addListener(
-      (message: { id?: string; type?: string; success?: boolean; data?: unknown; error?: string }) => {
+      (message: {
+        id?: string;
+        type?: string;
+        success?: boolean;
+        data?: unknown;
+        error?: string;
+      }) => {
         console.log('[SigmaEclipseClient] Received from host:', message);
 
         // Successfully received message means host is available

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSummarization } from '@/sidepanel/hooks/useSummarization.ts';
 import { useChatContext } from '@/sidepanel/contexts/chatContext.tsx';
 import { useMessageHandling } from '@/sidepanel/hooks/useMessageHandling.ts';
@@ -6,18 +7,32 @@ import { TooltipDefault } from 'src/components/ui/tooltip';
 import { BaseButton } from '@/sidepanel/components/ui';
 import IconSummarize from 'src/images/summarize.svg?react';
 
-export function SummarizePageButton() {
+export function SummarizePageButton({
+  setIsSummarizing,
+  setHandleStopGeneration,
+}: {
+  setIsSummarizing: (v: boolean) => void;
+  setHandleStopGeneration: (fn: () => void) => void;
+}) {
   const { chats, activeChat, createNewChat, addMessageToChat, updateMessageInChat } =
     useChatContext();
 
   // Message handling hook
-  const { handleSendMessage } = useMessageHandling({
+  const { handleSendMessage, isGenerating, handleStopGeneration } = useMessageHandling({
     activeChat,
     chats,
     addMessageToChat,
     updateMessageInChat,
     createNewChat,
   });
+
+  useEffect(() => {
+    setIsSummarizing(isGenerating);
+  }, [isGenerating, setIsSummarizing]);
+
+  useEffect(() => {
+    setHandleStopGeneration(() => handleStopGeneration);
+  }, [handleStopGeneration, setHandleStopGeneration]);
 
   // Summarization hook
   const { handleSummarize } = useSummarization({
@@ -33,6 +48,7 @@ export function SummarizePageButton() {
           color={'transparent'}
           size={'sm'}
           onClick={handleSummarize}
+          disabled={isGenerating}
         >
           <IconSummarize width={18} height={18} />
         </BaseButton>

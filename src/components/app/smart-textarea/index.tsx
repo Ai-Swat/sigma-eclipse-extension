@@ -5,6 +5,7 @@ import React, {
   TextareaHTMLAttributes,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import { wait } from '@/libs/coxy-utils.ts';
 import clsx from 'clsx';
@@ -71,6 +72,8 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
 
     const innerRef = useRef<HTMLTextAreaElement | null>(null);
     const wrapperInputRef = useRef<HTMLDivElement>(null);
+    const [isSummarizing, setIsSummarizing] = useState(false);
+    const [stopSummarization, setStopSummarization] = useState<() => void>(() => () => {});
 
     const isFiles = uploadedFiles.length > 0;
 
@@ -99,6 +102,26 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
       observer.observe(el);
       return () => observer.disconnect();
     }, []);
+
+    useEffect(() => {
+      if (!innerRef.current) return;
+
+      const ta = innerRef.current;
+
+      const resize = () => {
+        if (!ta) return;
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+      };
+
+      resize();
+
+      window.addEventListener('resize', resize);
+
+      return () => {
+        window.removeEventListener('resize', resize);
+      };
+    }, [value]);
 
     return (
       <>
@@ -146,7 +169,10 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
 
               <LanguageDropdown />
 
-              <SummarizePageButton />
+              <SummarizePageButton
+                setIsSummarizing={setIsSummarizing}
+                setHandleStopGeneration={setStopSummarization}
+              />
             </div>
 
             <div className={css.rightButtonWrapper}>
@@ -159,8 +185,8 @@ const SmartTextarea = forwardRef<HTMLTextAreaElement, SmartTextareaProps>(
                 isLimitExceeded={isLimitExceeded}
                 created_at={created_at}
                 isWaitingUserClarification={isWaitingUserClarification}
-                isGenerating={isGenerating}
-                onStopGeneration={onStopGeneration}
+                isGenerating={isGenerating || isSummarizing}
+                onStopGeneration={isSummarizing ? stopSummarization : onStopGeneration}
               />
             </div>
           </div>
