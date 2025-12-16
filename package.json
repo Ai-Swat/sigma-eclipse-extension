@@ -1,6 +1,6 @@
 {
   "name": "sigma-eclipse-extension",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "AI-powered chat assistant Chrome extension with page context and translation",
   "scripts": {
     "dev": "vite build --watch --mode development",
