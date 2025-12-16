@@ -56,7 +56,7 @@ function getModelStatusColor(status: ModelStatus, isDownloading: boolean): strin
   }
 }
 
-export default function SigmaEclipseLLM() {
+export default function SigmaEclipseLLMStatus() {
   const {
     modelStatus,
     appStatus,

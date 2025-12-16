@@ -34,6 +34,7 @@
 
 .title {
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .card {
@@ -113,4 +114,5 @@
 
 .statusText {
   text-transform: capitalize;
+  white-space: nowrap;
 }
