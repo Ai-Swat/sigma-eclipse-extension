@@ -179,7 +179,7 @@
 .chat-message-content a {
   color: var(--text-neutral-primary);
   text-decoration: underline;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 .chat-message-content a:hover {
