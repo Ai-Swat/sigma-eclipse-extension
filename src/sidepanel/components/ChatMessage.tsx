@@ -97,7 +97,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isLoading }) => {
             <PageContextBanner pageContext={message.pageContextPreview!} />
           )}
           {(shouldShowFileBanner || shouldShowPageContextBanner) && message.displayContent && (
-            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
+            >
               {message.displayContent}
             </ReactMarkdown>
           )}
@@ -106,7 +114,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isLoading }) => {
           ) : !shouldShowFileBanner &&
             !shouldShowPageContextBanner &&
             !shouldShowSummarizationBanner ? (
-            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
+            >
               {message.content}
             </ReactMarkdown>
           ) : null}

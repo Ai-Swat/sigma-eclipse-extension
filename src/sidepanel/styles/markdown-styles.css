@@ -178,11 +178,12 @@
 /* Links */
 .chat-message-content a {
   color: var(--text-neutral-primary);
-  text-decoration: none;
+  text-decoration: underline;
+  transition: color 0.2s ease;
 }
 
 .chat-message-content a:hover {
-  text-decoration: underline;
+  color: var(--text-neutral-disabled);
 }
 
 /* Task lists (GitHub Flavored Markdown) */
