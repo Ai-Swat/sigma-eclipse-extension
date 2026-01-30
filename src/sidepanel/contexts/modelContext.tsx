@@ -172,19 +172,8 @@ export function ModelContextProvider({ children }: PropsWithChildren) {
   }, [appStatus, modelStatus]);
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-
-    if (modelStatus !== 'running') {
-      setIsModelReady(false);
-    }
-
-    if (modelStatus === 'running') {
-      timer = setTimeout(() => {
-        setIsModelReady(true);
-      }, 4000);
-    }
-
-    return () => clearTimeout(timer);
+    // Если статус running, значит сервер реально готов (благодаря правке в Rust)
+    setIsModelReady(modelStatus === 'running');
   }, [modelStatus]);
 
   const startModel = useCallback(async () => {
